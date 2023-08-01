@@ -23,13 +23,8 @@ export class AuthService {
     if(user) {
       throw new ForbiddenException('Email already exists');
     }
-    return this.checkIfMemberIDExists(loginDto?.memberID).then(async (response: boolean) => {
-      if(response == false) {
-        throw new ForbiddenException('This user is not a member');
-      }
-      loginDto._id = new Types.ObjectId().toString();
-      return await new this._userModel(loginDto).save();
-    })
+    loginDto._id = new Types.ObjectId().toString();
+    return await new this._userModel(loginDto).save();
   }
 
   async loginUser(loginDto: {email: string, password: string}): Promise<any> {
@@ -41,10 +36,15 @@ export class AuthService {
     if(!isValidCredentials) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
-    user = JSON.parse(JSON.stringify(user));
-    delete user.password;
-    const token = this.generateToken(user);
-    return { user, token: token.access_token};
+    return this.checkIfMemberIDExists(user?.memberID).then((response: boolean) => {
+      if(response == false) {
+        throw new ForbiddenException('This user is not a member');
+      }
+      user = JSON.parse(JSON.stringify(user));
+      delete user.password;
+      const token = this.generateToken(user);
+      return { user, token: token.access_token};
+    })
   }
 
   async checkIfMemberIDExists(memberID: string): Promise<boolean> {
