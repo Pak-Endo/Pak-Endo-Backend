@@ -6,10 +6,14 @@ import { User } from 'src/interfaces/user.interface';
 export const UserSchema = new mongoose.Schema(
     {
       _id: { type: String, default: '' },
-      username: { type: String, default: ''},
+      prefix: { type: String, default: '' },
+      firstName: { type: String, default: ''},
+      lastName: { type: String, default: ''},
       email: { type: String, default: '' },
+      phoneNumber: { type: String, default: '' },
       password: { type: String, default: '' },
       memberID: { type: String, defualt: '' },
+      type: { type: String, default: ''},
       deletedCheck: { type: Boolean, default: false }
     },
     {

@@ -7,15 +7,15 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication | any>(AppModule);
-  // app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api');
 
   app.use(bodyParser.json({ limit: '500mb' }));
 
   app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
+  // app.useStaticAssets(join(__dirname, '..', 'public'));
+  // app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  // app.setViewEngine('hbs');
 
   app.enableCors({
     origin: '*',
