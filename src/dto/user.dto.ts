@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/ban-types */
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class UserDto {
     @ApiProperty()
@@ -61,4 +61,12 @@ export class AdminDto {
 export class MemberCheckDto {
     @ApiProperty()
     memberID: string;
+}
+
+export class QueryParams {
+    @ApiProperty()
+    limit: number;
+
+    @ApiProperty()
+    offset: number
 }
