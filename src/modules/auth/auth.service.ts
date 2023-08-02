@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from 'src/dto/login.dto';
 import { User } from 'src/schemas/user.schema';
+import { AdminLoginDto } from 'src/dto/admin-login.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,29 +20,59 @@ export class AuthService {
     }
   }
 
-  async registerUser(loginDto: User | any): Promise<any> {
-    const user = await this._userModel.findOne({ email: loginDto.email });
-    if(user) {
-      throw new ForbiddenException('Email already exists');
-    }
-    loginDto._id = new Types.ObjectId().toString();
-    loginDto.type = loginDto?.memberID?.split('/')[1].trim();
-    return await new this._userModel(loginDto).save();
-  }
-
-  async loginUser(loginDto: LoginDto): Promise<any> {
-    let user  = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false });
+  private async commonLoginMethod(user: User | any, password: string) {
     if(!user) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
-    const isValidCredentials = await bcrypt.compare(loginDto.password, user.password);
+    const isValidCredentials = await bcrypt.compare(password, user.password);
     if(!isValidCredentials) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
+    !user.fullName ? user.fullName = user?.prefix + ' ' + user?.firstName + ' ' + user?.lastName: user.fullName;
     user = JSON.parse(JSON.stringify(user));
     delete user.password;
     const token = this.generateToken(user);
     return { user, token: token.access_token};
+  }
+
+  async registerUser(newUser: User | any): Promise<any> {
+    const user = await this._userModel.findOne({ email: newUser.email });
+    if(user) {
+      throw new ForbiddenException('Email already exists');
+    }
+    newUser._id = new Types.ObjectId().toString();
+    newUser.type = newUser?.memberID?.split('/')[1].trim();
+    newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+    return await new this._userModel(newUser).save();
+  }
+
+  async loginUser(loginDto: LoginDto | AdminLoginDto | any): Promise<any> {
+    if(loginDto?.memberID) {
+      let user  = await this._userModel.findOne({ memberID: loginDto.memberID, deletedCheck: false });
+      return this.commonLoginMethod(user, loginDto?.password)
+    }
+    let user  = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false });
+    return this.commonLoginMethod(user, loginDto?.password)
+  }
+
+  async registerAdminUser(adminUser: User | any): Promise<any> {
+    const user = await this._userModel.findOne({ email: adminUser.email });
+    if(user) {
+      throw new ForbiddenException('Email already exists');
+    }
+    adminUser._id = new Types.ObjectId().toString();
+    adminUser.fullName = adminUser?.prefix + ' ' + adminUser?.firstName + ' ' + adminUser?.lastName;
+    return await new this._userModel(adminUser).save();
+  }
+
+  async checkIfMemberIDExistsWithPassword(memberID: string) {
+    const user = await this._userModel.findOne({
+      memberID: memberID
+    });
+    if(user) {
+      return user?.password ? true : false
+    }
+    return false
   }
 
   async checkIfMemberIDExists(memberID: string) {

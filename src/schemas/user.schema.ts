@@ -22,8 +22,11 @@ export class User extends Document {
   @Prop({default: '', required: true})
   email: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   phoneNumber: string;
+
+  @Prop({default: '', required: false})
+  fullName: string;
 
   @Prop({default: '', required: true})
   password: string;
@@ -31,7 +34,7 @@ export class User extends Document {
   @Prop({default: '', required: true})
   memberID: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   type: Type;
 
   @Prop({default: '', required: true})

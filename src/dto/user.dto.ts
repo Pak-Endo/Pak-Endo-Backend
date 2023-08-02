@@ -12,7 +12,10 @@ export class UserDto {
     firstName: string
 
     @ApiProperty()
-    lastName: string
+    lastName: string;
+
+    @ApiProperty()
+    fullName: string;
 
     @ApiProperty()
     email: string;
@@ -37,4 +40,9 @@ export class UserDto {
 
     @ApiProperty()
     deletedCheck: boolean;
+}
+
+export class MemberCheckDto {
+    @ApiProperty()
+    memberID: string;
 }

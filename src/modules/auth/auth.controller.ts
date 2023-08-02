@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { UserDto } from 'src/dto/user.dto';
+import { MemberCheckDto, UserDto } from 'src/dto/user.dto';
 import { LoginDto } from 'src/dto/login.dto';
 
 @ApiTags('Auth')
@@ -17,5 +17,10 @@ export class AuthController {
   @Post('signup')
   async signup(@Body() signupDto: UserDto) {
     return await this.authService.registerUser(signupDto);
+  }
+
+  @Post('checkIfMemberExistsWithPassword')
+  async checkMember(@Body() memberDto: MemberCheckDto) {
+    return await this.authService.checkIfMemberIDExistsWithPassword(memberDto?.memberID);
   }
 }
