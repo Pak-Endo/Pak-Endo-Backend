@@ -6,7 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication | any>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication | any>(AppModule, {cors: true});
   app.setGlobalPrefix('api');
 
   app.use(bodyParser.json({ limit: '500mb' }));

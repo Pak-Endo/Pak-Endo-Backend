@@ -6,6 +6,7 @@ import config from 'src/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtStrategy } from './jwt-strategy';
 import { UserSchema } from 'src/schemas/user.schema';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   controllers: [AuthController],
@@ -20,6 +21,7 @@ export class AuthModule {
           signOptions: { expiresIn: '3600s'}
         }),
         MongooseModule.forFeature([{ name: 'User', schema: UserSchema}]),
+        MailModule
       ],
       controllers: [AuthController],
       providers: [AuthService, JwtStrategy],

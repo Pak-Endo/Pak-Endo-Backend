@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
@@ -6,12 +6,14 @@ import * as bcrypt from 'bcrypt';
 import { LoginDto } from 'src/dto/login.dto';
 import { User } from 'src/schemas/user.schema';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel('User') private readonly _userModel: Model<User>,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private mailService: MailService
   ) {}
 
   private generateToken(payload: any) {
@@ -70,5 +72,22 @@ export class AuthService {
       memberID: memberID
     });
     return user ? true : false
+  }
+
+  async forgotPassword(email: string): Promise<any> {
+    let user = this._userModel.findOne({email: email, deletedCheck: false});
+    debugger
+    if(!user) {
+      throw new NotFoundException('This email is not registered to a user')
+    }
+    debugger
+    const token = Math.floor(1000 + Math.random() * 9000).toString();
+    debugger
+    let emailNotif = await this.mailService.sendUserConfirmation(user, token);
+    debugger
+    if(emailNotif) {
+      debugger
+      return {message: 'An email with the link to reset your password has been sent!'}
+    }
   }
 }
