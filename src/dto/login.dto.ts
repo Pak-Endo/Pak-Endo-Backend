@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger'
 
 export class LoginDto{
@@ -11,10 +11,11 @@ export class LoginDto{
         format: 'email',
       })
     @IsNotEmpty()
+    @IsEmail()
     email: string;
 
     @ApiProperty({
-        example: 'qwertyuiop',
+        example: '12345678',
         description: 'The password of the User',
         format: 'string',
         minLength: 5,

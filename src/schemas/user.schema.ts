@@ -1,25 +1,47 @@
 /* eslint-disable prettier/prettier */
-import * as mongoose from 'mongoose';
+import {HydratedDocument, Document} from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { User } from 'src/interfaces/user.interface';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-export const UserSchema = new mongoose.Schema(
-    {
-      _id: { type: String, default: '' },
-      prefix: { type: String, default: '' },
-      firstName: { type: String, default: ''},
-      lastName: { type: String, default: ''},
-      email: { type: String, default: '' },
-      phoneNumber: { type: String, default: '' },
-      password: { type: String, default: '' },
-      memberID: { type: String, defualt: '' },
-      type: { type: String, default: ''},
-      deletedCheck: { type: Boolean, default: false }
-    },
-    {
-      collection: 'User',
-    }
-);
+export type UserSchema = HydratedDocument<User>;
+
+@Schema()
+export class User extends Document {
+  @Prop({default: ''})
+  _id: string;
+
+  @Prop({default: '', required: true})
+  prefix: string;
+
+  @Prop({default: '', required: true})
+  firstName: string;
+
+  @Prop({default: '', required: true})
+  lastName: string;
+
+  @Prop({default: '', required: true})
+  email: string;
+
+  @Prop({default: '', required: true})
+  phoneNumber: string;
+
+  @Prop({default: '', required: true})
+  password: string;
+
+  @Prop({default: '', required: true})
+  memberID: string;
+
+  @Prop({default: '', required: true})
+  type: Type;
+
+  @Prop({default: '', required: true})
+  role: UserRole;
+
+  @Prop({default: false, required: false})
+  deletedCheck: boolean;
+}
+
+export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.set('timestamps', true);
 UserSchema.set('toJSON', {
@@ -30,11 +52,22 @@ UserSchema.set('toJSON', {
   },
 });
 
-UserSchema.pre<User>('save',async function(next){
-  const salt=await bcrypt.genSalt();
+UserSchema.pre<User>('save', async function(next){
+  const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
-
   this.email = this.email.toLowerCase();
-
   next();
 });
+
+export enum Type {
+  E = 'PES Executive Member',
+  H = 'PES Honorary Member',
+  I = 'International Executive Membership',
+  S = 'Scientific Members',
+  SE = 'Scientific Executive Members'
+}
+
+export enum UserRole {
+  ADMIN = 'admin',
+  MEMBER = 'member'
+}

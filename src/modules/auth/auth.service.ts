@@ -1,9 +1,10 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { User } from 'src/interfaces/user.interface';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { LoginDto } from 'src/dto/login.dto';
+import { User } from 'src/schemas/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -24,11 +25,12 @@ export class AuthService {
       throw new ForbiddenException('Email already exists');
     }
     loginDto._id = new Types.ObjectId().toString();
+    loginDto.type = loginDto?.memberID?.split('/')[1].trim();
     return await new this._userModel(loginDto).save();
   }
 
-  async loginUser(loginDto: {email: string, password: string}): Promise<any> {
-    let user  = await this._userModel.findOne({email: loginDto.email});
+  async loginUser(loginDto: LoginDto): Promise<any> {
+    let user  = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false });
     if(!user) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
@@ -36,22 +38,16 @@ export class AuthService {
     if(!isValidCredentials) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
-    return this.checkIfMemberIDExists(user?.memberID).then((response: boolean) => {
-      if(response == false) {
-        throw new ForbiddenException('This user is not a member');
-      }
-      user = JSON.parse(JSON.stringify(user));
-      delete user.password;
-      const token = this.generateToken(user);
-      return { user, token: token.access_token};
-    })
+    user = JSON.parse(JSON.stringify(user));
+    delete user.password;
+    const token = this.generateToken(user);
+    return { user, token: token.access_token};
   }
 
-  async checkIfMemberIDExists(memberID: string): Promise<boolean> {
-    const user = await this._userModel.findOne({ memberID: memberID });
-    if(user) {
-      return true
-    }
-    return false
+  async checkIfMemberIDExists(memberID: string) {
+    const user = await this._userModel.findOne({
+      memberID: memberID
+    });
+    return user ? true : false
   }
 }

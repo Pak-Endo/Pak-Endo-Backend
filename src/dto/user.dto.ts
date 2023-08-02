@@ -30,6 +30,9 @@ export class UserDto {
     type: string
 
     @ApiProperty()
+    role: string
+
+    @ApiProperty()
     phoneNumber: string
 
     @ApiProperty()
