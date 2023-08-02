@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {HydratedDocument, Document} from 'mongoose';
+import { HydratedDocument, Document } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 

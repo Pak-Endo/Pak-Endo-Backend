@@ -28,7 +28,7 @@ export class AuthService {
     if(!isValidCredentials) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
-    !user.fullName ? user.fullName = user?.prefix + ' ' + user?.firstName + ' ' + user?.lastName: user.fullName;
+    !user.fullName ? user.fullName = user?.prefix + ' ' + user?.firstName + ' ' + user?.lastName : user.fullName;
     user = JSON.parse(JSON.stringify(user));
     delete user.password;
     const token = this.generateToken(user);
@@ -53,16 +53,6 @@ export class AuthService {
     }
     let user  = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false });
     return this.commonLoginMethod(user, loginDto?.password)
-  }
-
-  async registerAdminUser(adminUser: User | any): Promise<any> {
-    const user = await this._userModel.findOne({ email: adminUser.email });
-    if(user) {
-      throw new ForbiddenException('Email already exists');
-    }
-    adminUser._id = new Types.ObjectId().toString();
-    adminUser.fullName = adminUser?.prefix + ' ' + adminUser?.firstName + ' ' + adminUser?.lastName;
-    return await new this._userModel(adminUser).save();
   }
 
   async checkIfMemberIDExistsWithPassword(memberID: string) {

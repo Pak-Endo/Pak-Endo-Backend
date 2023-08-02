@@ -42,6 +42,22 @@ export class UserDto {
     deletedCheck: boolean;
 }
 
+export class AdminDto {
+    @ApiProperty()
+    _id: string
+
+    @ApiProperty()
+    fullName: string;
+
+    @ApiProperty()
+    email: string;
+
+    @ApiProperty()
+    password: string;
+
+    @ApiProperty()
+    role: string
+}
 export class MemberCheckDto {
     @ApiProperty()
     memberID: string;
