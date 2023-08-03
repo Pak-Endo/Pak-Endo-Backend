@@ -39,4 +39,9 @@ export class AuthController {
   async resetUserPassword(@Body() passDto: PasswordDto) {
     return await this.authService.resetPassword(passDto);
   }
+
+  @Post('approveUser/:id')
+  async approveUser(@Param('id') id: string) {
+    return await this.authService.approveUser(id);
+  }
 }
