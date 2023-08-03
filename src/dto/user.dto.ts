@@ -5,79 +5,70 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class UserDto {
-    @ApiProperty()
-    _id: string
+  @ApiProperty()
+  _id: string
 
-    @ApiProperty()
-    firstName: string
+  @ApiProperty()
+  firstName: string
 
-    @ApiProperty()
-    lastName: string;
+  @ApiProperty()
+  lastName: string;
 
-    @ApiProperty()
-    fullName: string;
+  @ApiProperty()
+  email: string;
 
-    @ApiProperty()
-    email: string;
+  @ApiProperty()
+  password: string;
 
-    @ApiProperty()
-    password: string;
+  @ApiProperty()
+  prefix: string
 
-    @ApiProperty()
-    prefix: string
+  @ApiProperty()
+  phoneNumber: string
 
-    @ApiProperty()
-    memberID: string
+  @ApiProperty()
+  gender: string;
 
-    @ApiProperty()
-    type: string
-
-    @ApiProperty()
-    role: string
-
-    @ApiProperty()
-    phoneNumber: string
-
-    @ApiProperty()
-    deletedCheck: boolean;
+  @ApiProperty()
+  city: string;
 }
 
 export class AdminDto {
-    @ApiProperty()
-    _id: string
+  @ApiProperty()
+  _id: string
 
-    @ApiProperty()
-    fullName: string;
+  @ApiProperty()
+  fullName: string;
 
-    @ApiProperty()
-    email: string;
+  @ApiProperty()
+  email: string;
 
-    @ApiProperty()
-    password: string;
+  @ApiProperty()
+  password: string;
 
-    @ApiProperty()
-    role: string
+  @ApiProperty()
+  role: string
 }
 export class MemberCheckDto {
-    @ApiProperty()
-    memberID: string;
+  @ApiProperty()
+  memberID: string;
 }
 
 export class PasswordDto {
-    @ApiProperty()
-    userID: string
-    
-    @ApiProperty()
-    newPassword: string;
+  @ApiProperty()
+  userID: string
 
-    @ApiProperty()
-    confirmPassword: string
+  @ApiProperty()
+  newPassword: string;
+
+  @ApiProperty()
+  confirmPassword: string
 }
 
 export class QueryParams {
-    @ApiProperty()
-    limit: number;
+  @ApiProperty()
+  limit: number;
 
-    @ApiProperty()
-    offset: number
+  @ApiProperty()
+  offset: number
 }

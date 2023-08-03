@@ -31,13 +31,22 @@ export class User extends Document {
   @Prop({default: '', required: true})
   password: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   memberID: string;
+
+  @Prop({default: '', required: true})
+  gender: Gender;
+
+  @Prop({default: '', required: true})
+  city: string;
 
   @Prop({default: '', required: false})
   type: Type;
 
-  @Prop({default: '', required: true})
+  @Prop({default: 2, required: false})
+  status: Status;
+
+  @Prop({default: '', required: false})
   role: UserRole;
 
   @Prop({default: false, required: false})
@@ -73,4 +82,17 @@ export enum Type {
 export enum UserRole {
   ADMIN = 'admin',
   MEMBER = 'member'
+}
+
+export enum Status {
+  APPROVED = 1,
+  PENDING = 2,
+  REJECTED = 3,
+  BANNED = 4
+}
+
+export enum Gender {
+  MALE = 'Male',
+  FEMALE = 'Female',
+  OTHER = 'Other'
 }

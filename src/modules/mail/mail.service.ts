@@ -26,4 +26,21 @@ export class MailService {
         throw new BadRequestException(err)
       });
     }
+
+    async sendApprovalRequestToAdmin(user: User | any) {
+      return await this.mailerService.sendMail({
+        to: 'admin@gmail.com',
+        from: 'noreply@event-manager.com',
+        subject: 'Request for Account Approval',
+        template: './approval',
+        context: {
+          name: user?.fullName
+        },
+      }).then((response: any) => {
+        return response
+      })
+      .catch((err: any) => {
+        throw new BadRequestException(err)
+      });
+    }
 }

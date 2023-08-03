@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from 'src/dto/login.dto';
-import { User } from 'src/schemas/user.schema';
+import { Status, User } from 'src/schemas/user.schema';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { MailService } from '../mail/mail.service';
 import { PasswordDto } from 'src/dto/user.dto';
@@ -27,6 +27,9 @@ export class AuthService {
     if(!user) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
+    if(user?.status !== Status.APPROVED)  {
+      throw new UnauthorizedException('Your account is still pending for approval');
+    }
     const isValidCredentials = await bcrypt.compare(password, user.password);
     if(!isValidCredentials) {
       throw new UnauthorizedException('Incorrect Credentials')
@@ -43,18 +46,23 @@ export class AuthService {
     if(user) {
       throw new ForbiddenException('Email already exists');
     }
+    newUser.status = Status.PENDING;
     newUser._id = new Types.ObjectId().toString();
-    newUser.type = newUser?.memberID?.split('/')[1].trim();
+    newUser.role = 'member';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+    let emailNotif = await this.mailService.sendApprovalRequestToAdmin(newUser);
+    if(!emailNotif) {
+      throw new BadRequestException('Something went wrong. Please try again')
+    }
     return await new this._userModel(newUser).save();
   }
 
   async loginUser(loginDto: LoginDto | AdminLoginDto | any): Promise<any> {
     if(loginDto?.memberID) {
-      let user  = await this._userModel.findOne({ memberID: loginDto.memberID, deletedCheck: false });
+      let user  = await this._userModel.findOne({ memberID: loginDto.memberID, deletedCheck: false, status: Status.APPROVED });
       return this.commonLoginMethod(user, loginDto?.password)
     }
-    let user  = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false });
+    let user  = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false, status: Status.APPROVED });
     return this.commonLoginMethod(user, loginDto?.password)
   }
 
