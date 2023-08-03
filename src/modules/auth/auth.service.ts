@@ -114,4 +114,12 @@ export class AuthService {
       return { message: 'Password saved. User updated successfully'}
     }
   }
+
+  async approveUser(id: string): Promise<any> {
+    let user =  await this._userModel.findById({_id: id, deletedCheck: false});
+    if(!user) {
+      throw new NotFoundException('User does not exist');
+    }
+    return this._userModel.updateOne({_id: id, deletedCheck: false}, {status: Status.APPROVED})
+  }
 }
