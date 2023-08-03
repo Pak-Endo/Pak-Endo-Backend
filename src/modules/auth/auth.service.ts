@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
@@ -75,19 +75,15 @@ export class AuthService {
   }
 
   async forgotPassword(email: string): Promise<any> {
-    let user = this._userModel.findOne({email: email, deletedCheck: false});
-    debugger
+    let user = await this._userModel.findOne({ email: email, deletedCheck: false});
     if(!user) {
       throw new NotFoundException('This email is not registered to a user')
     }
-    debugger
-    const token = Math.floor(1000 + Math.random() * 9000).toString();
-    debugger
+    const token = Math.floor(10000 + Math.random() * 90000).toString();
     let emailNotif = await this.mailService.sendUserConfirmation(user, token);
-    debugger
-    if(emailNotif) {
-      debugger
-      return {message: 'An email with the link to reset your password has been sent!'}
+    if(!emailNotif) {
+      throw new BadRequestException('Something went wrong. Please try again')
     }
+    return {message: 'An email with the link to reset your password has been sent!'}
   }
 }
