@@ -7,6 +7,7 @@ import { LoginDto } from 'src/dto/login.dto';
 import { User } from 'src/schemas/user.schema';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { MailService } from '../mail/mail.service';
+import { PasswordDto } from 'src/dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -84,6 +85,25 @@ export class AuthService {
     if(!emailNotif) {
       throw new BadRequestException('Something went wrong. Please try again')
     }
-    return {message: 'An email with the link to reset your password has been sent!'}
+    return { message: 'An email with the link to reset your password has been sent!' }
+  }
+
+  async resetPassword(passwordDto: PasswordDto): Promise<any> {
+    let user = await this._userModel.findOne({ _id: passwordDto?.userID, deletedCheck: false });
+    if(!user) {
+      throw new NotFoundException('User does not exist')
+    }
+    if(passwordDto?.newPassword?.trim() !== passwordDto?.confirmPassword?.trim()) {
+      throw new BadRequestException('Passwords do not match')
+    }
+    const salt = await bcrypt.genSalt();
+    let password = await bcrypt.hash(passwordDto?.newPassword, salt);
+    if(!password) {
+      throw new BadRequestException('Failed to generate password. Please try again')
+    }
+    let updatedUser = await this._userModel.updateOne({ _id: passwordDto?.userID }, { password: password });
+    if(updatedUser) {
+      return { message: 'Password saved. User updated successfully'}
+    }
   }
 }

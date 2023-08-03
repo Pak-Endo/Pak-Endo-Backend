@@ -9,7 +9,7 @@ export class MailService {
     constructor(private mailerService: MailerService) {}
 
     async sendUserConfirmation(user: User | any, token: string) {
-      const url = `animetography-blog.com/auth/confirm?id=${user.id}&token=${token}`;
+      const url = `aaa.com/auth/confirm?id=${user.id}&token=${token}`;
       return await this.mailerService.sendMail({
         to: user.email,
         from: '"System Administrator"',

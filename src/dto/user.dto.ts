@@ -63,6 +63,17 @@ export class MemberCheckDto {
     memberID: string;
 }
 
+export class PasswordDto {
+    @ApiProperty()
+    userID: string
+    
+    @ApiProperty()
+    newPassword: string;
+
+    @ApiProperty()
+    confirmPassword: string
+}
+
 export class QueryParams {
     @ApiProperty()
     limit: number;
