@@ -7,7 +7,7 @@ import { LoginDto } from 'src/dto/login.dto';
 import { Status, User } from 'src/schemas/user.schema';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { MailService } from '../mail/mail.service';
-import { PasswordDto } from 'src/dto/user.dto';
+import { PasswordDto, approveDto } from 'src/dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -115,11 +115,11 @@ export class AuthService {
     }
   }
 
-  async approveUser(id: string): Promise<any> {
+  async approveUser(id: string, userData: approveDto): Promise<any> {
     let user =  await this._userModel.findById({_id: id, deletedCheck: false});
     if(!user) {
       throw new NotFoundException('User does not exist');
     }
-    return this._userModel.updateOne({_id: id, deletedCheck: false}, {status: Status.APPROVED})
+    return await this._userModel.updateOne({_id: id, deletedCheck: false}, { ...userData, status: Status.APPROVED})
   }
 }

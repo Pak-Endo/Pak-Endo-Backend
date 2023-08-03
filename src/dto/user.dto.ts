@@ -72,3 +72,11 @@ export class QueryParams {
   @ApiProperty()
   offset: number
 }
+
+export class approveDto {
+  @ApiProperty()
+  type: string;
+
+  @ApiProperty()
+  memberID: string;
+}

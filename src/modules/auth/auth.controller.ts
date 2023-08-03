@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { MemberCheckDto, PasswordDto, UserDto } from 'src/dto/user.dto';
+import { MemberCheckDto, PasswordDto, UserDto, approveDto } from 'src/dto/user.dto';
 import { LoginDto } from 'src/dto/login.dto';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 
@@ -40,8 +40,11 @@ export class AuthController {
     return await this.authService.resetPassword(passDto);
   }
 
-  @Post('approveUser/:id')
-  async approveUser(@Param('id') id: string) {
-    return await this.authService.approveUser(id);
+  @Put('approveUser/:id')
+  async approveUser(
+    @Body() userData: approveDto,
+    @Param('id') id: string
+  ) {
+    return await this.authService.approveUser(id, userData);
   }
 }
