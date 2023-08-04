@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from 'src/dto/login.dto';
-import { Status, User } from 'src/schemas/user.schema';
+import { Status, User, UserRole } from 'src/schemas/user.schema';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { MailService } from '../mail/mail.service';
 import { PasswordDto, approveDto } from 'src/dto/user.dto';
@@ -62,7 +62,10 @@ export class AuthService {
       let user  = await this._userModel.findOne({ memberID: loginDto.memberID, deletedCheck: false, status: Status.APPROVED });
       return this.commonLoginMethod(user, loginDto?.password)
     }
-    let user  = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false, status: Status.APPROVED });
+    let user = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false, status: Status.APPROVED });
+    if(user?.role !== UserRole.ADMIN) {
+      throw new UnauthorizedException('Incorrect Credentials')
+    }
     return this.commonLoginMethod(user, loginDto?.password)
   }
 
