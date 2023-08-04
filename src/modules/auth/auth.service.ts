@@ -120,6 +120,33 @@ export class AuthService {
     if(!user) {
       throw new NotFoundException('User does not exist');
     }
-    return await this._userModel.updateOne({_id: id, deletedCheck: false}, { ...userData, status: Status.APPROVED})
+    let userByMemberID = await this._userModel.aggregate([
+      {
+        $match: {
+          deletedCheck: false,
+          memberID: new RegExp(`/(?<=\/)[${userData?.type}](?=\/)/`)
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          memberID: 1,
+          countSubstr: {
+            $substrBytes: [
+              "$memberID", 7, 1
+            ]
+          }
+        }
+      }
+    ]).sort({memberID: -1}).limit(1);
+
+    if(userByMemberID) {
+      let newMemberID = userByMemberID[0]?.countSubstr?.slice(0, -1) + `0${Number(userByMemberID[0]?.countSubstr) + 1}`
+      let memberIDGen = `PES/${userData?.type}/${newMemberID}`;
+      return await this._userModel.updateOne(
+        {_id: id, deletedCheck: false},
+        { ...userData, status: Status.APPROVED, memberID: memberIDGen }
+      )
+    }
   }
 }

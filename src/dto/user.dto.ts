@@ -76,7 +76,4 @@ export class QueryParams {
 export class approveDto {
   @ApiProperty()
   type: string;
-
-  @ApiProperty()
-  memberID: string;
 }
