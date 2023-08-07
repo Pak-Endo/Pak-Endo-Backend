@@ -349,4 +349,45 @@ export class EventsService {
     }
     return await new this.eventModel(eventDto).save();
   }
+
+  async getEventStats(): Promise<any> {
+    const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
+    const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.UPCOMING });
+    const OnGoingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.ONGOING });
+    const finishedCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.FINSIHED });
+    return {
+      total: totalCount,
+      upComing: upComingCount,
+      onGoing: OnGoingCount,
+      finished: finishedCount
+    }
+  }
+
+  async getUpcomingEventsForCalendar(limit: number, offset: number): Promise<any> {
+    limit = Number(limit) < 1 ? 20 : Number(limit);
+    offset = Number(offset) < 0 ? 0 : Number(offset);
+    const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.UPCOMING });
+    const eventList = await this.eventModel.aggregate([
+      {
+        $match: {
+          deletedCheck: false,
+          eventStatus: EventStatus.UPCOMING
+        }
+      },
+      {
+        $project: {
+          title: 1,
+          endDate: 1,
+          startDate: 1,
+        }
+      }
+    ])
+    .skip(Number(offset))
+    .limit(Number(limit));
+
+    return {
+      events: eventList,
+      totalCount: upComingCount
+    }
+  }
 }

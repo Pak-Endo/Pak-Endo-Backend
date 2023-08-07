@@ -57,4 +57,19 @@ export class EventsController {
   ) {
     return await this.eventService.getFinishedEvents(limit, offset, title)
   }
+
+  @Get('getEventStats')
+  @UseGuards(JwtAuthGuard)
+  async fetchEventStats() {
+    return await this.eventService.getEventStats();
+  }
+
+  @Get('getEventsForCalendar')
+  @UseGuards(JwtAuthGuard)
+  async fetchEventsForCalendar(
+    @Query('limit') limit: number,
+    @Query('offset') offset: number,
+  ) {
+    return await this.eventService.getUpcomingEventsForCalendar(limit, offset);
+  }
 }
