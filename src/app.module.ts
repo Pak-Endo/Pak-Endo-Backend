@@ -8,6 +8,8 @@ import config from './config';
 import { UserModule } from './modules/user/user.module';
 import { EventsModule } from './modules/events/events.module';
 import { MediaUploadModule } from './modules/media-upload/media-upload.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CronjobsModule } from './modules/cronjobs/cronjobs.module';
 
 @Module({
   imports: [
@@ -17,9 +19,11 @@ import { MediaUploadModule } from './modules/media-upload/media-upload.module';
     }),
     MongooseModule.forRoot(config.mongoURI),
     AuthModule.forRoot(),
+    ScheduleModule.forRoot(),
     UserModule,
     EventsModule,
-    MediaUploadModule
+    MediaUploadModule,
+    // CronjobsModule
   ],
   controllers: [AppController],
   providers: [AppService],
