@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Model } from 'mongoose';
 import { QueryParams, UserDto } from 'src/dto/user.dto';
-import { User, UserRole } from 'src/schemas/user.schema';
+import { User } from 'src/schemas/user.schema';
 
 export enum SORT {
   ASC = 'Ascending',

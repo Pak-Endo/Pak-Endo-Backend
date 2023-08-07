@@ -1,5 +1,6 @@
 # compiled output
 /dist
+/mediaFiles
 /node_modules
 
 # Logs

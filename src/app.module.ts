@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import config from './config';
 import { UserModule } from './modules/user/user.module';
+import { EventsModule } from './modules/events/events.module';
+import { MediaUploadModule } from './modules/media-upload/media-upload.module';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { UserModule } from './modules/user/user.module';
     }),
     MongooseModule.forRoot(config.mongoURI),
     AuthModule.forRoot(),
-    UserModule
+    UserModule,
+    EventsModule,
+    MediaUploadModule
   ],
   controllers: [AppController],
   providers: [AppService],
