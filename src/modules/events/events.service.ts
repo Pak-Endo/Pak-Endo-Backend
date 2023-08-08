@@ -1,25 +1,21 @@
-import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { EventStatus, Event } from 'src/schemas/events.schema';
 import { SORT } from '../user/user.service';
 import { EventDto } from 'src/dto/event.dto';
 import { Gallery } from 'src/schemas/gallery.schema';
-import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectModel('Events') private readonly eventModel: Model<Event>,
-    @InjectModel('Gallery') private readonly galleryModel: Model<Gallery>,
-    @Inject(REQUEST) private readonly request: Request
+    @InjectModel('Gallery') private readonly galleryModel: Model<Gallery>
   ) {}
 
   async getAllEvents(limit: number, offset: number, title?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    let stringConcat = String(this.request.headers?.host)
     const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
     let filters = {},
         sort = {};
@@ -51,7 +47,7 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           streamUrl: 1,
-          featuredImage: {$concat: [stringConcat, '$featuredImage']}
+          featuredImage: {$concat: [process.env.URL, '$featuredImage']}
         }
       },
       {
@@ -63,7 +59,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [stringConcat, "$$url"] }
+              in: { $concat: [process.env.URL, "$$url"] }
             }
           }
         }
@@ -96,7 +92,6 @@ export class EventsService {
   async getUpcomingEvents(limit: number, offset: number, title?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    let stringConcat = String(this.request.headers?.host)
     const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.UPCOMING });
     let filters = {},
         sort = {};
@@ -129,7 +124,7 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           streamUrl: 1,
-          featuredImage: {$concat: [stringConcat, '$featuredImage']}
+          featuredImage: {$concat: [process.env.URL, '$featuredImage']}
         }
       },
       {
@@ -141,7 +136,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [stringConcat, "$$url"] }
+              in: { $concat: [process.env.URL, "$$url"] }
             }
           }
         }
@@ -174,7 +169,6 @@ export class EventsService {
   async getOnGoingEvents(limit: number, offset: number, title?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    let stringConcat = String(this.request.headers?.host)
     const onGoingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.ONGOING });
     let filters = {},
         sort = {};
@@ -207,7 +201,7 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           streamUrl: 1,
-          featuredImage: {$concat: [stringConcat, '$featuredImage']}
+          featuredImage: {$concat: [process.env.URL, '$featuredImage']}
         }
       },
       {
@@ -219,7 +213,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [stringConcat, "$$url"] }
+              in: { $concat: [process.env.URL, "$$url"] }
             }
           }
         }
@@ -252,7 +246,6 @@ export class EventsService {
   async getFinishedEvents(limit: number, offset: number, title?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    let stringConcat = String(this.request.headers?.host)
     const finishedCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.FINSIHED });
     let filters = {},
         sort = {};
@@ -285,7 +278,7 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           streamUrl: 1,
-          featuredImage: {$concat: [stringConcat, '$featuredImage']}
+          featuredImage: {$concat: [process.env.URL, '$featuredImage']}
         }
       },
       {
@@ -297,7 +290,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [stringConcat, "$$url"] }
+              in: { $concat: [process.env.URL, "$$url"] }
             }
           }
         }
@@ -333,7 +326,7 @@ export class EventsService {
       throw new ForbiddenException('An event by this title already exists');
     }
     eventDto._id = new Types.ObjectId().toString();
-    eventDto.featuredImage = eventDto.featuredImage?.split(this.request.headers?.origin)[1];
+    eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
     eventDto.startDate = new Date(eventDto.startDate).getTime();
     eventDto.endDate = new Date(eventDto.endDate).getTime();
     eventDto.eventStatus = EventStatus.UPCOMING;
@@ -342,12 +335,45 @@ export class EventsService {
       eventDto.gallery._id = new Types.ObjectId().toString();
       eventDto.gallery.eventID = eventDto._id;
       eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
-        value = value?.split(this.request.headers?.origin)[1];
+        value = value?.split(process.env.URL)[1];
         return value
       })
       await new this.galleryModel(eventDto?.gallery).save();
     }
     return await new this.eventModel(eventDto).save();
+  }
+
+  async updateEvent(eventDto: EventDto, eventID: string): Promise<any> {
+    let updatedGallery: any = {};
+    const event = await this.eventModel.findOne({ _id: eventID });
+    if(!event) {
+      throw new NotFoundException('Event not found');
+    }
+    if(eventDto.featuredImage) {
+      eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
+    }
+    if(eventDto.startDate) {
+      eventDto.startDate = new Date(eventDto.startDate).getTime();
+    }
+    if(eventDto.endDate) {
+      eventDto.endDate = new Date(eventDto.endDate).getTime();
+    }
+    if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
+      eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
+        value = value?.split(process.env.URL)[1];
+        return value
+      })
+      let updatedGal = await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
+      if(updatedGal) {
+        updatedGallery = await this.galleryModel.findOne({ _id: event?.gallery?._id })
+      }
+    }
+    eventDto.gallery = updatedGallery;
+    debugger
+    let updatedEvent = await this.eventModel.updateOne({ _id: eventID }, eventDto);
+    if(updatedEvent) {
+      return await this.eventModel.findOne({ _id: eventID });
+    }
   }
 
   async getEventStats(): Promise<any> {

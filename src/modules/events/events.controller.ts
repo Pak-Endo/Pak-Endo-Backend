@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { EventsService } from './events.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -16,6 +16,15 @@ export class EventsController {
     @Body() eventDto: EventDto
   ) {
     return await this.eventService.createNewEvent(eventDto);
+  }
+
+  @Put('updateEvent/:eventID')
+  @UseGuards(JwtAuthGuard)
+  async updateEventData(
+    @Body() eventDto: EventDto,
+    @Param('eventID') eventID: string
+  ) {
+    return await this.eventService.updateEvent(eventDto, eventID);
   }
 
   @Get('getllEvents')

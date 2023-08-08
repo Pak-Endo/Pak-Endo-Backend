@@ -13,10 +13,10 @@ export class EventDto {
   description: string;
 
   @ApiProperty()
-  startDate: any;
+  startDate: Date | number;
 
   @ApiProperty()
-  endDate: any;
+  endDate: Date | number;
 
   @ApiProperty()
   featuredImage: string;
