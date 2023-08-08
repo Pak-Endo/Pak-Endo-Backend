@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put, Query, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -35,5 +35,13 @@ export class UserController {
     @Param('userID') userID: string
   ) {
     return await this.userService.updateUser(userDto, userID)
+  }
+
+  @Delete('deleteUser/:userID')
+  @UseGuards(JwtAuthGuard)
+  async deleteUserByID(
+    @Param('userID') userID: string
+  ) {
+    return await this.userService.deleteUser(userID)
   }
 }

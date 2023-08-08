@@ -71,4 +71,12 @@ export class UserService {
       return await this._userModel.findOne({ _id: userId });
     }
   }
+
+  async deleteUser(userID: string): Promise<any> {
+    const event = await this._userModel.findOne({ _id: userID, deletedCheck: false });
+    if(!event) {
+      throw new NotFoundException('User not found');
+    }
+    return await this._userModel.updateOne({_id: userID, deletedCheck: true})
+  }
 }

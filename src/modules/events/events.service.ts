@@ -321,7 +321,7 @@ export class EventsService {
   }
 
   async createNewEvent(eventDto: EventDto): Promise<any> {
-    const event = await this.eventModel.findOne({ title: eventDto.title });
+    const event = await this.eventModel.findOne({ title: eventDto.title, deletedCheck: false });
     if(event) {
       throw new ForbiddenException('An event by this title already exists');
     }
@@ -345,7 +345,7 @@ export class EventsService {
 
   async updateEvent(eventDto: EventDto, eventID: string): Promise<any> {
     let updatedGallery: any = {};
-    const event = await this.eventModel.findOne({ _id: eventID });
+    const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
     if(!event) {
       throw new NotFoundException('Event not found');
     }
@@ -369,11 +369,18 @@ export class EventsService {
       }
     }
     eventDto.gallery = updatedGallery;
-    debugger
     let updatedEvent = await this.eventModel.updateOne({ _id: eventID }, eventDto);
     if(updatedEvent) {
       return await this.eventModel.findOne({ _id: eventID });
     }
+  }
+
+  async deleteEvent(eventID: string): Promise<any> {
+    const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
+    if(!event) {
+      throw new NotFoundException('Event not found');
+    }
+    return await this.eventModel.updateOne({_id: eventID, deletedCheck: true})
   }
 
   async getEventStats(): Promise<any> {

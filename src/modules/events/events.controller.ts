@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { EventsService } from './events.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -25,6 +25,14 @@ export class EventsController {
     @Param('eventID') eventID: string
   ) {
     return await this.eventService.updateEvent(eventDto, eventID);
+  }
+
+  @Delete('deleteEvent/:eventID')
+  @UseGuards(JwtAuthGuard)
+  async deleteEventByID(
+    @Param('eventID') eventID: string
+  ) {
+    return await this.eventService.deleteEvent(eventID)
   }
 
   @Get('getllEvents')
