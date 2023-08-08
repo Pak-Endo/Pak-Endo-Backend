@@ -9,6 +9,9 @@ import {
   HttpException,
   HttpStatus,
   Req,
+  Res,
+  Query,
+  Get,
 } from '@nestjs/common';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
@@ -106,4 +109,36 @@ export class MediaUploadController {
     }
     return file;
   }
+
+  @Get('mediaFiles/:folderName/:fileName')
+    async mediaFiles(
+      @Param('folderName') folderName: string,
+      @Param('fileName') fileName: string,
+      @Res() res,
+      @Req() req,
+      @Query('size') size = 'original',
+    ): Promise<any> {
+      req.setTimeout(10 * 60 * 1000);
+      const sizeArray = ['original', 'compressed'];
+      size = sizeArray.includes(size) ? size : 'original';
+      folderName = folderName.toLowerCase();
+      if (size == 'original') {
+        res.sendFile(fileName, {
+          root: 'mediaFiles/' + folderName,
+        });
+      } else {
+        const dir = 'mediaFiles/' + folderName + '/' + size + '/' + fileName;
+        const exists = fs.existsSync(dir);
+        if (!exists) {
+          res.sendFile(fileName, {
+            root: 'mediaFiles/' + folderName,
+          });
+          return;
+        }
+  
+        res.sendFile(fileName, {
+          root: 'mediaFiles/' + folderName + '/' + size,
+        });
+      }
+    }
 }

@@ -10,14 +10,14 @@ export class CronjobsService {
 
   @Cron( CronExpression.EVERY_30_SECONDS )
   async startCronJobForEventStatus() {
-    console.log('JANU')
-    let currentDateTime = new Date().getTime()
+    let currentDateTime = new Date()
     const eventsToUpdate = await this.eventModel.find({
       startDate: { $lte: currentDateTime },
       eventStatus: EventStatus.UPCOMING,
     });
 
     if (eventsToUpdate.length > 0) {
+      console.log('JANU')
       for (const event of eventsToUpdate) {
         event.eventStatus = EventStatus.ONGOING;
         await event.save();
@@ -27,9 +27,9 @@ export class CronjobsService {
 
   @Cron( CronExpression.EVERY_30_SECONDS )
   async endCronJobForEventStatus()  {
-    let currentDateTime = new Date().getTime()
+    let currentDateTime = new Date().getTime();
     const eventsToUpdate = await this.eventModel.find({
-      endDate: { $gte: currentDateTime },
+      endDate: { $lte: currentDateTime },
       eventStatus: EventStatus.ONGOING,
     });
 
@@ -38,6 +38,7 @@ export class CronjobsService {
         event.eventStatus = EventStatus.FINSIHED;
         await event.save();
       }
+      console.log('END JANU')
     }
   }
 }

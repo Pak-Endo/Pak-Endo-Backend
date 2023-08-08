@@ -23,7 +23,7 @@ import { CronjobsModule } from './modules/cronjobs/cronjobs.module';
     UserModule,
     EventsModule,
     MediaUploadModule,
-    // CronjobsModule
+    CronjobsModule
   ],
   controllers: [AppController],
   providers: [AppService],

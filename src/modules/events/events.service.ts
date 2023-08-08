@@ -327,8 +327,6 @@ export class EventsService {
     }
     eventDto._id = new Types.ObjectId().toString();
     eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
-    eventDto.startDate = new Date(eventDto.startDate).getTime();
-    eventDto.endDate = new Date(eventDto.endDate).getTime();
     eventDto.eventStatus = EventStatus.UPCOMING;
     eventDto.deletedCheck = false;
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
@@ -351,12 +349,6 @@ export class EventsService {
     }
     if(eventDto.featuredImage) {
       eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
-    }
-    if(eventDto.startDate) {
-      eventDto.startDate = new Date(eventDto.startDate).getTime();
-    }
-    if(eventDto.endDate) {
-      eventDto.endDate = new Date(eventDto.endDate).getTime();
     }
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
       eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
@@ -399,12 +391,11 @@ export class EventsService {
   async getUpcomingEventsForCalendar(limit: number, offset: number): Promise<any> {
     limit = Number(limit) < 1 ? 20 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.UPCOMING });
+    const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
     const eventList = await this.eventModel.aggregate([
       {
         $match: {
-          deletedCheck: false,
-          eventStatus: EventStatus.UPCOMING
+          deletedCheck: false
         }
       },
       {
@@ -412,6 +403,7 @@ export class EventsService {
           title: 1,
           endDate: 1,
           startDate: 1,
+          eventStatus: 1
         }
       }
     ])
@@ -420,7 +412,7 @@ export class EventsService {
 
     return {
       events: eventList,
-      totalCount: upComingCount
+      totalCount: totalCount
     }
   }
 }
