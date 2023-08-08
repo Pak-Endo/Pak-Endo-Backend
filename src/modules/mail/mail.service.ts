@@ -30,7 +30,7 @@ export class MailService {
     async sendApprovalRequestToAdmin(user: User | any) {
       return await this.mailerService.sendMail({
         to: 'admin@gmail.com',
-        from: 'noreply@event-manager.com',
+        from: 'noreply',
         subject: 'Request for Account Approval',
         template: './approval',
         context: {
@@ -40,7 +40,7 @@ export class MailService {
         return response
       })
       .catch((err: any) => {
-        throw new BadRequestException(err)
+        throw new BadRequestException('Something went wrong. Please try again')
       });
     }
 }

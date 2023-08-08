@@ -123,29 +123,38 @@ export class AuthService {
     if(!user) {
       throw new NotFoundException('User does not exist');
     }
-    let userByMemberID = await this._userModel.aggregate([
+    if(user?.memberID || user?.memberID !== "") {
+      throw new BadRequestException('User is already approved');
+    }
+    let usersByMemberID = await this._userModel.aggregate([
       {
         $match: {
           deletedCheck: false,
-          memberID: new RegExp(`/(?<=\/)[${userData?.type}](?=\/)/`)
+          memberID: new RegExp(`/(?<=/)${userData.type}(?=/)`)
         }
       },
       {
         $project: {
           _id: 0,
           memberID: 1,
-          countSubstr: {
+          memberIDCount: {
             $substrBytes: [
               "$memberID", 7, 1
             ]
           }
         }
       }
-    ]).sort({memberID: -1}).limit(1);
-
-    if(userByMemberID) {
-      let newMemberID = userByMemberID[0]?.countSubstr?.slice(0, -1) + `0${Number(userByMemberID[0]?.countSubstr) + 1}`
+    ]).sort({memberID: -1});
+    if(usersByMemberID?.length > 0) {
+      let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[0]?.memberIDCount) + 1}`
       let memberIDGen = `PES/${userData?.type}/${newMemberID}`;
+      return await this._userModel.updateOne(
+        {_id: id, deletedCheck: false},
+        { ...userData, status: Status.APPROVED, memberID: memberIDGen }
+      )
+    }
+    else {
+      let memberIDGen = `PES/${userData?.type}/00`;
       return await this._userModel.updateOne(
         {_id: id, deletedCheck: false},
         { ...userData, status: Status.APPROVED, memberID: memberIDGen }
