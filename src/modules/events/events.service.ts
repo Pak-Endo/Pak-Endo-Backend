@@ -19,13 +19,14 @@ export class EventsService {
     const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
     let filters = {},
         sort = {};
-    if(title) {
-      let nameSort = SORT.ASC ? 1 : -1;
-      sort = {...sort, title: nameSort}
-    }
     if(title.trim().length) {
+      let nameSort = SORT.ASC ? 1 : -1;
+      sort = {...sort, title: nameSort }
       const query = new RegExp(`${title}`, 'i');
       filters = {...filters, title: query}
+    }
+    else {
+      sort = {...sort, _id: -1 }
     }
     const eventList = await this.eventModel.aggregate([
       {
@@ -33,9 +34,6 @@ export class EventsService {
           deletedCheck: false,
           ...filters
         }
-      },
-      {
-        $sort: sort
       },
       {
         $project: {
@@ -47,7 +45,14 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           streamUrl: 1,
-          featuredImage: {$concat: [process.env.URL, '$featuredImage']}
+          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+        }
+      },
+      {
+        $addFields: {
+          gallery: {
+            $ifNull: [ "$gallery", [null] ]
+          }
         }
       },
       {
@@ -78,10 +83,14 @@ export class EventsService {
       },
       {
         $replaceRoot: { newRoot: "$event" }
+      },
+      {
+        $sort: sort
       }
     ])
     .skip(Number(offset))
     .limit(Number(limit));
+    
 
     return {
       events: eventList,
@@ -95,13 +104,14 @@ export class EventsService {
     const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.UPCOMING });
     let filters = {},
         sort = {};
-    if(title) {
-      let nameSort = SORT.ASC ? 1: -1;
-      sort = {...sort, title: nameSort}
-    }
-    if(title.trim()?.length) {
-      let query  = new RegExp(`${title}`, 'i');
+    if(title.trim().length) {
+      let nameSort = SORT.ASC ? 1 : -1;
+      sort = {...sort, title: nameSort }
+      const query = new RegExp(`${title}`, 'i');
       filters = {...filters, title: query}
+    }
+    else {
+      sort = {...sort, _id: -1 }
     }
     const eventList = await this.eventModel.aggregate([
       {
@@ -110,9 +120,6 @@ export class EventsService {
           eventStatus: EventStatus.UPCOMING,
           ...filters
         }
-      },
-      {
-        $sort: sort
       },
       {
         $project: {
@@ -124,7 +131,14 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           streamUrl: 1,
-          featuredImage: {$concat: [process.env.URL, '$featuredImage']}
+          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+        }
+      },
+      {
+        $addFields: {
+          gallery: {
+            $ifNull: [ "$gallery", [null] ]
+          }
         }
       },
       {
@@ -155,6 +169,9 @@ export class EventsService {
       },
       {
         $replaceRoot: { newRoot: "$event" }
+      },
+      {
+        $sort: sort
       }
     ])
     .skip(Number(offset))
@@ -172,13 +189,14 @@ export class EventsService {
     const onGoingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.ONGOING });
     let filters = {},
         sort = {};
-    if(title) {
-      let nameSort = SORT.ASC ? 1: -1;
-      sort = {...sort, title: nameSort}
-    }
-    if(title.trim()?.length) {
-      let query  = new RegExp(`${title}`, 'i');
+    if(title.trim().length) {
+      let nameSort = SORT.ASC ? 1 : -1;
+      sort = {...sort, title: nameSort }
+      const query = new RegExp(`${title}`, 'i');
       filters = {...filters, title: query}
+    }
+    else {
+      sort = {...sort, _id: -1 }
     }
     const eventList = await this.eventModel.aggregate([
       {
@@ -187,9 +205,6 @@ export class EventsService {
           eventStatus: EventStatus.ONGOING,
           ...filters
         }
-      },
-      {
-        $sort: sort
       },
       {
         $project: {
@@ -201,7 +216,14 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           streamUrl: 1,
-          featuredImage: {$concat: [process.env.URL, '$featuredImage']}
+          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+        }
+      },
+      {
+        $addFields: {
+          gallery: {
+            $ifNull: [ "$gallery", [null] ]
+          }
         }
       },
       {
@@ -232,6 +254,9 @@ export class EventsService {
       },
       {
         $replaceRoot: { newRoot: "$event" }
+      },
+      {
+        $sort: sort
       }
     ])
     .skip(Number(offset))
@@ -249,13 +274,14 @@ export class EventsService {
     const finishedCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.FINSIHED });
     let filters = {},
         sort = {};
-    if(title) {
-      let nameSort = SORT.ASC ? 1: -1;
-      sort = {...sort, title: nameSort}
-    }
-    if(title.trim()?.length) {
-      let query  = new RegExp(`${title}`, 'i');
+    if(title.trim().length) {
+      let nameSort = SORT.ASC ? 1 : -1;
+      sort = {...sort, title: nameSort }
+      const query = new RegExp(`${title}`, 'i');
       filters = {...filters, title: query}
+    }
+    else {
+      sort = {...sort, _id: -1 }
     }
     const eventList = await this.eventModel.aggregate([
       {
@@ -264,9 +290,6 @@ export class EventsService {
           eventStatus: EventStatus.FINSIHED,
           ...filters
         }
-      },
-      {
-        $sort: sort
       },
       {
         $project: {
@@ -278,7 +301,14 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           streamUrl: 1,
-          featuredImage: {$concat: [process.env.URL, '$featuredImage']}
+          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+        }
+      },
+      {
+        $addFields: {
+          gallery: {
+            $ifNull: [ "$gallery", [null] ]
+          }
         }
       },
       {
@@ -309,6 +339,9 @@ export class EventsService {
       },
       {
         $replaceRoot: { newRoot: "$event" }
+      },
+      {
+        $sort: sort
       }
     ])
     .skip(Number(offset))
@@ -343,6 +376,7 @@ export class EventsService {
 
   async updateEvent(eventDto: EventDto, eventID: string): Promise<any> {
     let updatedGallery: any = {};
+    let updatedGal;
     const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
     if(!event) {
       throw new NotFoundException('Event not found');
@@ -351,16 +385,34 @@ export class EventsService {
       eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
     }
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
-      eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
-        value = value?.split(process.env.URL)[1];
-        return value
-      })
-      let updatedGal = await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
-      if(updatedGal) {
+      debugger
+      if(event?.gallery?._id) {
+        eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
+          value = value?.split(process.env.URL)[1];
+          return value
+        })
+        updatedGal = await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
         updatedGallery = await this.galleryModel.findOne({ _id: event?.gallery?._id })
       }
+      else {
+        debugger
+        eventDto.gallery._id = new Types.ObjectId().toString();
+        eventDto.gallery.eventID = eventDto._id || event?._id;
+        eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
+          value = value?.split(process.env.URL)[1];
+          return value
+        })
+        updatedGal = await new this.galleryModel(eventDto?.gallery).save();
+        debugger
+        updatedGallery = await this.galleryModel.findOne({ _id: eventDto?.gallery?._id })
+      }
+      debugger
     }
-    eventDto.gallery = updatedGallery;
+    if(updatedGallery) {
+      debugger
+      eventDto.gallery = updatedGallery;
+    }
+    debugger
     let updatedEvent = await this.eventModel.updateOne({ _id: eventID }, eventDto);
     if(updatedEvent) {
       return await this.eventModel.findOne({ _id: eventID });
