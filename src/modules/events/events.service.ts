@@ -385,7 +385,6 @@ export class EventsService {
       eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
     }
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
-      debugger
       if(event?.gallery?._id) {
         eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
           value = value?.split(process.env.URL)[1];
@@ -395,7 +394,6 @@ export class EventsService {
         updatedGallery = await this.galleryModel.findOne({ _id: event?.gallery?._id })
       }
       else {
-        debugger
         eventDto.gallery._id = new Types.ObjectId().toString();
         eventDto.gallery.eventID = eventDto._id || event?._id;
         eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
@@ -403,16 +401,13 @@ export class EventsService {
           return value
         })
         updatedGal = await new this.galleryModel(eventDto?.gallery).save();
-        debugger
+  
         updatedGallery = await this.galleryModel.findOne({ _id: eventDto?.gallery?._id })
       }
-      debugger
     }
     if(updatedGallery) {
-      debugger
       eventDto.gallery = updatedGallery;
     }
-    debugger
     let updatedEvent = await this.eventModel.updateOne({ _id: eventID }, eventDto);
     if(updatedEvent) {
       return await this.eventModel.findOne({ _id: eventID });
@@ -424,7 +419,7 @@ export class EventsService {
     if(!event) {
       throw new NotFoundException('Event not found');
     }
-    return await this.eventModel.updateOne({_id: eventID, deletedCheck: true})
+    return await this.eventModel.updateOne({ _id: eventID}, {deletedCheck: true})
   }
 
   async getEventStats(): Promise<any> {
