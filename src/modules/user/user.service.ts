@@ -151,7 +151,7 @@ export class UserService {
     if(!event) {
       throw new NotFoundException('User not found');
     }
-    return await this._userModel.updateOne({_id: userID, deletedCheck: true})
+    return await this._userModel.updateOne({_id: userID}, {deletedCheck: true})
   }
 
   setStatus(value: string) {
