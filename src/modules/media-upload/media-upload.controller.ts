@@ -95,7 +95,7 @@ export class MediaUploadController {
       type = nameSplit[1];
     }
 
-    const allowTypes = ['.jpg', '.jpeg', '.png'];
+    const allowTypes = ['.jpg', '.jpeg', '.png', '.pdf'];
 
     if (type && allowTypes.includes(`.${type}`)) {
       const img = await jimp.read(file['path']);

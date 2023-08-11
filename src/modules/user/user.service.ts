@@ -2,8 +2,8 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { InjectModel } from '@nestjs/mongoose';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Model, Types } from 'mongoose';
-import { QueryParams, UserDto } from 'src/dto/user.dto';
-import { Status, User } from 'src/schemas/user.schema';
+import { QueryParams } from 'src/dto/user.dto';
+import { Status, User, UserRole } from 'src/schemas/user.schema';
 
 export enum SORT {
   ASC = 'Ascending',
@@ -37,6 +37,7 @@ export class UserService {
       {
         $match: {
           deletedCheck: false,
+          role: UserRole.MEMBER,
           ...filters
         }
       },
@@ -88,7 +89,7 @@ export class UserService {
     }
     newUser._id = new Types.ObjectId().toString();
     newUser.role = 'member';
-    newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+    newUser.fullName = newUser?.firstName + ' ' + newUser?.lastName;
     newUser.status = this.setStatus(newUser.status)
     return await new this._userModel(newUser).save();
   }
@@ -139,7 +140,7 @@ export class UserService {
     if(typeof userDto.status == 'string') {
       userDto.status = this.setStatus(userDto.status)
     }
-    userDto.fullName = userDto?.prefix + ' ' + userDto?.firstName + ' ' + userDto?.lastName;
+    userDto.fullName = userDto?.firstName + ' ' + userDto?.lastName;
     let updatedUser = await this._userModel.updateOne({ _id: userId }, userDto);
     if(updatedUser) {
       return await this._userModel.findOne({ _id: userId });
