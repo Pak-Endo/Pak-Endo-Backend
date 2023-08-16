@@ -162,7 +162,6 @@ export class AuthService {
         )
       }
     }
-    debugger
     return await this._userModel.updateOne(
       {_id: id, deletedCheck: false},
       { ...userData, status: Status.APPROVED }

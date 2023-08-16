@@ -22,6 +22,9 @@ export class Event extends Document {
   endDate: number;
 
   @Prop({default: '', required: true})
+  location: string;
+
+  @Prop({default: '', required: true})
   featuredImage: string;
 
   @Prop({ default: {}, required: false })
@@ -33,8 +36,8 @@ export class Event extends Document {
   @Prop({default: 'upcoming', required: false})
   eventStatus: EventStatus
 
-  @Prop({default: '', required: false})
-  streamUrl: string;
+  @Prop({default: [], required: true})
+  agenda: Agenda[];
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
@@ -52,4 +55,19 @@ export enum EventStatus {
   ONGOING = 'ongoing',
   UPCOMING = 'upcoming',
   FINSIHED = 'finished'
+}
+
+export class Agenda {
+  _id: string;
+  from: string;
+  to: string;
+  venue: string;
+  streamUrl: string;
+  speakers: Speaker[]
+}
+
+export class Speaker {
+  _id: string;
+  name: string;
+  imageUrl: string
 }

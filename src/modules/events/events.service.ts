@@ -44,7 +44,7 @@ export class EventsService {
           gallery: 1,
           endDate: 1,
           startDate: 1,
-          streamUrl: 1,
+          agenda: 1,
           featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
         }
       },
@@ -130,7 +130,7 @@ export class EventsService {
           gallery: 1,
           endDate: 1,
           startDate: 1,
-          streamUrl: 1,
+          agenda: 1,
           featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
         }
       },
@@ -215,7 +215,7 @@ export class EventsService {
           gallery: 1,
           endDate: 1,
           startDate: 1,
-          streamUrl: 1,
+          agenda: 1,
           featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
         }
       },
@@ -300,7 +300,7 @@ export class EventsService {
           gallery: 1,
           endDate: 1,
           startDate: 1,
-          streamUrl: 1,
+          agenda: 1,
           featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
         }
       },
