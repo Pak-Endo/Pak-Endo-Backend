@@ -59,11 +59,13 @@ export enum EventStatus {
 
 export class Agenda {
   _id: string;
+  day: number;
+  title: string;
   from: string;
   to: string;
   venue: string;
   streamUrl: string;
-  speakers: Speaker[]
+  speaker?: Speaker
 }
 
 export class Speaker {
