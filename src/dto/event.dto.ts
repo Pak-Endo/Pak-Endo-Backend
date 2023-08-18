@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Agenda, EventStatus } from "src/schemas/events.schema";
+import { AgendaInterface, EventStatus } from "src/schemas/events.schema";
 import { Gallery } from "src/schemas/gallery.schema";
 
 export class EventDto {
@@ -40,24 +40,23 @@ export class EventDto {
   @ApiProperty()
   location: string;
 
+  @ApiProperty()
+  type: string;
+
   @ApiProperty({
     example: [
       {
         _id: '',
         from: '',
+        day: 0,
+        agendaTitle: '',
         to: '',
         venue: '',
         streamUrl: '',
-        speakers: [
-          {
-            _id: '',
-            name: '',
-            imageUrl: ''
-          }
-        ]
+        speaker: '' 
       }
     ]
   })
-  agenda: Agenda[];
+  agenda: AgendaInterface[];
 
 }

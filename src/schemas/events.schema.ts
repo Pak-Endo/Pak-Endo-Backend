@@ -37,7 +37,10 @@ export class Event extends Document {
   eventStatus: EventStatus
 
   @Prop({default: [], required: true})
-  agenda: Agenda[];
+  agenda: AgendaInterface[];
+
+  @Prop({default: '', required: true})
+  type: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
@@ -57,19 +60,13 @@ export enum EventStatus {
   FINSIHED = 'finished'
 }
 
-export class Agenda {
+export interface AgendaInterface {
   _id: string;
   day: number;
-  title: string;
+  agendaTitle: string;
   from: string;
   to: string;
   venue: string;
-  streamUrl: string;
-  speaker?: Speaker
-}
-
-export class Speaker {
-  _id: string;
-  name: string;
-  imageUrl: string
+  streamUrl?: string;
+  speaker?: string
 }
