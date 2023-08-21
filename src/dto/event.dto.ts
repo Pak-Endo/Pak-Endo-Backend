@@ -43,6 +43,12 @@ export class EventDto {
   @ApiProperty()
   type: string;
 
+  @ApiProperty()
+  organizer: string;
+
+  @ApiProperty()
+  organizerContact: string;
+
   @ApiProperty({
     example: [
       {
