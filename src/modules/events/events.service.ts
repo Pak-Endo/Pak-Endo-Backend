@@ -392,16 +392,13 @@ export class EventsService {
       throw new NotFoundException('Event not found');
     }
     if(eventDto.agenda) {
-      debugger
       for await (const agenda of eventDto.agenda) {
         if(!agenda._id) {
-          debugger
           agenda._id = new Types.ObjectId().toString();
           agenda.streamUrl = '';
           await new this.agendaModel(agenda).save();
         }
         else {
-          debugger
           await this.agendaModel.updateOne({ _id: agenda?._id }, agenda);
         }
       }
@@ -428,7 +425,6 @@ export class EventsService {
       eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
     }
     let updatedEvent = await this.eventModel.updateOne({ _id: eventID }, eventDto);
-    debugger
     if(updatedEvent) {
       return await this.eventModel.findOne({ _id: eventID });
     }
