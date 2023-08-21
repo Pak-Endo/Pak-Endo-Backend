@@ -135,6 +135,8 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           agenda: 1,
+          location: 1,
+          type: 1,
           featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
         }
       },
@@ -220,6 +222,8 @@ export class EventsService {
           endDate: 1,
           startDate: 1,
           agenda: 1,
+          location: 1,
+          type: 1,
           featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
         }
       },
@@ -304,6 +308,8 @@ export class EventsService {
           gallery: 1,
           endDate: 1,
           startDate: 1,
+          location: 1,
+          type: 1,
           agenda: 1,
           featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
         }
