@@ -418,7 +418,9 @@ export class EventsService {
       }
     }
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
+
       if(event?.gallery?._id) {
+  
         eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
           value = value?.split(process.env.URL)[1];
           return value
@@ -426,6 +428,7 @@ export class EventsService {
         await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
       }
       else {
+  
         eventDto.gallery._id = new Types.ObjectId().toString();
         eventDto.gallery.eventID = eventDto._id || event?._id;
         eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
@@ -434,6 +437,7 @@ export class EventsService {
         })
         await new this.galleryModel(eventDto?.gallery).save();
       }
+
     }
     if(eventDto.featuredImage) {
       eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
@@ -442,6 +446,75 @@ export class EventsService {
     if(updatedEvent) {
       return await this.eventModel.findOne({ _id: eventID });
     }
+  }
+
+  async getEventByID(eventID: string): Promise<any> {
+    const event = await this.eventModel.findOne({_id: eventID, deletedCheck: false});
+    if(!event) {
+      throw new NotFoundException('Event Does not exist')
+    }
+    const finalEvent = await this.eventModel.aggregate([
+      {
+        $match: {
+          deletedCheck: false,
+          _id: eventID
+        }
+      },
+      {
+        $project: {
+          description: 1,
+          title: 1,
+          eventStatus: 1,
+          deletedCheck: 1,
+          gallery: 1,
+          endDate: 1,
+          startDate: 1,
+          agenda: 1,
+          type: 1,
+          location: 1,
+          organizer: 1,
+          organizerContact: 1,
+          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+        }
+      },
+      {
+        $addFields: {
+          gallery: {
+            $ifNull: [ "$gallery", [null] ]
+          }
+        }
+      },
+      {
+        $unwind: "$gallery"
+      },
+      {
+        $addFields: {
+          "gallery.mediaUrl": {
+            $map: {
+              input: "$gallery.mediaUrl",
+              as: "url",
+              in: { $concat: [process.env.URL, "$$url"] }
+            }
+          }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          event: { $first: "$$ROOT" },
+          gallery: { $addToSet: "$gallery" }
+        }
+      },
+      {
+        $addFields: {
+          "event.gallery": "$gallery"
+        }
+      },
+      {
+        $replaceRoot: { newRoot: "$event" }
+      }
+    ]);
+    return finalEvent[0]
   }
 
   async deleteEvent(eventID: string): Promise<any> {

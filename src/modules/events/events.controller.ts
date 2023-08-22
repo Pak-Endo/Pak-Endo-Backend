@@ -89,4 +89,12 @@ export class EventsController {
   ) {
     return await this.eventService.getUpcomingEventsForCalendar(limit, offset);
   }
+
+  @Get('getEventByID/:eventID')
+  @UseGuards(JwtAuthGuard)
+  async fetchEventByID(
+    @Param('eventID') eventID: string
+  ) {
+    return await this.eventService.getEventByID(eventID)
+  }
 }

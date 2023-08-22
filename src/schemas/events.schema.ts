@@ -74,5 +74,7 @@ export interface AgendaInterface {
   to: string;
   venue: string;
   streamUrl?: string;
-  speaker?: string
+  speaker?: string,
+  speakerImg?: string;
+  attachments?: any[];
 }

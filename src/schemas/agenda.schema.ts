@@ -31,6 +31,12 @@ export class Agenda extends Document {
 
   @Prop({default: false, required: false})
   deletedCheck: boolean;
+
+  @Prop({default: '', required: false})
+  speakerImg: string;
+
+  @Prop({default: [], required: false})
+  attachments: any[];
 }
 
 export const AgendaSchema = SchemaFactory.createForClass(Agenda);
