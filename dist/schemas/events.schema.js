@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Speaker = exports.Agenda = exports.EventStatus = exports.EventSchema = exports.Event = void 0;
+exports.EventStatus = exports.EventSchema = exports.Event = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const gallery_schema_1 = require("./gallery.schema");
@@ -59,6 +59,18 @@ __decorate([
     (0, mongoose_1.Prop)({ default: [], required: true }),
     __metadata("design:type", Array)
 ], Event.prototype, "agenda", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: true }),
+    __metadata("design:type", String)
+], Event.prototype, "type", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: true }),
+    __metadata("design:type", String)
+], Event.prototype, "organizer", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: true }),
+    __metadata("design:type", String)
+], Event.prototype, "organizerContact", void 0);
 exports.Event = Event = __decorate([
     (0, mongoose_1.Schema)()
 ], Event);
@@ -77,10 +89,4 @@ var EventStatus;
     EventStatus["UPCOMING"] = "upcoming";
     EventStatus["FINSIHED"] = "finished";
 })(EventStatus || (exports.EventStatus = EventStatus = {}));
-class Agenda {
-}
-exports.Agenda = Agenda;
-class Speaker {
-}
-exports.Speaker = Speaker;
 //# sourceMappingURL=events.schema.js.map

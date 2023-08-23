@@ -65,21 +65,29 @@ __decorate([
     __metadata("design:type", String)
 ], EventDto.prototype, "location", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], EventDto.prototype, "type", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], EventDto.prototype, "organizer", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], EventDto.prototype, "organizerContact", void 0);
+__decorate([
     (0, swagger_1.ApiProperty)({
         example: [
             {
                 _id: '',
                 from: '',
+                day: 0,
+                agendaTitle: '',
                 to: '',
                 venue: '',
                 streamUrl: '',
-                speakers: [
-                    {
-                        _id: '',
-                        name: '',
-                        imageUrl: ''
-                    }
-                ]
+                speaker: ''
             }
         ]
     }),

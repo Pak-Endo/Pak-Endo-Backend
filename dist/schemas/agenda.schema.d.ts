@@ -22,22 +22,23 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { HydratedDocument } from "mongoose";
-import { Speaker } from "./events.schema";
+import { Document, HydratedDocument } from "mongoose";
 export type AgendaSchema = HydratedDocument<Event>;
 export declare class Agenda extends Document {
     _id: string;
-    title: string;
-    day: string;
-    from: number;
-    to: number;
+    agendaTitle: string;
+    day: number;
+    from: string;
+    to: string;
     venue: string;
-    speaker: Speaker;
+    speaker: string;
     streamUrl: string;
     deletedCheck: boolean;
+    speakerImg: string;
+    attachments: any[];
 }
-export declare const AgendaSchema: import("mongoose").Schema<Agenda, import("mongoose").Model<Agenda, any, any, any, import("mongoose").Document<unknown, any, Agenda> & Agenda & Required<{
+export declare const AgendaSchema: import("mongoose").Schema<Agenda, import("mongoose").Model<Agenda, any, any, any, Document<unknown, any, Agenda> & Agenda & Required<{
     _id: string;
-}>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Agenda, import("mongoose").Document<unknown, {}, Agenda> & Agenda & Required<{
+}>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Agenda, Document<unknown, {}, Agenda> & Agenda & Required<{
     _id: string;
 }>>;

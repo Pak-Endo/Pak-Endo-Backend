@@ -1,4 +1,4 @@
-import { Agenda, EventStatus } from "src/schemas/events.schema";
+import { AgendaInterface, EventStatus } from "src/schemas/events.schema";
 import { Gallery } from "src/schemas/gallery.schema";
 export declare class EventDto {
     _id: string;
@@ -12,5 +12,8 @@ export declare class EventDto {
     deletedCheck: boolean;
     streamUrl: string;
     location: string;
-    agenda: Agenda[];
+    type: string;
+    organizer: string;
+    organizerContact: string;
+    agenda: AgendaInterface[];
 }

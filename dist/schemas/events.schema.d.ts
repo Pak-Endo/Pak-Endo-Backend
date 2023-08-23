@@ -36,7 +36,10 @@ export declare class Event extends Document {
     gallery: Gallery;
     deletedCheck: boolean;
     eventStatus: EventStatus;
-    agenda: Agenda[];
+    agenda: AgendaInterface[];
+    type: string;
+    organizer: string;
+    organizerContact: string;
 }
 export declare const EventSchema: import("mongoose").Schema<Event, import("mongoose").Model<Event, any, any, any, Document<unknown, any, Event> & Event & Required<{
     _id: string;
@@ -48,18 +51,15 @@ export declare enum EventStatus {
     UPCOMING = "upcoming",
     FINSIHED = "finished"
 }
-export declare class Agenda {
+export interface AgendaInterface {
     _id: string;
     day: number;
-    title: string;
+    agendaTitle: string;
     from: string;
     to: string;
     venue: string;
-    streamUrl: string;
-    speaker?: Speaker;
-}
-export declare class Speaker {
-    _id: string;
-    name: string;
-    imageUrl: string;
+    streamUrl?: string;
+    speaker?: string;
+    speakerImg?: string;
+    attachments?: any[];
 }

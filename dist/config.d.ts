@@ -6,6 +6,7 @@ declare const _default: {
     MAIL_FROM: string;
     mongoURI: string;
     SECRET_KEY: string;
+    PORT: number;
     URL: string;
     whiteListedExtensions: string[];
 };

@@ -65,7 +65,13 @@ let AuthService = exports.AuthService = class AuthService {
     }
     async loginUser(loginDto) {
         if (loginDto?.memberID) {
-            let user = await this._userModel.findOne({ memberID: loginDto.memberID, deletedCheck: false, status: user_schema_1.Status.APPROVED });
+            let user = await this._userModel.findOne({ $or: [
+                    { memberID: loginDto.memberID },
+                    { email: loginDto.memberID }
+                ],
+                deletedCheck: false,
+                status: user_schema_1.Status.APPROVED
+            });
             return this.commonLoginMethod(user, loginDto?.password);
         }
         let user = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false, status: user_schema_1.Status.APPROVED });

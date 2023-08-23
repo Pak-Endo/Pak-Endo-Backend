@@ -19,9 +19,10 @@ const mongoose_2 = require("mongoose");
 const events_schema_1 = require("../../schemas/events.schema");
 const user_service_1 = require("../user/user.service");
 let EventsService = exports.EventsService = class EventsService {
-    constructor(eventModel, galleryModel) {
+    constructor(eventModel, galleryModel, agendaModel) {
         this.eventModel = eventModel;
         this.galleryModel = galleryModel;
+        this.agendaModel = agendaModel;
     }
     async getAllEvents(limit, offset, title) {
         limit = Number(limit) < 1 ? 10 : Number(limit);
@@ -54,6 +55,10 @@ let EventsService = exports.EventsService = class EventsService {
                     endDate: 1,
                     startDate: 1,
                     agenda: 1,
+                    type: 1,
+                    location: 1,
+                    organizer: 1,
+                    organizerContact: 1,
                     featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
                 }
             },
@@ -136,6 +141,10 @@ let EventsService = exports.EventsService = class EventsService {
                     endDate: 1,
                     startDate: 1,
                     agenda: 1,
+                    location: 1,
+                    type: 1,
+                    organizer: 1,
+                    organizerContact: 1,
                     featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
                 }
             },
@@ -218,6 +227,10 @@ let EventsService = exports.EventsService = class EventsService {
                     endDate: 1,
                     startDate: 1,
                     agenda: 1,
+                    location: 1,
+                    organizer: 1,
+                    organizerContact: 1,
+                    type: 1,
                     featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
                 }
             },
@@ -299,7 +312,11 @@ let EventsService = exports.EventsService = class EventsService {
                     gallery: 1,
                     endDate: 1,
                     startDate: 1,
+                    location: 1,
+                    type: 1,
                     agenda: 1,
+                    organizer: 1,
+                    organizerContact: 1,
                     featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
                 }
             },
@@ -368,17 +385,32 @@ let EventsService = exports.EventsService = class EventsService {
             });
             await new this.galleryModel(eventDto?.gallery).save();
         }
+        if (eventDto?.agenda && eventDto?.agenda?.length > 0) {
+            for await (const agenda of eventDto.agenda) {
+                agenda._id = new mongoose_2.Types.ObjectId().toString();
+                agenda.streamUrl = '';
+                await new this.agendaModel(agenda).save();
+            }
+        }
         return await new this.eventModel(eventDto).save();
     }
     async updateEvent(eventDto, eventID) {
-        let updatedGallery = {};
         let updatedGal;
         const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
         if (!event) {
             throw new common_1.NotFoundException('Event not found');
         }
-        if (eventDto.featuredImage) {
-            eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
+        if (eventDto.agenda) {
+            for await (const agenda of eventDto.agenda) {
+                if (!agenda._id) {
+                    agenda._id = new mongoose_2.Types.ObjectId().toString();
+                    agenda.streamUrl = '';
+                    await new this.agendaModel(agenda).save();
+                }
+                else {
+                    await this.agendaModel.updateOne({ _id: agenda?._id }, agenda);
+                }
+            }
         }
         if (eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
             if (event?.gallery?._id) {
@@ -386,8 +418,7 @@ let EventsService = exports.EventsService = class EventsService {
                     value = value?.split(process.env.URL)[1];
                     return value;
                 });
-                updatedGal = await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
-                updatedGallery = await this.galleryModel.findOne({ _id: event?.gallery?._id });
+                await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
             }
             else {
                 eventDto.gallery._id = new mongoose_2.Types.ObjectId().toString();
@@ -396,17 +427,84 @@ let EventsService = exports.EventsService = class EventsService {
                     value = value?.split(process.env.URL)[1];
                     return value;
                 });
-                updatedGal = await new this.galleryModel(eventDto?.gallery).save();
-                updatedGallery = await this.galleryModel.findOne({ _id: eventDto?.gallery?._id });
+                await new this.galleryModel(eventDto?.gallery).save();
             }
         }
-        if (updatedGallery) {
-            eventDto.gallery = updatedGallery;
+        if (eventDto.featuredImage) {
+            eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
         }
         let updatedEvent = await this.eventModel.updateOne({ _id: eventID }, eventDto);
         if (updatedEvent) {
             return await this.eventModel.findOne({ _id: eventID });
         }
+    }
+    async getEventByID(eventID) {
+        const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
+        if (!event) {
+            throw new common_1.NotFoundException('Event Does not exist');
+        }
+        const finalEvent = await this.eventModel.aggregate([
+            {
+                $match: {
+                    deletedCheck: false,
+                    _id: eventID
+                }
+            },
+            {
+                $project: {
+                    description: 1,
+                    title: 1,
+                    eventStatus: 1,
+                    deletedCheck: 1,
+                    gallery: 1,
+                    endDate: 1,
+                    startDate: 1,
+                    agenda: 1,
+                    type: 1,
+                    location: 1,
+                    organizer: 1,
+                    organizerContact: 1,
+                    featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+                }
+            },
+            {
+                $addFields: {
+                    gallery: {
+                        $ifNull: ["$gallery", [null]]
+                    }
+                }
+            },
+            {
+                $unwind: "$gallery"
+            },
+            {
+                $addFields: {
+                    "gallery.mediaUrl": {
+                        $map: {
+                            input: "$gallery.mediaUrl",
+                            as: "url",
+                            in: { $concat: [process.env.URL, "$$url"] }
+                        }
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    event: { $first: "$$ROOT" },
+                    gallery: { $addToSet: "$gallery" }
+                }
+            },
+            {
+                $addFields: {
+                    "event.gallery": "$gallery"
+                }
+            },
+            {
+                $replaceRoot: { newRoot: "$event" }
+            }
+        ]);
+        return finalEvent[0];
     }
     async deleteEvent(eventID) {
         const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
@@ -458,7 +556,9 @@ exports.EventsService = EventsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)('Events')),
     __param(1, (0, mongoose_1.InjectModel)('Gallery')),
+    __param(2, (0, mongoose_1.InjectModel)('Agenda')),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model])
 ], EventsService);
 //# sourceMappingURL=events.service.js.map

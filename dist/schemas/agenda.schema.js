@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AgendaSchema = exports.Agenda = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const events_schema_1 = require("./events.schema");
-let Agenda = exports.Agenda = class Agenda extends Document {
+const mongoose_2 = require("mongoose");
+let Agenda = exports.Agenda = class Agenda extends mongoose_2.Document {
 };
 __decorate([
     (0, mongoose_1.Prop)({ default: '' }),
@@ -21,35 +21,43 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: true }),
     __metadata("design:type", String)
-], Agenda.prototype, "title", void 0);
+], Agenda.prototype, "agendaTitle", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
-    __metadata("design:type", String)
+    (0, mongoose_1.Prop)({ default: 0, required: true }),
+    __metadata("design:type", Number)
 ], Agenda.prototype, "day", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: true }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Agenda.prototype, "from", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: true }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Agenda.prototype, "to", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: true }),
     __metadata("design:type", String)
 ], Agenda.prototype, "venue", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
-    __metadata("design:type", events_schema_1.Speaker)
+    (0, mongoose_1.Prop)({ default: '', required: false }),
+    __metadata("design:type", String)
 ], Agenda.prototype, "speaker", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
+    (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", String)
 ], Agenda.prototype, "streamUrl", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: false, required: false }),
     __metadata("design:type", Boolean)
 ], Agenda.prototype, "deletedCheck", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: false }),
+    __metadata("design:type", String)
+], Agenda.prototype, "speakerImg", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: [], required: false }),
+    __metadata("design:type", Array)
+], Agenda.prototype, "attachments", void 0);
 exports.Agenda = Agenda = __decorate([
     (0, mongoose_1.Schema)()
 ], Agenda);

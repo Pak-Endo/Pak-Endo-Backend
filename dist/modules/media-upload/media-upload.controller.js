@@ -39,7 +39,7 @@ let MediaUploadController = exports.MediaUploadController = class MediaUploadCon
         if (nameSplit.length > 1) {
             type = nameSplit[1];
         }
-        const allowTypes = ['.jpg', '.jpeg', '.png', '.pdf'];
+        const allowTypes = ['.jpg', '.jpeg', '.png'];
         if (type && allowTypes.includes(`.${type}`)) {
             const img = await jimp.read(file['path']);
             const height = img.bitmap.height;

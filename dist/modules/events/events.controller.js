@@ -49,6 +49,9 @@ let EventsController = exports.EventsController = class EventsController {
     async fetchEventsForCalendar(limit, offset) {
         return await this.eventService.getUpcomingEventsForCalendar(limit, offset);
     }
+    async fetchEventByID(eventID) {
+        return await this.eventService.getEventByID(eventID);
+    }
 };
 __decorate([
     (0, common_1.Post)('createNewEvent'),
@@ -77,7 +80,6 @@ __decorate([
 ], EventsController.prototype, "deleteEventByID", null);
 __decorate([
     (0, common_1.Get)('getllEvents'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
@@ -87,7 +89,6 @@ __decorate([
 ], EventsController.prototype, "fetchAllEvents", null);
 __decorate([
     (0, common_1.Get)('getUpcomingEvents'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
@@ -97,7 +98,6 @@ __decorate([
 ], EventsController.prototype, "fetchUpcomingEvents", null);
 __decorate([
     (0, common_1.Get)('getOnGoingEvents'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
@@ -107,7 +107,6 @@ __decorate([
 ], EventsController.prototype, "fetchOnGoingEvents", null);
 __decorate([
     (0, common_1.Get)('getFinishedEvents'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
@@ -131,6 +130,14 @@ __decorate([
     __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchEventsForCalendar", null);
+__decorate([
+    (0, common_1.Get)('getEventByID/:eventID'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Param)('eventID')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], EventsController.prototype, "fetchEventByID", null);
 exports.EventsController = EventsController = __decorate([
     (0, swagger_1.ApiTags)('Events'),
     (0, swagger_1.ApiBearerAuth)(),
