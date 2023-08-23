@@ -36,7 +36,6 @@ export class EventsController {
   }
 
   @Get('getllEvents')
-  @UseGuards(JwtAuthGuard)
   async fetchAllEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
@@ -46,7 +45,6 @@ export class EventsController {
   }
 
   @Get('getUpcomingEvents')
-  @UseGuards(JwtAuthGuard)
   async fetchUpcomingEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
@@ -56,7 +54,6 @@ export class EventsController {
   }
 
   @Get('getOnGoingEvents')
-  @UseGuards(JwtAuthGuard)
   async fetchOnGoingEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
@@ -66,7 +63,6 @@ export class EventsController {
   }
 
   @Get('getFinishedEvents')
-  @UseGuards(JwtAuthGuard)
   async fetchFinishedEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
