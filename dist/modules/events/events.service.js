@@ -48,10 +48,10 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, type: query };
         }
         if (startDate) {
-            filters = { ...filters, startDate: { $gte: startDate } };
+            filters = { ...filters, startDate: { $gte: Number(startDate) } };
         }
         if (endDate) {
-            filters = { ...filters, endDate: { $lte: endDate } };
+            filters = { ...filters, endDate: { $lte: Number(endDate) } };
         }
         if (speaker) {
             const query = new RegExp(`${speaker}`, 'i');
