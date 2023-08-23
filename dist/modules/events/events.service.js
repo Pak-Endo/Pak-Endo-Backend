@@ -24,12 +24,12 @@ let EventsService = exports.EventsService = class EventsService {
         this.galleryModel = galleryModel;
         this.agendaModel = agendaModel;
     }
-    async getAllEvents(limit, offset, title) {
+    async getAllEvents(limit, offset, title, location, type, startDate, endDate, speaker) {
         limit = Number(limit) < 1 ? 10 : Number(limit);
         offset = Number(offset) < 0 ? 0 : Number(offset);
         const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
         let filters = {}, sort = {};
-        if (title.trim().length) {
+        if (title && title.trim().length) {
             let nameSort = user_service_1.SORT.ASC ? 1 : -1;
             sort = { ...sort, title: nameSort };
             const query = new RegExp(`${title}`, 'i');
@@ -37,6 +37,27 @@ let EventsService = exports.EventsService = class EventsService {
         }
         else {
             sort = { ...sort, _id: -1 };
+        }
+        if (location) {
+            const query = new RegExp(`${location}`, 'i');
+            filters = { ...filters, location: query };
+        }
+        if (type) {
+            const query = new RegExp(`${type}`, 'i');
+            filters = { ...filters, type: query };
+        }
+        if (startDate) {
+            filters = { ...filters, startDate: { $gte: startDate } };
+        }
+        if (endDate) {
+            filters = { ...filters, endDate: { $lte: endDate } };
+        }
+        if (speaker) {
+            const query = new RegExp(`${speaker}`, 'i');
+            filters = {
+                ...filters,
+                "agenda.speaker": query
+            };
         }
         const eventList = await this.eventModel.aggregate([
             {

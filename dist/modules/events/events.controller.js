@@ -31,8 +31,8 @@ let EventsController = exports.EventsController = class EventsController {
     async deleteEventByID(eventID) {
         return await this.eventService.deleteEvent(eventID);
     }
-    async fetchAllEvents(limit, offset, title) {
-        return await this.eventService.getAllEvents(limit, offset, title);
+    async fetchAllEvents(limit, offset, title, location, type, startDate, endDate, speaker) {
+        return await this.eventService.getAllEvents(limit, offset, title, location, type, startDate, endDate, speaker);
     }
     async fetchUpcomingEvents(limit, offset, title) {
         return await this.eventService.getUpcomingEvents(limit, offset, title);
@@ -79,12 +79,25 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "deleteEventByID", null);
 __decorate([
-    (0, common_1.Get)('getllEvents'),
+    (0, common_1.Get)('getAllEvents'),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'offset', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'title', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'location', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'type', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'startDate', type: Number, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'endDate', type: Number, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'speaker', type: String, required: false }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
+    __param(3, (0, common_1.Query)('location')),
+    __param(4, (0, common_1.Query)('type')),
+    __param(5, (0, common_1.Query)('startDate')),
+    __param(6, (0, common_1.Query)('endDate')),
+    __param(7, (0, common_1.Query)('speaker')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, String]),
+    __metadata("design:paramtypes", [Number, Number, String, String, String, Number, Number, String]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchAllEvents", null);
 __decorate([
