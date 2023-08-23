@@ -5,7 +5,7 @@ export default {
   MAIL_USER:"a0107a64f648db",
   MAIL_PASSWORD:"4f7b8588c4f5ea",
   MAIL_FROM:"noreply",
-  mongoURI: "mongodb+srv://fahadulabideenqt:gdomrpovujxxbdul@pakendodb.4tan5v5.mongodb.net/?retryWrites=true&w=majority",
+  mongoURI: "mongodb+srv://fahadulabideenqt:mTYNh1VJ3N89EIml@pakendo.qzszvwe.mongodb.net/?retryWrites=true&w=majority",
   SECRET_KEY: "MySuperSecretKeyIsSuperSecret",
   PORT:8200,
   URL:"http://quaidtech.ddns.net:8200/api",
