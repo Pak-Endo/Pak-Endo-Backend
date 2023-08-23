@@ -6,6 +6,7 @@ import { SORT } from '../user/user.service';
 import { EventDto } from 'src/dto/event.dto';
 import { Gallery } from 'src/schemas/gallery.schema';
 import { Agenda } from 'src/schemas/agenda.schema';
+import config from 'src/config';
 
 @Injectable()
 export class EventsService {
@@ -39,10 +40,10 @@ export class EventsService {
       filters = {...filters, type: query}
     }
     if(startDate) {
-      filters = {...filters, startDate: { $gte: startDate }}
+      filters = {...filters, startDate: { $gte: Number(startDate) }}
     }
     if(endDate) {
-      filters = {...filters, endDate: { $lte: endDate }}
+      filters = {...filters, endDate: { $lte: Number(endDate) }}
     }
     if (speaker) {
       const query = new RegExp(`${speaker}`, 'i');
@@ -72,7 +73,7 @@ export class EventsService {
           location: 1,
           organizer: 1,
           organizerContact: 1,
-          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+          featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
       {
@@ -91,7 +92,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [process.env.URL, "$$url"] }
+              in: { $concat: [config.URL, "$$url"] }
             }
           }
         }
@@ -162,7 +163,7 @@ export class EventsService {
           type: 1,
           organizer: 1,
           organizerContact: 1,
-          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+          featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
       {
@@ -181,7 +182,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [process.env.URL, "$$url"] }
+              in: { $concat: [config.URL, "$$url"] }
             }
           }
         }
@@ -251,7 +252,7 @@ export class EventsService {
           organizer: 1,
           organizerContact: 1,
           type: 1,
-          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+          featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
       {
@@ -270,7 +271,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [process.env.URL, "$$url"] }
+              in: { $concat: [config.URL, "$$url"] }
             }
           }
         }
@@ -340,7 +341,7 @@ export class EventsService {
           agenda: 1,
           organizer: 1,
           organizerContact: 1,
-          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+          featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
       {
@@ -359,7 +360,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [process.env.URL, "$$url"] }
+              in: { $concat: [config.URL, "$$url"] }
             }
           }
         }
@@ -398,14 +399,14 @@ export class EventsService {
       throw new ForbiddenException('An event by this title already exists');
     }
     eventDto._id = new Types.ObjectId().toString();
-    eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
+    eventDto.featuredImage = eventDto.featuredImage?.split(config.URL)[1];
     eventDto.eventStatus = EventStatus.UPCOMING;
     eventDto.deletedCheck = false;
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
       eventDto.gallery._id = new Types.ObjectId().toString();
       eventDto.gallery.eventID = eventDto._id;
       eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
-        value = value?.split(process.env.URL)[1];
+        value = value?.split(config.URL)[1];
         return value
       })
       await new this.galleryModel(eventDto?.gallery).save();
@@ -443,7 +444,7 @@ export class EventsService {
       if(event?.gallery?._id) {
   
         eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
-          value = value?.split(process.env.URL)[1];
+          value = value?.split(config.URL)[1];
           return value
         })
         await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
@@ -453,7 +454,7 @@ export class EventsService {
         eventDto.gallery._id = new Types.ObjectId().toString();
         eventDto.gallery.eventID = eventDto._id || event?._id;
         eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
-          value = value?.split(process.env.URL)[1];
+          value = value?.split(config.URL)[1];
           return value
         })
         await new this.galleryModel(eventDto?.gallery).save();
@@ -461,7 +462,7 @@ export class EventsService {
 
     }
     if(eventDto.featuredImage) {
-      eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
+      eventDto.featuredImage = eventDto.featuredImage?.split(config.URL)[1];
     }
     let updatedEvent = await this.eventModel.updateOne({ _id: eventID }, eventDto);
     if(updatedEvent) {
@@ -495,7 +496,7 @@ export class EventsService {
           location: 1,
           organizer: 1,
           organizerContact: 1,
-          featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+          featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
       {
@@ -514,7 +515,7 @@ export class EventsService {
             $map: {
               input: "$gallery.mediaUrl",
               as: "url",
-              in: { $concat: [process.env.URL, "$$url"] }
+              in: { $concat: [config.URL, "$$url"] }
             }
           }
         }
