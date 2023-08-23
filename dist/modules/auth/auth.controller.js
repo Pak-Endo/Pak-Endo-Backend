@@ -29,6 +29,9 @@ let AuthController = exports.AuthController = class AuthController {
     async signup(signupDto) {
         return await this.authService.registerUser(signupDto);
     }
+    async AddAdminUser(signupDto) {
+        return await this.authService.addAdmin(signupDto);
+    }
     async checkMember(memberDto) {
         return await this.authService.checkIfMemberIDExistsWithPassword(memberDto?.memberID);
     }
@@ -59,6 +62,13 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.UserDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signup", null);
+__decorate([
+    (0, common_1.Post)('addAdmin'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.UserDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "AddAdminUser", null);
 __decorate([
     (0, common_1.Post)('checkIfMemberExistsWithPassword'),
     __param(0, (0, common_1.Body)()),

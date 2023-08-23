@@ -7,6 +7,7 @@ export declare class AuthController {
     constructor(authService: AuthService);
     login(loginDto: LoginDto): Promise<any>;
     signup(signupDto: UserDto): Promise<any>;
+    AddAdminUser(signupDto: UserDto): Promise<any>;
     checkMember(memberDto: MemberCheckDto): Promise<boolean>;
     loginAdmin(loginDto: AdminLoginDto): Promise<any>;
     sendForgotPassEmail(email: string): Promise<any>;

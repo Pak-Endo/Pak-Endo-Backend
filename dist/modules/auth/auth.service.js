@@ -63,6 +63,17 @@ let AuthService = exports.AuthService = class AuthService {
         }
         return await new this._userModel(newUser).save();
     }
+    async addAdmin(newUser) {
+        const user = await this._userModel.findOne({ email: newUser.email });
+        if (user) {
+            throw new common_1.ForbiddenException('Email already exists');
+        }
+        newUser.status = user_schema_1.Status.APPROVED;
+        newUser._id = new mongoose_2.Types.ObjectId().toString();
+        newUser.role = 'admin';
+        newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+        return await new this._userModel(newUser).save();
+    }
     async loginUser(loginDto) {
         if (loginDto?.memberID) {
             let user = await this._userModel.findOne({ $or: [

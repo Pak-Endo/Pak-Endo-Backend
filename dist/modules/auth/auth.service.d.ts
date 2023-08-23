@@ -13,6 +13,7 @@ export declare class AuthService {
     private generateToken;
     private commonLoginMethod;
     registerUser(newUser: User | any): Promise<any>;
+    addAdmin(newUser: User | any): Promise<any>;
     loginUser(loginDto: LoginDto | AdminLoginDto | any): Promise<any>;
     checkIfMemberIDExistsWithPassword(memberID: string): Promise<boolean>;
     checkIfMemberIDExists(memberID: string): Promise<boolean>;
