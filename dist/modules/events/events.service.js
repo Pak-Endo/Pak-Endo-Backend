@@ -18,6 +18,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const events_schema_1 = require("../../schemas/events.schema");
 const user_service_1 = require("../user/user.service");
+const config_1 = require("../../config");
 let EventsService = exports.EventsService = class EventsService {
     constructor(eventModel, galleryModel, agendaModel) {
         this.eventModel = eventModel;
@@ -80,7 +81,7 @@ let EventsService = exports.EventsService = class EventsService {
                     location: 1,
                     organizer: 1,
                     organizerContact: 1,
-                    featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+                    featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
             {
@@ -99,7 +100,7 @@ let EventsService = exports.EventsService = class EventsService {
                         $map: {
                             input: "$gallery.mediaUrl",
                             as: "url",
-                            in: { $concat: [process.env.URL, "$$url"] }
+                            in: { $concat: [config_1.default.URL, "$$url"] }
                         }
                     }
                 }
@@ -166,7 +167,7 @@ let EventsService = exports.EventsService = class EventsService {
                     type: 1,
                     organizer: 1,
                     organizerContact: 1,
-                    featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+                    featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
             {
@@ -185,7 +186,7 @@ let EventsService = exports.EventsService = class EventsService {
                         $map: {
                             input: "$gallery.mediaUrl",
                             as: "url",
-                            in: { $concat: [process.env.URL, "$$url"] }
+                            in: { $concat: [config_1.default.URL, "$$url"] }
                         }
                     }
                 }
@@ -252,7 +253,7 @@ let EventsService = exports.EventsService = class EventsService {
                     organizer: 1,
                     organizerContact: 1,
                     type: 1,
-                    featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+                    featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
             {
@@ -271,7 +272,7 @@ let EventsService = exports.EventsService = class EventsService {
                         $map: {
                             input: "$gallery.mediaUrl",
                             as: "url",
-                            in: { $concat: [process.env.URL, "$$url"] }
+                            in: { $concat: [config_1.default.URL, "$$url"] }
                         }
                     }
                 }
@@ -338,7 +339,7 @@ let EventsService = exports.EventsService = class EventsService {
                     agenda: 1,
                     organizer: 1,
                     organizerContact: 1,
-                    featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+                    featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
             {
@@ -357,7 +358,7 @@ let EventsService = exports.EventsService = class EventsService {
                         $map: {
                             input: "$gallery.mediaUrl",
                             as: "url",
-                            in: { $concat: [process.env.URL, "$$url"] }
+                            in: { $concat: [config_1.default.URL, "$$url"] }
                         }
                     }
                 }
@@ -394,14 +395,14 @@ let EventsService = exports.EventsService = class EventsService {
             throw new common_1.ForbiddenException('An event by this title already exists');
         }
         eventDto._id = new mongoose_2.Types.ObjectId().toString();
-        eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
+        eventDto.featuredImage = eventDto.featuredImage?.split(config_1.default.URL)[1];
         eventDto.eventStatus = events_schema_1.EventStatus.UPCOMING;
         eventDto.deletedCheck = false;
         if (eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
             eventDto.gallery._id = new mongoose_2.Types.ObjectId().toString();
             eventDto.gallery.eventID = eventDto._id;
             eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
-                value = value?.split(process.env.URL)[1];
+                value = value?.split(config_1.default.URL)[1];
                 return value;
             });
             await new this.galleryModel(eventDto?.gallery).save();
@@ -436,7 +437,7 @@ let EventsService = exports.EventsService = class EventsService {
         if (eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
             if (event?.gallery?._id) {
                 eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
-                    value = value?.split(process.env.URL)[1];
+                    value = value?.split(config_1.default.URL)[1];
                     return value;
                 });
                 await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
@@ -445,14 +446,14 @@ let EventsService = exports.EventsService = class EventsService {
                 eventDto.gallery._id = new mongoose_2.Types.ObjectId().toString();
                 eventDto.gallery.eventID = eventDto._id || event?._id;
                 eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
-                    value = value?.split(process.env.URL)[1];
+                    value = value?.split(config_1.default.URL)[1];
                     return value;
                 });
                 await new this.galleryModel(eventDto?.gallery).save();
             }
         }
         if (eventDto.featuredImage) {
-            eventDto.featuredImage = eventDto.featuredImage?.split(process.env.URL)[1];
+            eventDto.featuredImage = eventDto.featuredImage?.split(config_1.default.URL)[1];
         }
         let updatedEvent = await this.eventModel.updateOne({ _id: eventID }, eventDto);
         if (updatedEvent) {
@@ -485,7 +486,7 @@ let EventsService = exports.EventsService = class EventsService {
                     location: 1,
                     organizer: 1,
                     organizerContact: 1,
-                    featuredImage: { $concat: [process.env.URL, '$featuredImage'] }
+                    featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
             {
@@ -504,7 +505,7 @@ let EventsService = exports.EventsService = class EventsService {
                         $map: {
                             input: "$gallery.mediaUrl",
                             as: "url",
-                            in: { $concat: [process.env.URL, "$$url"] }
+                            in: { $concat: [config_1.default.URL, "$$url"] }
                         }
                     }
                 }
