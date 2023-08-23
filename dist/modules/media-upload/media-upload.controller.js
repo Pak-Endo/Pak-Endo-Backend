@@ -33,7 +33,7 @@ const fileFilter = (req, file, callback) => {
 let MediaUploadController = exports.MediaUploadController = class MediaUploadController {
     async uploadMedia(file, folderName, req) {
         req.setTimeout(10 * 60 * 1000);
-        file['url'] = process.env.URL + '/media-upload/mediaFiles/' + folderName.toLowerCase() + '/' + file.filename;
+        file['url'] = config_1.default.URL + '/media-upload/mediaFiles/' + folderName.toLowerCase() + '/' + file.filename;
         let type = '';
         const nameSplit = file['filename'].split('.');
         if (nameSplit.length > 1) {
