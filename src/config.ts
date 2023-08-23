@@ -7,6 +7,7 @@ export default {
   MAIL_FROM:"noreply",
   mongoURI: "mongodb+srv://fahadulabideenqt:gdomrpovujxxbdul@pakendodb.4tan5v5.mongodb.net/?retryWrites=true&w=majority",
   SECRET_KEY: "MySuperSecretKeyIsSuperSecret",
+  PORT:3000,
   URL:"http://quaidtech.ddns.net:8200/api",
   whiteListedExtensions: ['.apng', '.avif', '.gif', '.jpg', '.jpeg', '.jfif', '.pjpeg', '.pjp', '.png', '.svg','.webm', '.mkv', '.flv', '.vob', '.ogg', '.ogv', '.gif', '.mov', '.wmv', '.3gp', '.mp4', '.m4p', '.m4v']
 }

@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
-import { Speaker } from "./events.schema";
+import { Document, HydratedDocument } from "mongoose";
 
 export type AgendaSchema = HydratedDocument<Event>;
 
@@ -10,28 +9,34 @@ export class Agenda extends Document {
   _id: string;
 
   @Prop({default: '', required: true})
-  title: string;
+  agendaTitle: string;
+
+  @Prop({default: 0, required: true})
+  day: number;
 
   @Prop({default: '', required: true})
-  day: string;
+  from: string;
 
   @Prop({default: '', required: true})
-  from: number;
-
-  @Prop({default: '', required: true})
-  to: number;
+  to: string;
 
   @Prop({default: '', required: true})
   venue: string;
 
-  @Prop({default: '', required: true})
-  speaker: Speaker;
+  @Prop({default: '', required: false})
+  speaker: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   streamUrl: string;
 
   @Prop({default: false, required: false})
   deletedCheck: boolean;
+
+  @Prop({default: '', required: false})
+  speakerImg: string;
+
+  @Prop({default: [], required: false})
+  attachments: any[];
 }
 
 export const AgendaSchema = SchemaFactory.createForClass(Agenda);
