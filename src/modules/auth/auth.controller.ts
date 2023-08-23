@@ -20,6 +20,11 @@ export class AuthController {
     return await this.authService.registerUser(signupDto);
   }
 
+  @Post('addAdmin')
+  async AddAdminUser(@Body() signupDto: UserDto) {
+    return await this.authService.addAdmin(signupDto);
+  }
+
   @Post('checkIfMemberExistsWithPassword')
   async checkMember(@Body() memberDto: MemberCheckDto) {
     return await this.authService.checkIfMemberIDExistsWithPassword(memberDto?.memberID);

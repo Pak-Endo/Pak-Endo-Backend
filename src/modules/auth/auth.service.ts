@@ -57,6 +57,18 @@ export class AuthService {
     return await new this._userModel(newUser).save();
   }
 
+  async addAdmin(newUser: User | any): Promise<any> {
+    const user = await this._userModel.findOne({ email: newUser.email });
+    if(user) {
+      throw new ForbiddenException('Email already exists');
+    }
+    newUser.status = Status.APPROVED;
+    newUser._id = new Types.ObjectId().toString();
+    newUser.role = 'admin';
+    newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+    return await new this._userModel(newUser).save();
+  }
+
   async loginUser(loginDto: LoginDto | AdminLoginDto | any): Promise<any> {
     if(loginDto?.memberID) {
       let user = await this._userModel.findOne(
