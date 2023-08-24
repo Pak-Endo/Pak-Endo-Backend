@@ -43,4 +43,23 @@ export class MailService {
         throw new BadRequestException('Something went wrong. Please try again')
       });
     }
+
+    async sendEmailToMember(user: User | any, memberId: string, type: string) {
+      return await this.mailerService.sendMail({
+        to: user?.email,
+        from: 'noreply',
+        subject: 'Member ID assigned',
+        template: './memberID',
+        context: {
+          name: user?.fullName,
+          memberID: memberId,
+          membershipType: type
+        },
+      }).then((response: any) => {
+        return response
+      })
+      .catch((err: any) => {
+        throw new BadRequestException('Something went wrong. Please try again')
+      });
+    }
 }

@@ -47,6 +47,12 @@ export class Event extends Document {
 
   @Prop({default: '', required: true})
   organizerContact: string;
+
+  @Prop({default: false, required: true})
+  openForPublic: boolean;
+
+  @Prop({default: '', required: false})
+  rating: number;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

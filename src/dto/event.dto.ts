@@ -47,6 +47,12 @@ export class EventDto {
   organizer: string;
 
   @ApiProperty()
+  rating: number;
+
+  @ApiProperty()
+  openForPublic: boolean;
+
+  @ApiProperty()
   organizerContact: string;
 
   @ApiProperty({
