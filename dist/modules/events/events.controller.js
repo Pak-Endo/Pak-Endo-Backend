@@ -102,6 +102,9 @@ __decorate([
 ], EventsController.prototype, "fetchAllEvents", null);
 __decorate([
     (0, common_1.Get)('getUpcomingEvents'),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'offset', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'title', type: String, required: false }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
@@ -111,6 +114,9 @@ __decorate([
 ], EventsController.prototype, "fetchUpcomingEvents", null);
 __decorate([
     (0, common_1.Get)('getOnGoingEvents'),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'offset', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'title', type: String, required: false }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
@@ -120,6 +126,9 @@ __decorate([
 ], EventsController.prototype, "fetchOnGoingEvents", null);
 __decorate([
     (0, common_1.Get)('getFinishedEvents'),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'offset', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'title', type: String, required: false }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),

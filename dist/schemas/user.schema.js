@@ -75,6 +75,14 @@ __decorate([
     (0, mongoose_2.Prop)({ default: false, required: false }),
     __metadata("design:type", Boolean)
 ], User.prototype, "deletedCheck", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ default: [], required: false }),
+    __metadata("design:type", Array)
+], User.prototype, "favorites", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ default: [], required: false }),
+    __metadata("design:type", Array)
+], User.prototype, "interested", void 0);
 exports.User = User = __decorate([
     (0, mongoose_2.Schema)()
 ], User);
@@ -100,6 +108,7 @@ var Type;
     Type["I"] = "International Executive Membership";
     Type["S"] = "Scientific Members";
     Type["SE"] = "Scientific Executive Members";
+    Type["N"] = "Non-Member";
 })(Type || (exports.Type = Type = {}));
 var UserRole;
 (function (UserRole) {

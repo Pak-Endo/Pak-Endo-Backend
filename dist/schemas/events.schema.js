@@ -71,6 +71,14 @@ __decorate([
     (0, mongoose_1.Prop)({ default: '', required: true }),
     __metadata("design:type", String)
 ], Event.prototype, "organizerContact", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false, required: true }),
+    __metadata("design:type", Boolean)
+], Event.prototype, "openForPublic", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: false }),
+    __metadata("design:type", Number)
+], Event.prototype, "rating", void 0);
 exports.Event = Event = __decorate([
     (0, mongoose_1.Schema)()
 ], Event);

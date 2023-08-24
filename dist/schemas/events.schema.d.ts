@@ -40,6 +40,8 @@ export declare class Event extends Document {
     type: string;
     organizer: string;
     organizerContact: string;
+    openForPublic: boolean;
+    rating: number;
 }
 export declare const EventSchema: import("mongoose").Schema<Event, import("mongoose").Model<Event, any, any, any, Document<unknown, any, Event> & Event & Required<{
     _id: string;

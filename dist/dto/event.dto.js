@@ -74,6 +74,14 @@ __decorate([
 ], EventDto.prototype, "organizer", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Number)
+], EventDto.prototype, "rating", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Boolean)
+], EventDto.prototype, "openForPublic", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], EventDto.prototype, "organizerContact", void 0);
 __decorate([

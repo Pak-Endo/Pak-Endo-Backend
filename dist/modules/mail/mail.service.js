@@ -50,6 +50,24 @@ let MailService = exports.MailService = class MailService {
             throw new common_1.BadRequestException('Something went wrong. Please try again');
         });
     }
+    async sendEmailToMember(user, memberId, type) {
+        return await this.mailerService.sendMail({
+            to: user?.email,
+            from: 'noreply',
+            subject: 'Member ID assigned',
+            template: './memberID',
+            context: {
+                name: user?.fullName,
+                memberID: memberId,
+                membershipType: type
+            },
+        }).then((response) => {
+            return response;
+        })
+            .catch((err) => {
+            throw new common_1.BadRequestException('Something went wrong. Please try again');
+        });
+    }
 };
 exports.MailService = MailService = __decorate([
     (0, common_1.Injectable)(),

@@ -5,4 +5,5 @@ export declare class MailService {
     constructor(mailerService: MailerService);
     sendUserConfirmation(user: User | any, token: string): Promise<any>;
     sendApprovalRequestToAdmin(user: User | any): Promise<any>;
+    sendEmailToMember(user: User | any, memberId: string, type: string): Promise<any>;
 }

@@ -14,6 +14,8 @@ export declare class EventDto {
     location: string;
     type: string;
     organizer: string;
+    rating: number;
+    openForPublic: boolean;
     organizerContact: string;
     agenda: AgendaInterface[];
 }

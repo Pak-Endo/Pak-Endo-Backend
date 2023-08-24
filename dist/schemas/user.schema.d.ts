@@ -40,6 +40,8 @@ export declare class User extends Document {
     status: Status;
     role: UserRole;
     deletedCheck: boolean;
+    favorites: FavoriteInterface[];
+    interested: InterestedInterface[];
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, Document<unknown, any, User> & User & Required<{
     _id: string;
@@ -51,7 +53,8 @@ export declare enum Type {
     H = "PES Honorary Member",
     I = "International Executive Membership",
     S = "Scientific Members",
-    SE = "Scientific Executive Members"
+    SE = "Scientific Executive Members",
+    N = "Non-Member"
 }
 export declare enum UserRole {
     ADMIN = "admin",
@@ -67,4 +70,16 @@ export declare enum Gender {
     MALE = "Male",
     FEMALE = "Female",
     OTHER = "Other"
+}
+export interface FavoriteInterface {
+    _id: string;
+    userID: string;
+    eventTitle: string;
+    eventID: string;
+}
+export interface InterestedInterface {
+    _id: string;
+    userID: string;
+    eventTitle: string;
+    eventID: string;
 }

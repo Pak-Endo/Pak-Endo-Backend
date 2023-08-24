@@ -164,13 +164,28 @@ let AuthService = exports.AuthService = class AuthService {
                     }
                 }
             ]).sort({ memberID: -1 });
+            let data = new Object(user_schema_1.Type);
+            let memberShipType = '';
+            for (const key in data) {
+                if (key == userData.type) {
+                    memberShipType = data[key];
+                }
+            }
             if (usersByMemberID?.length > 0) {
                 let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[0]?.memberIDCount) + 1}`;
                 let memberIDGen = `PES/${userData?.type}/${newMemberID}`;
+                let emailNotif = await this.mailService.sendEmailToMember(user, memberIDGen, memberShipType);
+                if (!emailNotif) {
+                    throw new common_1.BadRequestException('Something went wrong. Please try again');
+                }
                 return await this._userModel.updateOne({ _id: id, deletedCheck: false }, { ...userData, status: user_schema_1.Status.APPROVED, memberID: memberIDGen });
             }
             else {
                 let memberIDGen = `PES/${userData?.type}/00`;
+                let emailNotif = await this.mailService.sendEmailToMember(user, memberIDGen, memberShipType);
+                if (!emailNotif) {
+                    throw new common_1.BadRequestException('Something went wrong. Please try again');
+                }
                 return await this._userModel.updateOne({ _id: id, deletedCheck: false }, { ...userData, status: user_schema_1.Status.APPROVED, memberID: memberIDGen });
             }
         }
