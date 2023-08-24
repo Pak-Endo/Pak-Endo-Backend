@@ -59,6 +59,9 @@ export class EventsController {
 
 
   @Get('getUpcomingEvents')
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'title', type: String, required: false })
   async fetchUpcomingEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
@@ -68,6 +71,9 @@ export class EventsController {
   }
 
   @Get('getOnGoingEvents')
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'title', type: String, required: false })
   async fetchOnGoingEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
@@ -77,6 +83,9 @@ export class EventsController {
   }
 
   @Get('getFinishedEvents')
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'title', type: String, required: false })
   async fetchFinishedEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
