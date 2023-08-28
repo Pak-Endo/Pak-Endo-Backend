@@ -64,11 +64,11 @@ __decorate([
     __metadata("design:type", String)
 ], Event.prototype, "type", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
+    (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", String)
 ], Event.prototype, "organizer", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
+    (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", String)
 ], Event.prototype, "organizerContact", void 0);
 __decorate([
