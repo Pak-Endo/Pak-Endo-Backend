@@ -42,10 +42,10 @@ export class Event extends Document {
   @Prop({default: '', required: true})
   type: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   organizer: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   organizerContact: string;
 
   @Prop({default: false, required: true})

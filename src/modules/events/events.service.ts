@@ -126,6 +126,211 @@ export class EventsService {
     }
   }
 
+  async getAllEventsByCategory(limit: number, offset: number): Promise<any> {
+    limit = Number(limit) < 1 ? 10 : Number(limit);
+    offset = Number(offset) < 0 ? 0 : Number(offset);
+    const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
+    const upcomingEvents = await this.eventModel.aggregate([
+      {
+        $match: {
+          deletedCheck: false,
+          eventStatus: EventStatus.UPCOMING
+        }
+      },
+      {
+        $project: {
+          description: 1,
+          title: 1,
+          eventStatus: 1,
+          deletedCheck: 1,
+          gallery: 1,
+          endDate: 1,
+          startDate: 1,
+          agenda: 1,
+          type: 1,
+          location: 1,
+          organizer: 1,
+          organizerContact: 1,
+          featuredImage: { $concat: [config.URL, '$featuredImage'] }
+        }
+      },
+      {
+        $addFields: {
+          gallery: {
+            $ifNull: [ "$gallery", [null] ]
+          }
+        }
+      },
+      {
+        $unwind: "$gallery"
+      },
+      {
+        $addFields: {
+          "gallery.mediaUrl": {
+            $map: {
+              input: "$gallery.mediaUrl",
+              as: "url",
+              in: { $concat: [config.URL, "$$url"] }
+            }
+          }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          event: { $first: "$$ROOT" },
+          gallery: { $addToSet: "$gallery" }
+        }
+      },
+      {
+        $addFields: {
+          "event.gallery": "$gallery"
+        }
+      },
+      {
+        $replaceRoot: { newRoot: "$event" }
+      }
+    ])
+    .skip(Number(offset))
+    .limit(Number(limit));
+
+    const onGoingEvents = await this.eventModel.aggregate([
+      {
+        $match: {
+          deletedCheck: false,
+          eventStatus: EventStatus.ONGOING
+        }
+      },
+      {
+        $project: {
+          description: 1,
+          title: 1,
+          eventStatus: 1,
+          deletedCheck: 1,
+          gallery: 1,
+          endDate: 1,
+          startDate: 1,
+          agenda: 1,
+          type: 1,
+          location: 1,
+          organizer: 1,
+          organizerContact: 1,
+          featuredImage: { $concat: [config.URL, '$featuredImage'] }
+        }
+      },
+      {
+        $addFields: {
+          gallery: {
+            $ifNull: [ "$gallery", [null] ]
+          }
+        }
+      },
+      {
+        $unwind: "$gallery"
+      },
+      {
+        $addFields: {
+          "gallery.mediaUrl": {
+            $map: {
+              input: "$gallery.mediaUrl",
+              as: "url",
+              in: { $concat: [config.URL, "$$url"] }
+            }
+          }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          event: { $first: "$$ROOT" },
+          gallery: { $addToSet: "$gallery" }
+        }
+      },
+      {
+        $addFields: {
+          "event.gallery": "$gallery"
+        }
+      },
+      {
+        $replaceRoot: { newRoot: "$event" }
+      }
+    ])
+    .skip(Number(offset))
+    .limit(Number(limit));
+
+    const finishedEvents = await this.eventModel.aggregate([
+      {
+        $match: {
+          deletedCheck: false,
+          eventStatus: EventStatus.FINSIHED
+        }
+      },
+      {
+        $project: {
+          description: 1,
+          title: 1,
+          eventStatus: 1,
+          deletedCheck: 1,
+          gallery: 1,
+          endDate: 1,
+          startDate: 1,
+          agenda: 1,
+          type: 1,
+          location: 1,
+          organizer: 1,
+          organizerContact: 1,
+          featuredImage: { $concat: [config.URL, '$featuredImage'] }
+        }
+      },
+      {
+        $addFields: {
+          gallery: {
+            $ifNull: [ "$gallery", [null] ]
+          }
+        }
+      },
+      {
+        $unwind: "$gallery"
+      },
+      {
+        $addFields: {
+          "gallery.mediaUrl": {
+            $map: {
+              input: "$gallery.mediaUrl",
+              as: "url",
+              in: { $concat: [config.URL, "$$url"] }
+            }
+          }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          event: { $first: "$$ROOT" },
+          gallery: { $addToSet: "$gallery" }
+        }
+      },
+      {
+        $addFields: {
+          "event.gallery": "$gallery"
+        }
+      },
+      {
+        $replaceRoot: { newRoot: "$event" }
+      }
+    ])
+    .skip(Number(offset))
+    .limit(Number(limit));
+    
+
+    return {
+      upcomingEvents,
+      finishedEvents,
+      onGoingEvents,
+      totalCount: totalCount
+    }
+  }
+
   async getUpcomingEvents(limit: number, offset: number, title?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
