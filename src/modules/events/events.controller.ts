@@ -57,6 +57,16 @@ export class EventsController {
     return await this.eventService.getAllEvents(limit, offset, title, location, type, startDate, endDate, speaker);
   }
 
+  @Get('getAllEventsByCategory')
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  async fetchAllEventsByCategory(
+    @Query('limit') limit: number,
+    @Query('offset') offset: number
+  ) {
+    return await this.eventService.getAllEventsByCategory(limit, offset);
+  }
+
 
   @Get('getUpcomingEvents')
   @ApiQuery({ name: 'limit', required: true, type: Number })
