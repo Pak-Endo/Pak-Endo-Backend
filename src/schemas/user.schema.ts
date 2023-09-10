@@ -51,6 +51,12 @@ export class User extends Document {
 
   @Prop({default: false, required: false})
   deletedCheck: boolean;
+
+  @Prop({default: [], required: false})
+  favorites: FavoriteInterface[];
+
+  @Prop({default: [], required: false})
+  interested: InterestedInterface[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -76,7 +82,8 @@ export enum Type {
   H = 'PES Honorary Member',
   I = 'International Executive Membership',
   S = 'Scientific Members',
-  SE = 'Scientific Executive Members'
+  SE = 'Scientific Executive Members',
+  N = 'Non-Member'
 }
 
 export enum UserRole {
@@ -95,4 +102,18 @@ export enum Gender {
   MALE = 'Male',
   FEMALE = 'Female',
   OTHER = 'Other'
+}
+
+export interface FavoriteInterface {
+  _id: string,
+  userID: string;
+  eventTitle: string,
+  eventID: string
+}
+
+export interface InterestedInterface {
+  _id: string,
+  userID: string;
+  eventTitle: string,
+  eventID: string
 }

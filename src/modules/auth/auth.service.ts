@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from 'src/dto/login.dto';
-import { Status, User, UserRole } from 'src/schemas/user.schema';
+import { Status, Type, User, UserRole } from 'src/schemas/user.schema';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { MailService } from '../mail/mail.service';
 import { PasswordDto, approveDto } from 'src/dto/user.dto';
@@ -59,7 +59,16 @@ export class AuthService {
 
   async loginUser(loginDto: LoginDto | AdminLoginDto | any): Promise<any> {
     if(loginDto?.memberID) {
-      let user  = await this._userModel.findOne({ memberID: loginDto.memberID, deletedCheck: false, status: Status.APPROVED });
+      let user = await this._userModel.findOne(
+        {$or:
+          [
+            { memberID: loginDto.memberID},
+            { email: loginDto.memberID }
+          ],
+          deletedCheck: false,
+          status: Status.APPROVED
+        },
+      );
       return this.commonLoginMethod(user, loginDto?.password)
     }
     let user = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false, status: Status.APPROVED });
@@ -146,9 +155,21 @@ export class AuthService {
           }
         }
       ]).sort({memberID: -1});
+
+      let data: any = new Object(Type);
+      let memberShipType: string = '';
+      for (const key in data) {
+        if(key == userData.type) {
+          memberShipType = data[key]
+        }
+      }
       if(usersByMemberID?.length > 0) {
         let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[0]?.memberIDCount) + 1}`
         let memberIDGen = `PES/${userData?.type}/${newMemberID}`;
+        let emailNotif = await this.mailService.sendEmailToMember(user, memberIDGen, memberShipType);
+        if(!emailNotif) {
+          throw new BadRequestException('Something went wrong. Please try again')
+        }
         return await this._userModel.updateOne(
           {_id: id, deletedCheck: false},
           { ...userData, status: Status.APPROVED, memberID: memberIDGen }
@@ -156,6 +177,10 @@ export class AuthService {
       }
       else {
         let memberIDGen = `PES/${userData?.type}/00`;
+        let emailNotif = await this.mailService.sendEmailToMember(user, memberIDGen, memberShipType);
+        if(!emailNotif) {
+          throw new BadRequestException('Something went wrong. Please try again')
+        }
         return await this._userModel.updateOne(
           {_id: id, deletedCheck: false},
           { ...userData, status: Status.APPROVED, memberID: memberIDGen }

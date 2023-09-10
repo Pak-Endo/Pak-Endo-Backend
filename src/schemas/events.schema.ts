@@ -41,6 +41,18 @@ export class Event extends Document {
 
   @Prop({default: '', required: true})
   type: string;
+
+  @Prop({default: '', required: false})
+  organizer: string;
+
+  @Prop({default: '', required: false})
+  organizerContact: string;
+
+  @Prop({default: false, required: true})
+  openForPublic: boolean;
+
+  @Prop({default: '', required: false})
+  rating: number;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
@@ -68,5 +80,7 @@ export interface AgendaInterface {
   to: string;
   venue: string;
   streamUrl?: string;
-  speaker?: string
+  speaker?: string,
+  speakerImg?: string;
+  attachments?: any[];
 }

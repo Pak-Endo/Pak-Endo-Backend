@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as bodyParser from 'body-parser';
-import { join } from 'path';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import config from 'src/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication | any>(AppModule, {cors: true});
@@ -24,7 +24,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204
   });
 
-  const config = new DocumentBuilder()
+  const appConfig = new DocumentBuilder()
     .setTitle('Event-Manager')
     .setDescription('Event-Manager APIs')
     .setVersion('1.0')
@@ -32,9 +32,9 @@ async function bootstrap() {
     .addTag('Event-Manager APIs')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, appConfig);
 
   SwaggerModule.setup('api', app, document);
-  await app.listen(3000);
+  await app.listen(config.PORT);
 }
 bootstrap();

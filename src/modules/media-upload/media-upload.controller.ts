@@ -88,23 +88,20 @@ export class MediaUploadController {
     @Req() req,
   ) {
     req.setTimeout(10 * 60 * 1000);
-    file['url'] = process.env.URL + '/media-upload/mediaFiles/' + folderName.toLowerCase() + '/' + file.filename;
+    file['url'] = config.URL + '/media-upload/mediaFiles/' + folderName.toLowerCase() + '/' + file.filename;
     let type = '';
     const nameSplit = file['filename'].split('.');
     if (nameSplit.length > 1) {
       type = nameSplit[1];
     }
 
-    const allowTypes = ['.jpg', '.jpeg', '.png', '.pdf'];
+    const allowTypes = ['.jpg', '.jpeg', '.png'];
 
     if (type && allowTypes.includes(`.${type}`)) {
       const img = await jimp.read(file['path']);
-
       const height = img.bitmap.height;
       const width = img.bitmap.width;
-
       const widthRatio = width / height;
-
       img.resize(500 * widthRatio, jimp.AUTO).write(file['path']);
     }
     return file;

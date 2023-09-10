@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { EventsService } from './events.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { EventDto } from 'src/dto/event.dto';
@@ -35,28 +35,55 @@ export class EventsController {
     return await this.eventService.deleteEvent(eventID)
   }
 
-  @Get('getllEvents')
-  @UseGuards(JwtAuthGuard)
+  @Get('getAllEvents')
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'title', type: String, required: false })
+  @ApiQuery({ name: 'location', type: String, required: false })
+  @ApiQuery({ name: 'type', type: String, required: false })
+  @ApiQuery({ name: 'startDate', type: Number, required: false })
+  @ApiQuery({ name: 'endDate', type: Number, required: false })
+  @ApiQuery({ name: 'speaker', type: String, required: false })
   async fetchAllEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
-    @Query ('title') title?: string
+    @Query('title') title?: string,
+    @Query('location') location?: string,
+    @Query('type') type?: string,
+    @Query('startDate') startDate?: number,
+    @Query('endDate') endDate?: number,
+    @Query('speaker') speaker?: string
   ) {
-    return await this.eventService.getAllEvents(limit, offset, title)
+    return await this.eventService.getAllEvents(limit, offset, title, location, type, startDate, endDate, speaker);
   }
 
+  @Get('getAllEventsByCategory')
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  async fetchAllEventsByCategory(
+    @Query('limit') limit: number,
+    @Query('offset') offset: number
+  ) {
+    return await this.eventService.getAllEventsByCategory(limit, offset);
+  }
+
+
   @Get('getUpcomingEvents')
-  @UseGuards(JwtAuthGuard)
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'title', type: String, required: false })
   async fetchUpcomingEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
-    @Query ('title') title?: string
+    @Query('title') title?: string
   ) {
     return await this.eventService.getUpcomingEvents(limit, offset, title)
   }
 
   @Get('getOnGoingEvents')
-  @UseGuards(JwtAuthGuard)
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'title', type: String, required: false })
   async fetchOnGoingEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
@@ -66,7 +93,9 @@ export class EventsController {
   }
 
   @Get('getFinishedEvents')
-  @UseGuards(JwtAuthGuard)
+  @ApiQuery({ name: 'limit', required: true, type: Number })
+  @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'title', type: String, required: false })
   async fetchFinishedEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
@@ -88,5 +117,13 @@ export class EventsController {
     @Query('offset') offset: number,
   ) {
     return await this.eventService.getUpcomingEventsForCalendar(limit, offset);
+  }
+
+  @Get('getEventByID/:eventID')
+  @UseGuards(JwtAuthGuard)
+  async fetchEventByID(
+    @Param('eventID') eventID: string
+  ) {
+    return await this.eventService.getEventByID(eventID)
   }
 }
