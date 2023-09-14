@@ -62,4 +62,24 @@ export class MailService {
         throw new BadRequestException('Something went wrong. Please try again')
       });
     }
+
+    async sendDefaultPasswordEmail(user: User | any) {
+      return await this.mailerService.sendMail({
+        to: user?.email,
+        from: 'noreply',
+        subject: 'New Member Created',
+        template: './defaultPass',
+        context: {
+          name: user?.fullName,
+          memberID: user?.memberID,
+          membershipType: user?.type,
+          password: user?.password
+        },
+      }).then((response: any) => {
+        return response
+      })
+      .catch((err: any) => {
+        throw new BadRequestException('Something went wrong. Please try again')
+      });
+    }
 }

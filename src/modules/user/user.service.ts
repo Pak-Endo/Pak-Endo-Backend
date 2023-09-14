@@ -4,6 +4,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Model, Types } from 'mongoose';
 import { QueryParams } from 'src/dto/user.dto';
 import { Status, User, UserRole } from 'src/schemas/user.schema';
+import { MailService } from '../mail/mail.service';
 
 export enum SORT {
   ASC = 'Ascending',
@@ -17,7 +18,7 @@ class UserQueryParams extends QueryParams {
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly _userModel: Model<User>) {}
+  constructor(@InjectModel('User') private readonly _userModel: Model<User>, private mailer: MailService) {}
 
   async getAllUsers(params: UserQueryParams): Promise<any> {
     params.limit = Number(params.limit) < 1 ? 10 : Number(params.limit);
@@ -90,7 +91,8 @@ export class UserService {
     newUser._id = new Types.ObjectId().toString();
     newUser.role = 'member';
     newUser.fullName = newUser?.firstName + ' ' + newUser?.lastName;
-    newUser.status = this.setStatus(newUser.status)
+    newUser.status = this.setStatus(newUser.status);
+    await this.mailer.sendDefaultPasswordEmail(newUser)
     return await new this._userModel(newUser).save();
   }
 
