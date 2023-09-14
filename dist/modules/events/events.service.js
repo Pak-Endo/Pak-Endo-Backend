@@ -28,7 +28,6 @@ let EventsService = exports.EventsService = class EventsService {
     async getAllEvents(limit, offset, title, location, type, startDate, endDate, speaker) {
         limit = Number(limit) < 1 ? 10 : Number(limit);
         offset = Number(offset) < 0 ? 0 : Number(offset);
-        const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
         let filters = {}, sort = {};
         if (title && title.trim().length) {
             let nameSort = user_service_1.SORT.ASC ? 1 : -1;
@@ -60,6 +59,22 @@ let EventsService = exports.EventsService = class EventsService {
                 "agenda.speaker": query
             };
         }
+        const countPipeline = [
+            {
+                $match: {
+                    deletedCheck: false,
+                    ...filters
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+        const countResult = await this.eventModel.aggregate(countPipeline).exec();
+        const totalCount = countResult.length > 0 ? countResult[0].count : 0;
         const eventList = await this.eventModel.aggregate([
             {
                 $match: {
@@ -335,7 +350,6 @@ let EventsService = exports.EventsService = class EventsService {
     async getUpcomingEvents(limit, offset, title) {
         limit = Number(limit) < 1 ? 10 : Number(limit);
         offset = Number(offset) < 0 ? 0 : Number(offset);
-        const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: events_schema_1.EventStatus.UPCOMING });
         let filters = {}, sort = {};
         if (title && title.trim().length) {
             let nameSort = user_service_1.SORT.ASC ? 1 : -1;
@@ -346,6 +360,23 @@ let EventsService = exports.EventsService = class EventsService {
         else {
             sort = { ...sort, _id: -1 };
         }
+        const countPipeline = [
+            {
+                $match: {
+                    deletedCheck: false,
+                    status: events_schema_1.EventStatus.UPCOMING,
+                    ...filters
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+        const countResult = await this.eventModel.aggregate(countPipeline).exec();
+        const totalCount = countResult.length > 0 ? countResult[0].count : 0;
         const eventList = await this.eventModel.aggregate([
             {
                 $match: {
@@ -415,14 +446,13 @@ let EventsService = exports.EventsService = class EventsService {
             .limit(Number(limit));
         return {
             events: eventList,
-            totalCount: upComingCount,
+            totalCount: totalCount,
             currentCount: eventList.length
         };
     }
     async getOnGoingEvents(limit, offset, title) {
         limit = Number(limit) < 1 ? 10 : Number(limit);
         offset = Number(offset) < 0 ? 0 : Number(offset);
-        const onGoingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: events_schema_1.EventStatus.ONGOING });
         let filters = {}, sort = {};
         if (title && title.trim().length) {
             let nameSort = user_service_1.SORT.ASC ? 1 : -1;
@@ -433,6 +463,23 @@ let EventsService = exports.EventsService = class EventsService {
         else {
             sort = { ...sort, _id: -1 };
         }
+        const countPipeline = [
+            {
+                $match: {
+                    deletedCheck: false,
+                    status: events_schema_1.EventStatus.ONGOING,
+                    ...filters
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+        const countResult = await this.eventModel.aggregate(countPipeline).exec();
+        const totalCount = countResult.length > 0 ? countResult[0].count : 0;
         const eventList = await this.eventModel.aggregate([
             {
                 $match: {
@@ -502,14 +549,13 @@ let EventsService = exports.EventsService = class EventsService {
             .limit(Number(limit));
         return {
             events: eventList,
-            totalCount: onGoingCount,
+            totalCount: totalCount,
             currentCount: eventList.length
         };
     }
     async getFinishedEvents(limit, offset, title) {
         limit = Number(limit) < 1 ? 10 : Number(limit);
         offset = Number(offset) < 0 ? 0 : Number(offset);
-        const finishedCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: events_schema_1.EventStatus.FINSIHED });
         let filters = {}, sort = {};
         if (title && title.trim().length) {
             let nameSort = user_service_1.SORT.ASC ? 1 : -1;
@@ -520,6 +566,23 @@ let EventsService = exports.EventsService = class EventsService {
         else {
             sort = { ...sort, _id: -1 };
         }
+        const countPipeline = [
+            {
+                $match: {
+                    deletedCheck: false,
+                    status: events_schema_1.EventStatus.UPCOMING,
+                    ...filters
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+        const countResult = await this.eventModel.aggregate(countPipeline).exec();
+        const totalCount = countResult.length > 0 ? countResult[0].count : 0;
         const eventList = await this.eventModel.aggregate([
             {
                 $match: {
@@ -589,7 +652,7 @@ let EventsService = exports.EventsService = class EventsService {
             .limit(Number(limit));
         return {
             events: eventList,
-            totalCount: finishedCount,
+            totalCount: totalCount,
             currentCount: eventList.length
         };
     }
