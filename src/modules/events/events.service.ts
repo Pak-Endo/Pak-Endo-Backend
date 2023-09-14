@@ -19,7 +19,6 @@ export class EventsService {
   async getAllEvents(limit: number, offset: number, title?: string, location?: string, type?: string, startDate?: number, endDate?: number, speaker?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
     let filters = {},
         sort = {};
     if(title && title.trim().length) {
@@ -52,6 +51,22 @@ export class EventsService {
         "agenda.speaker": query
       }
     }
+    const countPipeline = [
+      {
+        $match: {
+          deletedCheck: false,
+          ...filters
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 }
+        }
+      }
+    ];
+    const countResult = await this.eventModel.aggregate(countPipeline).exec();
+    const totalCount = countResult.length > 0 ? countResult[0].count : 0;
     const eventList = await this.eventModel.aggregate([
       {
         $match: {
@@ -335,7 +350,6 @@ export class EventsService {
   async getUpcomingEvents(limit: number, offset: number, title?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.UPCOMING });
     let filters = {},
         sort = {};
     if(title && title.trim().length) {
@@ -347,6 +361,23 @@ export class EventsService {
     else {
       sort = {...sort, _id: -1 }
     }
+    const countPipeline = [
+      {
+        $match: {
+          deletedCheck: false,
+          status: EventStatus.UPCOMING,
+          ...filters
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 }
+        }
+      }
+    ];
+    const countResult = await this.eventModel.aggregate(countPipeline).exec();
+    const totalCount = countResult.length > 0 ? countResult[0].count : 0;
     const eventList = await this.eventModel.aggregate([
       {
         $match: {
@@ -417,7 +448,7 @@ export class EventsService {
 
     return {
       events: eventList,
-      totalCount: upComingCount,
+      totalCount: totalCount,
       currentCount: eventList.length
     }
   }
@@ -425,7 +456,6 @@ export class EventsService {
   async getOnGoingEvents(limit: number, offset: number, title?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    const onGoingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.ONGOING });
     let filters = {},
         sort = {};
     if(title && title.trim().length) {
@@ -437,6 +467,23 @@ export class EventsService {
     else {
       sort = {...sort, _id: -1 }
     }
+    const countPipeline = [
+      {
+        $match: {
+          deletedCheck: false,
+          status: EventStatus.ONGOING,
+          ...filters
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 }
+        }
+      }
+    ];
+    const countResult = await this.eventModel.aggregate(countPipeline).exec();
+    const totalCount = countResult.length > 0 ? countResult[0].count : 0;
     const eventList = await this.eventModel.aggregate([
       {
         $match: {
@@ -507,7 +554,7 @@ export class EventsService {
 
     return {
       events: eventList,
-      totalCount: onGoingCount,
+      totalCount: totalCount,
       currentCount: eventList.length
     }
   }
@@ -515,7 +562,6 @@ export class EventsService {
   async getFinishedEvents(limit: number, offset: number, title?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
-    const finishedCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.FINSIHED });
     let filters = {},
         sort = {};
     if(title && title.trim().length) {
@@ -527,6 +573,23 @@ export class EventsService {
     else {
       sort = {...sort, _id: -1 }
     }
+    const countPipeline = [
+      {
+        $match: {
+          deletedCheck: false,
+          status: EventStatus.UPCOMING,
+          ...filters
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 }
+        }
+      }
+    ];
+    const countResult = await this.eventModel.aggregate(countPipeline).exec();
+    const totalCount = countResult.length > 0 ? countResult[0].count : 0;
     const eventList = await this.eventModel.aggregate([
       {
         $match: {
@@ -597,7 +660,7 @@ export class EventsService {
 
     return {
       events: eventList,
-      totalCount: finishedCount,
+      totalCount: totalCount,
       currentCount: eventList.length
     }
   }
