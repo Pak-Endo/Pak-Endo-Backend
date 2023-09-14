@@ -68,6 +68,25 @@ let MailService = exports.MailService = class MailService {
             throw new common_1.BadRequestException('Something went wrong. Please try again');
         });
     }
+    async sendDefaultPasswordEmail(user) {
+        return await this.mailerService.sendMail({
+            to: user?.email,
+            from: 'noreply',
+            subject: 'New Member Created',
+            template: './defaultPass',
+            context: {
+                name: user?.fullName,
+                memberID: user?.memberID,
+                membershipType: user?.type,
+                password: user?.password
+            },
+        }).then((response) => {
+            return response;
+        })
+            .catch((err) => {
+            throw new common_1.BadRequestException('Something went wrong. Please try again');
+        });
+    }
 };
 exports.MailService = MailService = __decorate([
     (0, common_1.Injectable)(),

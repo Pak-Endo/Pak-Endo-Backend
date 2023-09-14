@@ -19,6 +19,7 @@ const swagger_1 = require("@nestjs/swagger");
 const mongoose_2 = require("mongoose");
 const user_dto_1 = require("../../dto/user.dto");
 const user_schema_1 = require("../../schemas/user.schema");
+const mail_service_1 = require("../mail/mail.service");
 var SORT;
 (function (SORT) {
     SORT["ASC"] = "Ascending";
@@ -31,8 +32,9 @@ __decorate([
     __metadata("design:type", String)
 ], UserQueryParams.prototype, "name", void 0);
 let UserService = exports.UserService = class UserService {
-    constructor(_userModel) {
+    constructor(_userModel, mailer) {
         this._userModel = _userModel;
+        this.mailer = mailer;
     }
     async getAllUsers(params) {
         params.limit = Number(params.limit) < 1 ? 10 : Number(params.limit);
@@ -103,6 +105,7 @@ let UserService = exports.UserService = class UserService {
         newUser.role = 'member';
         newUser.fullName = newUser?.firstName + ' ' + newUser?.lastName;
         newUser.status = this.setStatus(newUser.status);
+        await this.mailer.sendDefaultPasswordEmail(newUser);
         return await new this._userModel(newUser).save();
     }
     async getUserById(id) {
@@ -179,6 +182,6 @@ let UserService = exports.UserService = class UserService {
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)('User')),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model, mail_service_1.MailService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

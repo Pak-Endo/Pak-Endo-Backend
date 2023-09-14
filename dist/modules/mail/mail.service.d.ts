@@ -6,4 +6,5 @@ export declare class MailService {
     sendUserConfirmation(user: User | any, token: string): Promise<any>;
     sendApprovalRequestToAdmin(user: User | any): Promise<any>;
     sendEmailToMember(user: User | any, memberId: string, type: string): Promise<any>;
+    sendDefaultPasswordEmail(user: User | any): Promise<any>;
 }

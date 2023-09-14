@@ -336,7 +336,7 @@ let EventsService = exports.EventsService = class EventsService {
         offset = Number(offset) < 0 ? 0 : Number(offset);
         const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: events_schema_1.EventStatus.UPCOMING });
         let filters = {}, sort = {};
-        if (title.trim().length) {
+        if (title && title.trim().length) {
             let nameSort = user_service_1.SORT.ASC ? 1 : -1;
             sort = { ...sort, title: nameSort };
             const query = new RegExp(`${title}`, 'i');
@@ -422,7 +422,7 @@ let EventsService = exports.EventsService = class EventsService {
         offset = Number(offset) < 0 ? 0 : Number(offset);
         const onGoingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: events_schema_1.EventStatus.ONGOING });
         let filters = {}, sort = {};
-        if (title.trim().length) {
+        if (title && title.trim().length) {
             let nameSort = user_service_1.SORT.ASC ? 1 : -1;
             sort = { ...sort, title: nameSort };
             const query = new RegExp(`${title}`, 'i');
@@ -508,7 +508,7 @@ let EventsService = exports.EventsService = class EventsService {
         offset = Number(offset) < 0 ? 0 : Number(offset);
         const finishedCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: events_schema_1.EventStatus.FINSIHED });
         let filters = {}, sort = {};
-        if (title.trim().length) {
+        if (title && title.trim().length) {
             let nameSort = user_service_1.SORT.ASC ? 1 : -1;
             sort = { ...sort, title: nameSort };
             const query = new RegExp(`${title}`, 'i');
@@ -593,6 +593,9 @@ let EventsService = exports.EventsService = class EventsService {
         const event = await this.eventModel.findOne({ title: eventDto.title, deletedCheck: false });
         if (event) {
             throw new common_1.ForbiddenException('An event by this title already exists');
+        }
+        if (!eventDto.featuredImage?.includes(config_1.default.URL)) {
+            throw new common_1.BadRequestException('Featured Image URL is not valid');
         }
         eventDto._id = new mongoose_2.Types.ObjectId().toString();
         eventDto.featuredImage = eventDto.featuredImage?.split(config_1.default.URL)[1];
