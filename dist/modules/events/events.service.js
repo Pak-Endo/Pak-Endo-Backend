@@ -128,7 +128,8 @@ let EventsService = exports.EventsService = class EventsService {
             .limit(Number(limit));
         return {
             events: eventList,
-            totalCount: totalCount
+            totalCount: totalCount,
+            currentCount: eventList.length
         };
     }
     async getAllEventsByCategory(limit, offset) {
@@ -414,7 +415,8 @@ let EventsService = exports.EventsService = class EventsService {
             .limit(Number(limit));
         return {
             events: eventList,
-            totalCount: upComingCount
+            totalCount: upComingCount,
+            currentCount: eventList.length
         };
     }
     async getOnGoingEvents(limit, offset, title) {
@@ -500,7 +502,8 @@ let EventsService = exports.EventsService = class EventsService {
             .limit(Number(limit));
         return {
             events: eventList,
-            totalCount: onGoingCount
+            totalCount: onGoingCount,
+            currentCount: eventList.length
         };
     }
     async getFinishedEvents(limit, offset, title) {
@@ -586,7 +589,8 @@ let EventsService = exports.EventsService = class EventsService {
             .limit(Number(limit));
         return {
             events: eventList,
-            totalCount: finishedCount
+            totalCount: finishedCount,
+            currentCount: eventList.length
         };
     }
     async createNewEvent(eventDto) {

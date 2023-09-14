@@ -65,7 +65,8 @@ let UserService = exports.UserService = class UserService {
             .limit(Number(params.limit));
         return {
             users: usersList,
-            totalCount: totalCount
+            totalCount: totalCount,
+            currentCount: usersList.length
         };
     }
     async addNewUser(newUser) {
