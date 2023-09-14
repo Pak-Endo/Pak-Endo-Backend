@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { EventStatus, Event } from 'src/schemas/events.schema';
@@ -337,7 +337,7 @@ export class EventsService {
     const upComingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.UPCOMING });
     let filters = {},
         sort = {};
-    if(title.trim().length) {
+    if(title && title.trim().length) {
       let nameSort = SORT.ASC ? 1 : -1;
       sort = {...sort, title: nameSort }
       const query = new RegExp(`${title}`, 'i');
@@ -426,7 +426,7 @@ export class EventsService {
     const onGoingCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.ONGOING });
     let filters = {},
         sort = {};
-    if(title.trim().length) {
+    if(title && title.trim().length) {
       let nameSort = SORT.ASC ? 1 : -1;
       sort = {...sort, title: nameSort }
       const query = new RegExp(`${title}`, 'i');
@@ -515,7 +515,7 @@ export class EventsService {
     const finishedCount = await this.eventModel.countDocuments({ deletedCheck: false, eventStatus: EventStatus.FINSIHED });
     let filters = {},
         sort = {};
-    if(title.trim().length) {
+    if(title && title.trim().length) {
       let nameSort = SORT.ASC ? 1 : -1;
       sort = {...sort, title: nameSort }
       const query = new RegExp(`${title}`, 'i');
@@ -603,21 +603,28 @@ export class EventsService {
     if(event) {
       throw new ForbiddenException('An event by this title already exists');
     }
+    if(!eventDto.featuredImage?.includes(config.URL)) {
+      throw new BadRequestException('Featured Image URL is not valid')
+    }
     eventDto._id = new Types.ObjectId().toString();
     eventDto.featuredImage = eventDto.featuredImage?.split(config.URL)[1];
     eventDto.eventStatus = EventStatus.UPCOMING;
     eventDto.deletedCheck = false;
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
+
       eventDto.gallery._id = new Types.ObjectId().toString();
       eventDto.gallery.eventID = eventDto._id;
       eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
         value = value?.split(config.URL)[1];
         return value
       })
+
       await new this.galleryModel(eventDto?.gallery).save();
     }
     if(eventDto?.agenda && eventDto?.agenda?.length > 0) {
+
       for await (const agenda of eventDto.agenda) {
+  
         agenda._id = new Types.ObjectId().toString();
         agenda.streamUrl = '';
         await new this.agendaModel(agenda).save();
