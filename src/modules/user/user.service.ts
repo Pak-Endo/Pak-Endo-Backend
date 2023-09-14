@@ -51,7 +51,8 @@ export class UserService {
 
     return {
       users: usersList,
-      totalCount: totalCount
+      totalCount: totalCount,
+      currentCount: usersList.length
     }
   }
 

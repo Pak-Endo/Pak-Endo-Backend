@@ -122,7 +122,8 @@ export class EventsService {
 
     return {
       events: eventList,
-      totalCount: totalCount
+      totalCount: totalCount,
+      currentCount: eventList.length
     }
   }
 
@@ -416,7 +417,8 @@ export class EventsService {
 
     return {
       events: eventList,
-      totalCount: upComingCount
+      totalCount: upComingCount,
+      currentCount: eventList.length
     }
   }
 
@@ -505,7 +507,8 @@ export class EventsService {
 
     return {
       events: eventList,
-      totalCount: onGoingCount
+      totalCount: onGoingCount,
+      currentCount: eventList.length
     }
   }
 
@@ -594,7 +597,8 @@ export class EventsService {
 
     return {
       events: eventList,
-      totalCount: finishedCount
+      totalCount: finishedCount,
+      currentCount: eventList.length
     }
   }
 
