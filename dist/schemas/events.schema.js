@@ -83,6 +83,10 @@ __decorate([
     (0, mongoose_1.Prop)({ default: false, required: false }),
     __metadata("design:type", Boolean)
 ], Event.prototype, "isFavorite", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false, required: false }),
+    __metadata("design:type", Boolean)
+], Event.prototype, "isAttended", void 0);
 exports.Event = Event = __decorate([
     (0, mongoose_1.Schema)()
 ], Event);

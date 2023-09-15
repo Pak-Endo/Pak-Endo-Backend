@@ -22,48 +22,15 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Document, HydratedDocument } from "mongoose";
-import { Gallery } from "./gallery.schema";
-export type EventSchema = HydratedDocument<Event>;
-export declare class Event extends Document {
+import { Document } from "mongoose";
+export declare class Attended extends Document {
     _id: string;
-    title: string;
-    description: string;
-    startDate: number;
-    endDate: number;
-    location: string;
-    featuredImage: string;
-    gallery: Gallery;
+    eventID: string;
+    userID: string;
     deletedCheck: boolean;
-    eventStatus: EventStatus;
-    agenda: AgendaInterface[];
-    type: string;
-    organizer: string;
-    organizerContact: string;
-    openForPublic: boolean;
-    rating: number;
-    isFavorite: boolean;
-    isAttended: boolean;
 }
-export declare const EventSchema: import("mongoose").Schema<Event, import("mongoose").Model<Event, any, any, any, Document<unknown, any, Event> & Event & Required<{
+export declare const AttendedSchema: import("mongoose").Schema<Attended, import("mongoose").Model<Attended, any, any, any, Document<unknown, any, Attended> & Attended & Required<{
     _id: string;
-}>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Event, Document<unknown, {}, Event> & Event & Required<{
+}>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Attended, Document<unknown, {}, Attended> & Attended & Required<{
     _id: string;
 }>>;
-export declare enum EventStatus {
-    ONGOING = "ongoing",
-    UPCOMING = "upcoming",
-    FINSIHED = "finished"
-}
-export interface AgendaInterface {
-    _id: string;
-    day: number;
-    agendaTitle: string;
-    from: string;
-    to: string;
-    venue: string;
-    streamUrl?: string;
-    speaker?: string;
-    speakerImg?: string;
-    attachments?: any[];
-}

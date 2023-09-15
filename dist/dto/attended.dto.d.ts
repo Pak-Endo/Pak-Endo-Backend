@@ -1,4 +1,4 @@
-export declare class FavoritesDto {
+export declare class AttendedDto {
     eventID: string;
     userID: string;
 }

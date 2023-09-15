@@ -108,7 +108,33 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
+                $lookup: {
+                    from: "attendeds",
+                    let: { eventId: "$_id", userId: userID },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$eventID", "$$eventId"] },
+                                        { $eq: ["$userID", "$$userId"] },
+                                        { $eq: ["$deletedCheck", false] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "attendeds"
+                }
+            },
+            {
+                $addFields: {
+                    isAttended: { $cond: { if: { $ne: [{ $size: "$attendeds" }, 0] }, then: true, else: false } }
+                }
+            },
+            {
                 $project: {
+                    isAttended: 1,
                     isFavorite: 1,
                     description: 1,
                     title: 1,
@@ -122,8 +148,7 @@ let EventsService = exports.EventsService = class EventsService {
                     location: 1,
                     organizer: 1,
                     organizerContact: 1,
-                    featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] },
-                    favorite: 1
+                    featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
             {

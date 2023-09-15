@@ -20,6 +20,7 @@ const media_upload_module_1 = require("./modules/media-upload/media-upload.modul
 const schedule_1 = require("@nestjs/schedule");
 const cronjobs_module_1 = require("./modules/cronjobs/cronjobs.module");
 const favorites_module_1 = require("./modules/favorites/favorites.module");
+const attended_module_1 = require("./modules/attended/attended.module");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
@@ -35,6 +36,7 @@ exports.AppModule = AppModule = __decorate([
             user_module_1.UserModule,
             events_module_1.EventsModule,
             favorites_module_1.FavoritesModule,
+            attended_module_1.AttendedModule,
             media_upload_module_1.MediaUploadModule,
             cronjobs_module_1.CronjobsModule
         ],
