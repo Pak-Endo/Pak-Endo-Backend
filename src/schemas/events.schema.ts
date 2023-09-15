@@ -53,6 +53,9 @@ export class Event extends Document {
 
   @Prop({default: '', required: false})
   rating: number;
+
+  @Prop({default: false, required: false})
+  isFavorite: boolean;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
