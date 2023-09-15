@@ -17,8 +17,7 @@ export class AuthModule {
     return {
       imports: [
         JwtModule.register({
-          secret: config.SECRET_KEY,
-          signOptions: { expiresIn: '3600s'}
+          secret: config.SECRET_KEY
         }),
         MongooseModule.forFeature([{ name: 'User', schema: UserSchema}]),
         MailModule

@@ -38,6 +38,7 @@ export class EventsController {
   @Get('getAllEvents')
   @ApiQuery({ name: 'limit', required: true, type: Number })
   @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'userID', required: false, type: String })
   @ApiQuery({ name: 'title', type: String, required: false })
   @ApiQuery({ name: 'location', type: String, required: false })
   @ApiQuery({ name: 'type', type: String, required: false })
@@ -47,6 +48,7 @@ export class EventsController {
   async fetchAllEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
+    @Query('userID') userID?: string,
     @Query('title') title?: string,
     @Query('location') location?: string,
     @Query('type') type?: string,
@@ -54,7 +56,7 @@ export class EventsController {
     @Query('endDate') endDate?: number,
     @Query('speaker') speaker?: string
   ) {
-    return await this.eventService.getAllEvents(limit, offset, title, location, type, startDate, endDate, speaker);
+    return await this.eventService.getAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker);
   }
 
   @Get('getAllEventsByCategory')
