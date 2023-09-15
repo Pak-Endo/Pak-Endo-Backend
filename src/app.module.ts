@@ -11,6 +11,7 @@ import { MediaUploadModule } from './modules/media-upload/media-upload.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronjobsModule } from './modules/cronjobs/cronjobs.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
+import { AttendedModule } from './modules/attended/attended.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { FavoritesModule } from './modules/favorites/favorites.module';
     UserModule,
     EventsModule,
     FavoritesModule,
+    AttendedModule,
     MediaUploadModule,
     CronjobsModule
   ],

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class FavoritesDto {
+export class AttendedDto {
   @ApiProperty()
   eventID: string
 
