@@ -37,14 +37,14 @@ let EventsController = exports.EventsController = class EventsController {
     async fetchAllEventsByCategory(limit, offset, userID) {
         return await this.eventService.getAllEventsByCategory(limit, offset, userID);
     }
-    async fetchUpcomingEvents(limit, offset, title) {
-        return await this.eventService.getUpcomingEvents(limit, offset, title);
+    async fetchUpcomingEvents(limit, offset, title, userID) {
+        return await this.eventService.getUpcomingEvents(limit, offset, title, userID);
     }
-    async fetchOnGoingEvents(limit, offset, title) {
-        return await this.eventService.getOnGoingEvents(limit, offset, title);
+    async fetchOnGoingEvents(limit, offset, title, userID) {
+        return await this.eventService.getOnGoingEvents(limit, offset, title, userID);
     }
-    async fetchFinishedEvents(limit, offset, title) {
-        return await this.eventService.getFinishedEvents(limit, offset, title);
+    async fetchFinishedEvents(limit, offset, title, userID) {
+        return await this.eventService.getFinishedEvents(limit, offset, title, userID);
     }
     async fetchEventStats() {
         return await this.eventService.getEventStats();
@@ -122,11 +122,13 @@ __decorate([
     (0, swagger_1.ApiQuery)({ name: 'limit', required: true, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'offset', required: true, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'title', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'userID', type: String, required: false }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
+    __param(3, (0, common_1.Query)('userID')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, String]),
+    __metadata("design:paramtypes", [Number, Number, String, String]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchUpcomingEvents", null);
 __decorate([
@@ -134,11 +136,13 @@ __decorate([
     (0, swagger_1.ApiQuery)({ name: 'limit', required: true, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'offset', required: true, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'title', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'userID', type: String, required: false }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
+    __param(3, (0, common_1.Query)('userID')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, String]),
+    __metadata("design:paramtypes", [Number, Number, String, String]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchOnGoingEvents", null);
 __decorate([
@@ -146,11 +150,13 @@ __decorate([
     (0, swagger_1.ApiQuery)({ name: 'limit', required: true, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'offset', required: true, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'title', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'userID', type: String, required: false }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('title')),
+    __param(3, (0, common_1.Query)('userID')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, String]),
+    __metadata("design:paramtypes", [Number, Number, String, String]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchFinishedEvents", null);
 __decorate([
