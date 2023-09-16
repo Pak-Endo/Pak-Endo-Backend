@@ -555,7 +555,7 @@ export class EventsService {
     }
   }
 
-  async getUpcomingEvents(limit: number, offset: number, title?: string): Promise<any> {
+  async getUpcomingEvents(limit: number, offset: number, title?: string, userID?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
     let filters = {},
@@ -595,7 +595,59 @@ export class EventsService {
         }
       },
       {
+        $lookup: {
+          from: "favorites",
+          let: { eventId: "$_id", userId: userID },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$eventID", "$$eventId"] },
+                    { $eq: ["$userID", "$$userId"] },
+                    { $eq: ["$deletedCheck", false] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: "favorites"
+        }
+      },
+      {
+        $addFields: {
+          isFavorite: { $cond: { if: { $ne: [{ $size: "$favorites" }, 0] }, then: true, else: false } }
+        }
+      },
+      {
+        $lookup: {
+          from: "attendeds",
+          let: { eventId: "$_id", userId: userID },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$eventID", "$$eventId"] },
+                    { $eq: ["$userID", "$$userId"] },
+                    { $eq: ["$deletedCheck", false] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: "attendeds"
+        }
+      },
+      {
+        $addFields: {
+          isAttended: { $cond: { if: { $ne: [{ $size: "$attendeds" }, 0] }, then: true, else: false } }
+        }
+      },
+      {
         $project: {
+          isFavorite: 1,
+          isAttended: 1,
           description: 1,
           title: 1,
           eventStatus: 1,
@@ -661,7 +713,7 @@ export class EventsService {
     }
   }
 
-  async getOnGoingEvents(limit: number, offset: number, title?: string): Promise<any> {
+  async getOnGoingEvents(limit: number, offset: number, title?: string, userID?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
     let filters = {},
@@ -701,7 +753,59 @@ export class EventsService {
         }
       },
       {
+        $lookup: {
+          from: "favorites",
+          let: { eventId: "$_id", userId: userID },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$eventID", "$$eventId"] },
+                    { $eq: ["$userID", "$$userId"] },
+                    { $eq: ["$deletedCheck", false] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: "favorites"
+        }
+      },
+      {
+        $addFields: {
+          isFavorite: { $cond: { if: { $ne: [{ $size: "$favorites" }, 0] }, then: true, else: false } }
+        }
+      },
+      {
+        $lookup: {
+          from: "attendeds",
+          let: { eventId: "$_id", userId: userID },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$eventID", "$$eventId"] },
+                    { $eq: ["$userID", "$$userId"] },
+                    { $eq: ["$deletedCheck", false] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: "attendeds"
+        }
+      },
+      {
+        $addFields: {
+          isAttended: { $cond: { if: { $ne: [{ $size: "$attendeds" }, 0] }, then: true, else: false } }
+        }
+      },
+      {
         $project: {
+          isFavorite: 1,
+          isAttended: 1,
           description: 1,
           title: 1,
           eventStatus: 1,
@@ -767,7 +871,7 @@ export class EventsService {
     }
   }
 
-  async getFinishedEvents(limit: number, offset: number, title?: string): Promise<any> {
+  async getFinishedEvents(limit: number, offset: number, title?: string, userID?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
     let filters = {},
@@ -807,7 +911,59 @@ export class EventsService {
         }
       },
       {
+        $lookup: {
+          from: "favorites",
+          let: { eventId: "$_id", userId: userID },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$eventID", "$$eventId"] },
+                    { $eq: ["$userID", "$$userId"] },
+                    { $eq: ["$deletedCheck", false] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: "favorites"
+        }
+      },
+      {
+        $addFields: {
+          isFavorite: { $cond: { if: { $ne: [{ $size: "$favorites" }, 0] }, then: true, else: false } }
+        }
+      },
+      {
+        $lookup: {
+          from: "attendeds",
+          let: { eventId: "$_id", userId: userID },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$eventID", "$$eventId"] },
+                    { $eq: ["$userID", "$$userId"] },
+                    { $eq: ["$deletedCheck", false] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: "attendeds"
+        }
+      },
+      {
+        $addFields: {
+          isAttended: { $cond: { if: { $ne: [{ $size: "$attendeds" }, 0] }, then: true, else: false } }
+        }
+      },
+      {
         $project: {
+          isFavorite: 1,
+          isAttended: 1,
           description: 1,
           title: 1,
           eventStatus: 1,
