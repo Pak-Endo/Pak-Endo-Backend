@@ -76,36 +76,42 @@ export class EventsController {
   @ApiQuery({ name: 'limit', required: true, type: Number })
   @ApiQuery({ name: 'offset', required: true, type: Number })
   @ApiQuery({ name: 'title', type: String, required: false })
+  @ApiQuery({ name: 'userID', type: String, required: false })
   async fetchUpcomingEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
-    @Query('title') title?: string
+    @Query('title') title?: string,
+    @Query('userID') userID?: string
   ) {
-    return await this.eventService.getUpcomingEvents(limit, offset, title)
+    return await this.eventService.getUpcomingEvents(limit, offset, title, userID)
   }
 
   @Get('getOnGoingEvents')
   @ApiQuery({ name: 'limit', required: true, type: Number })
   @ApiQuery({ name: 'offset', required: true, type: Number })
   @ApiQuery({ name: 'title', type: String, required: false })
+  @ApiQuery({ name: 'userID', type: String, required: false })
   async fetchOnGoingEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
-    @Query ('title') title?: string
+    @Query ('title') title?: string,
+    @Query ('userID') userID?: string
   ) {
-    return await this.eventService.getOnGoingEvents(limit, offset, title)
+    return await this.eventService.getOnGoingEvents(limit, offset, title, userID)
   }
 
   @Get('getFinishedEvents')
   @ApiQuery({ name: 'limit', required: true, type: Number })
   @ApiQuery({ name: 'offset', required: true, type: Number })
   @ApiQuery({ name: 'title', type: String, required: false })
+  @ApiQuery({ name: 'userID', type: String, required: false })
   async fetchFinishedEvents(
     @Query('limit') limit: number,
     @Query('offset') offset: number,
-    @Query ('title') title?: string
+    @Query ('title') title?: string,
+    @Query ('userID') userID?: string
   ) {
-    return await this.eventService.getFinishedEvents(limit, offset, title)
+    return await this.eventService.getFinishedEvents(limit, offset, title, userID)
   }
 
   @Get('getEventStats')
