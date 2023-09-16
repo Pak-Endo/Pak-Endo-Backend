@@ -62,11 +62,13 @@ export class EventsController {
   @Get('getAllEventsByCategory')
   @ApiQuery({ name: 'limit', required: true, type: Number })
   @ApiQuery({ name: 'offset', required: true, type: Number })
+  @ApiQuery({ name: 'userID', required: false, type: String })
   async fetchAllEventsByCategory(
     @Query('limit') limit: number,
-    @Query('offset') offset: number
+    @Query('offset') offset: number,
+    @Query('userID') userID?: string
   ) {
-    return await this.eventService.getAllEventsByCategory(limit, offset);
+    return await this.eventService.getAllEventsByCategory(limit, offset, userID);
   }
 
 
