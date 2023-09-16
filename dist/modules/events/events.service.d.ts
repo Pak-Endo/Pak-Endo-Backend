@@ -9,7 +9,7 @@ export declare class EventsService {
     private readonly agendaModel;
     constructor(eventModel: Model<Event>, galleryModel: Model<Gallery>, agendaModel: Model<Agenda>);
     getAllEvents(limit: number, offset: number, userID?: string, title?: string, location?: string, type?: string, startDate?: number, endDate?: number, speaker?: string): Promise<any>;
-    getAllEventsByCategory(limit: number, offset: number): Promise<any>;
+    getAllEventsByCategory(limit: number, offset: number, userID?: string): Promise<any>;
     getUpcomingEvents(limit: number, offset: number, title?: string): Promise<any>;
     getOnGoingEvents(limit: number, offset: number, title?: string): Promise<any>;
     getFinishedEvents(limit: number, offset: number, title?: string): Promise<any>;

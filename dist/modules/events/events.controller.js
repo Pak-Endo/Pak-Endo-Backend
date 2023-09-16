@@ -34,8 +34,8 @@ let EventsController = exports.EventsController = class EventsController {
     async fetchAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker) {
         return await this.eventService.getAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker);
     }
-    async fetchAllEventsByCategory(limit, offset) {
-        return await this.eventService.getAllEventsByCategory(limit, offset);
+    async fetchAllEventsByCategory(limit, offset, userID) {
+        return await this.eventService.getAllEventsByCategory(limit, offset, userID);
     }
     async fetchUpcomingEvents(limit, offset, title) {
         return await this.eventService.getUpcomingEvents(limit, offset, title);
@@ -109,10 +109,12 @@ __decorate([
     (0, common_1.Get)('getAllEventsByCategory'),
     (0, swagger_1.ApiQuery)({ name: 'limit', required: true, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'offset', required: true, type: Number }),
+    (0, swagger_1.ApiQuery)({ name: 'userID', required: false, type: String }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
+    __param(2, (0, common_1.Query)('userID')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [Number, Number, String]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchAllEventsByCategory", null);
 __decorate([

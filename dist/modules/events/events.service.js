@@ -199,7 +199,7 @@ let EventsService = exports.EventsService = class EventsService {
             currentCount: eventList.length
         };
     }
-    async getAllEventsByCategory(limit, offset) {
+    async getAllEventsByCategory(limit, offset, userID) {
         limit = Number(limit) < 1 ? 10 : Number(limit);
         offset = Number(offset) < 0 ? 0 : Number(offset);
         const totalCount = await this.eventModel.countDocuments({ deletedCheck: false });
@@ -211,7 +211,59 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
+                $lookup: {
+                    from: "favorites",
+                    let: { eventId: "$_id", userId: userID },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$eventID", "$$eventId"] },
+                                        { $eq: ["$userID", "$$userId"] },
+                                        { $eq: ["$deletedCheck", false] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "favorites"
+                }
+            },
+            {
+                $addFields: {
+                    isFavorite: { $cond: { if: { $ne: [{ $size: "$favorites" }, 0] }, then: true, else: false } }
+                }
+            },
+            {
+                $lookup: {
+                    from: "attendeds",
+                    let: { eventId: "$_id", userId: userID },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$eventID", "$$eventId"] },
+                                        { $eq: ["$userID", "$$userId"] },
+                                        { $eq: ["$deletedCheck", false] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "attendeds"
+                }
+            },
+            {
+                $addFields: {
+                    isAttended: { $cond: { if: { $ne: [{ $size: "$attendeds" }, 0] }, then: true, else: false } }
+                }
+            },
+            {
                 $project: {
+                    isFavorite: 1,
+                    isAttended: 1,
                     description: 1,
                     title: 1,
                     eventStatus: 1,
@@ -274,7 +326,59 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
+                $lookup: {
+                    from: "favorites",
+                    let: { eventId: "$_id", userId: userID },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$eventID", "$$eventId"] },
+                                        { $eq: ["$userID", "$$userId"] },
+                                        { $eq: ["$deletedCheck", false] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "favorites"
+                }
+            },
+            {
+                $addFields: {
+                    isFavorite: { $cond: { if: { $ne: [{ $size: "$favorites" }, 0] }, then: true, else: false } }
+                }
+            },
+            {
+                $lookup: {
+                    from: "attendeds",
+                    let: { eventId: "$_id", userId: userID },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$eventID", "$$eventId"] },
+                                        { $eq: ["$userID", "$$userId"] },
+                                        { $eq: ["$deletedCheck", false] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "attendeds"
+                }
+            },
+            {
+                $addFields: {
+                    isAttended: { $cond: { if: { $ne: [{ $size: "$attendeds" }, 0] }, then: true, else: false } }
+                }
+            },
+            {
                 $project: {
+                    isFavorite: 1,
+                    isAttended: 1,
                     description: 1,
                     title: 1,
                     eventStatus: 1,
@@ -337,7 +441,59 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
+                $lookup: {
+                    from: "favorites",
+                    let: { eventId: "$_id", userId: userID },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$eventID", "$$eventId"] },
+                                        { $eq: ["$userID", "$$userId"] },
+                                        { $eq: ["$deletedCheck", false] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "favorites"
+                }
+            },
+            {
+                $addFields: {
+                    isFavorite: { $cond: { if: { $ne: [{ $size: "$favorites" }, 0] }, then: true, else: false } }
+                }
+            },
+            {
+                $lookup: {
+                    from: "attendeds",
+                    let: { eventId: "$_id", userId: userID },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$eventID", "$$eventId"] },
+                                        { $eq: ["$userID", "$$userId"] },
+                                        { $eq: ["$deletedCheck", false] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "attendeds"
+                }
+            },
+            {
+                $addFields: {
+                    isAttended: { $cond: { if: { $ne: [{ $size: "$attendeds" }, 0] }, then: true, else: false } }
+                }
+            },
+            {
                 $project: {
+                    isFavorite: 1,
+                    isAttended: 1,
                     description: 1,
                     title: 1,
                     eventStatus: 1,
