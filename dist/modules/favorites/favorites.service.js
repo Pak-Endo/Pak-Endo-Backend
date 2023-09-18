@@ -41,7 +41,7 @@ let FavoritesService = exports.FavoritesService = class FavoritesService {
                 }
                 else {
                     favoritesDto.userID = req.user.id;
-                    await this.favModel.updateOne({ eventID: favoritesDto.eventID, userID: req.user.id }, { ...favoritesDto, deletedCheck: false }, { upsert: true });
+                    await new this.favModel({ eventID: favoritesDto.eventID, userID: req.user.id, deletedCheck: false, _id: new mongoose_2.Types.ObjectId().toString() }).save();
                     return {
                         message: 'Added to favourites',
                     };
@@ -60,7 +60,7 @@ let FavoritesService = exports.FavoritesService = class FavoritesService {
                 deletedCheck: false,
             });
             if (checkIfExists) {
-                await this.favModel.updateOne({ _id: checkIfExists.id, deletedCheck: true });
+                await this.favModel.deleteOne({ _id: checkIfExists._id });
                 return { message: 'Removed from favorites' };
             }
             else {

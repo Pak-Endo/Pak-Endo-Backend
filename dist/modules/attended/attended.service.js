@@ -41,7 +41,7 @@ let AttendedService = exports.AttendedService = class AttendedService {
                 }
                 else {
                     AttendedDto.userID = req.user.id;
-                    await this.attendModel.updateOne({ eventID: AttendedDto.eventID, userID: req.user.id }, { ...AttendedDto, deletedCheck: false }, { upsert: true });
+                    await new this.attendModel({ eventID: AttendedDto.eventID, userID: req.user.id, deletedCheck: false, _id: new mongoose_2.Types.ObjectId().toString() }).save();
                     return {
                         message: 'Added to attended events',
                     };
