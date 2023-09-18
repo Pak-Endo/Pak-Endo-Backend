@@ -14,9 +14,10 @@ export class AttendedController {
     @UseGuards(JwtAuthGuard)
     async getAttended(
       @Query('limit') limit: number = 10,
-      @Query('offset') offset: number = 0
+      @Query('offset') offset: number = 0,
+      @Req() req: any
     ) {
-      return await this.attendService.getAllAttended(offset, limit);
+      return await this.attendService.getAllAttended(offset, limit, req);
     }
 
     @Get('getAttendedEventByID/:id')

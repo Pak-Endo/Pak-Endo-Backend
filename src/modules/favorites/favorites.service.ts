@@ -89,7 +89,7 @@ export class FavoritesService {
     }
   }
 
-  async getAllFavorites(offset: any, limit: any) {
+  async getAllFavorites(offset: any, limit: any, req: any) {
     try {
       offset = parseInt(offset) < 0 ? 0 : offset;
       limit = parseInt(limit) < 1 ? 10 : limit;
@@ -103,6 +103,7 @@ export class FavoritesService {
           {
             $match: {
               deletedCheck: false,
+              userID: req.user.id
             },
           },
           {
