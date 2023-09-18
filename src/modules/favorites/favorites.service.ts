@@ -94,10 +94,6 @@ export class FavoritesService {
       offset = parseInt(offset) < 0 ? 0 : offset;
       limit = parseInt(limit) < 1 ? 10 : limit;
 
-      const totalCount = await this.favModel.countDocuments({
-        deletedCheck: false,
-      });
-
       const allFavourites = await this.favModel
         .aggregate([
           {
@@ -107,23 +103,35 @@ export class FavoritesService {
             },
           },
           {
+            $lookup: {
+              from: "events",
+              localField: 'eventID',
+              foreignField: '_id',
+              as: 'events'
+            }
+          },
+          {
             $sort: {
               createdAt: -1,
             },
           },
           {
             $project: {
-              __v: 0,
-              _id: 0
+              events: 1
+            }
+          },
+          {
+            $addFields: {
+              "events.isFavorite": true,
             },
           },
         ])
         .skip(parseInt(offset))
         .limit(parseInt(limit));
 
+      const eventsArrays = [].concat(...allFavourites.map(item => item.events));
       return {
-        totalFavouriteEvents: totalCount,
-        data: allFavourites,
+        data: eventsArrays,
       };
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);

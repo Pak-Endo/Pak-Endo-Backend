@@ -76,36 +76,45 @@ export class AttendedService {
       offset = parseInt(offset) < 0 ? 0 : offset;
       limit = parseInt(limit) < 1 ? 10 : limit;
 
-      const totalCount = await this.attendModel.countDocuments({
-        deletedCheck: false,
-      });
-
       const allFavourites = await this.attendModel
-        .aggregate([
-          {
-            $match: {
-              deletedCheck: false,
-              userID: req.user.id
-            },
+      .aggregate([
+        {
+          $match: {
+            deletedCheck: false,
+            userID: req.user.id
           },
-          {
-            $sort: {
-              createdAt: -1,
-            },
+        },
+        {
+          $lookup: {
+            from: "events",
+            localField: 'eventID',
+            foreignField: '_id',
+            as: 'events'
+          }
+        },
+        {
+          $sort: {
+            createdAt: -1,
           },
-          {
-            $project: {
-              __v: 0,
-              _id: 0
-            },
+        },
+        {
+          $project: {
+            events: 1
+          }
+        },
+        {
+          $addFields: {
+            "events.isAttended": true,
           },
-        ])
+        },
+      ])
         .skip(parseInt(offset))
         .limit(parseInt(limit));
+      
+      const eventsArrays = [].concat(...allFavourites.map(item => item.events));
 
       return {
-        totalAttendedEvents: totalCount,
-        data: allFavourites,
+        data: eventsArrays,
       };
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
