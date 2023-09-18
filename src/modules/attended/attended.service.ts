@@ -114,6 +114,7 @@ export class AttendedService {
       const eventsArrays = [].concat(...allFavourites.map(item => item.events));
 
       return {
+        totalCount: eventsArrays?.length,
         data: eventsArrays,
       };
     } catch (err) {
