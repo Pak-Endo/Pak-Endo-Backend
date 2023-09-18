@@ -137,6 +137,7 @@ let FavoritesService = exports.FavoritesService = class FavoritesService {
                 .limit(parseInt(limit));
             const eventsArrays = [].concat(...allFavourites.map(item => item.events));
             return {
+                totalCount: eventsArrays?.length,
                 data: eventsArrays,
             };
         }

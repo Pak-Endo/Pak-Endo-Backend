@@ -4,6 +4,7 @@ export declare class AttendedController {
     private readonly attendService;
     constructor(attendService: AttendedService);
     getAttended(limit: number, offset: number, req: any): Promise<{
+        totalCount: number;
         data: any[];
     }>;
     getFavById(id: string, req: any): Promise<any[]>;

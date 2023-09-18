@@ -11,6 +11,7 @@ export declare class AttendedService {
     }>;
     getAttended(id: string, req: any): Promise<any[]>;
     getAllAttended(offset: any, limit: any, req: any): Promise<{
+        totalCount: number;
         data: any[];
     }>;
 }
