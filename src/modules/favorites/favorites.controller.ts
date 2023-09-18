@@ -14,9 +14,10 @@ export class FavoritesController {
     @UseGuards(JwtAuthGuard)
     async getFavorites(
       @Query('limit') limit: number = 10,
-      @Query('offset') offset: number = 0
+      @Query('offset') offset: number = 0,
+      @Req() req: any
     ) {
-      return await this.favService.getAllFavorites(offset, limit);
+      return await this.favService.getAllFavorites(offset, limit, req);
     }
 
     @Get('getFavoriteByID/:id')
