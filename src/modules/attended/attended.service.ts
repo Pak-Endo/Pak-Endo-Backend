@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { AttendedDto } from 'src/dto/attended.dto';
+import { FavoritesDto } from 'src/dto/favorites.dto';
 import { Event } from 'src/schemas/events.schema';
 import { Attended } from 'src/schemas/interested.schema';
 
@@ -31,11 +32,9 @@ export class AttendedService {
         }
         else {
           AttendedDto.userID = req.user.id;
-          await this.attendModel.updateOne(
-            { eventID: AttendedDto.eventID, userID: req.user.id },
-            { ...AttendedDto, deletedCheck: false },
-            { upsert: true },
-          );
+          await new this.attendModel(
+            {eventID: AttendedDto.eventID, userID: req.user.id, deletedCheck: false, _id: new Types.ObjectId().toString()}
+          ).save()
           return {
             message: 'Added to attended events',
           };

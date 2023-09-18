@@ -31,11 +31,9 @@ export class FavoritesService {
         }
         else {
           favoritesDto.userID = req.user.id;
-          await this.favModel.updateOne(
-            { eventID: favoritesDto.eventID, userID: req.user.id },
-            { ...favoritesDto, deletedCheck: false },
-            { upsert: true },
-          );
+          await new this.favModel(
+            {eventID: favoritesDto.eventID, userID: req.user.id, deletedCheck: false, _id: new Types.ObjectId().toString()}
+          ).save()
           return {
             message: 'Added to favourites',
           };
