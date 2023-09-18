@@ -3,7 +3,7 @@ import { FavoritesDto } from 'src/dto/favorites.dto';
 export declare class FavoritesController {
     private readonly favService;
     constructor(favService: FavoritesService);
-    getFavorites(limit?: number, offset?: number): Promise<{
+    getFavorites(limit: number, offset: number, req: any): Promise<{
         totalFavouriteEvents: number;
         data: any[];
     }>;

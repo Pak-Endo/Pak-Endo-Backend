@@ -13,7 +13,7 @@ export declare class FavoritesService {
         message: string;
     }>;
     getFavourite(id: string, req: any): Promise<any[]>;
-    getAllFavorites(offset: any, limit: any): Promise<{
+    getAllFavorites(offset: any, limit: any, req: any): Promise<{
         totalFavouriteEvents: number;
         data: any[];
     }>;

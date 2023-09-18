@@ -22,8 +22,8 @@ let FavoritesController = exports.FavoritesController = class FavoritesControlle
     constructor(favService) {
         this.favService = favService;
     }
-    async getFavorites(limit = 10, offset = 0) {
-        return await this.favService.getAllFavorites(offset, limit);
+    async getFavorites(limit = 10, offset = 0, req) {
+        return await this.favService.getAllFavorites(offset, limit, req);
     }
     async getFavById(id, req) {
         return await this.favService.getFavourite(id, req);
@@ -40,8 +40,9 @@ __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
+    __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [Number, Number, Object]),
     __metadata("design:returntype", Promise)
 ], FavoritesController.prototype, "getFavorites", null);
 __decorate([

@@ -97,7 +97,7 @@ let FavoritesService = exports.FavoritesService = class FavoritesService {
             throw new common_1.HttpException(err, common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async getAllFavorites(offset, limit) {
+    async getAllFavorites(offset, limit, req) {
         try {
             offset = parseInt(offset) < 0 ? 0 : offset;
             limit = parseInt(limit) < 1 ? 10 : limit;
@@ -109,6 +109,7 @@ let FavoritesService = exports.FavoritesService = class FavoritesService {
                 {
                     $match: {
                         deletedCheck: false,
+                        userID: req.user.id
                     },
                 },
                 {

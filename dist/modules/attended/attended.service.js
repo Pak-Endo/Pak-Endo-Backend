@@ -78,7 +78,7 @@ let AttendedService = exports.AttendedService = class AttendedService {
             throw new common_1.HttpException(err, common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async getAllAttended(offset, limit) {
+    async getAllAttended(offset, limit, req) {
         try {
             offset = parseInt(offset) < 0 ? 0 : offset;
             limit = parseInt(limit) < 1 ? 10 : limit;
@@ -90,6 +90,7 @@ let AttendedService = exports.AttendedService = class AttendedService {
                 {
                     $match: {
                         deletedCheck: false,
+                        userID: req.user.id
                     },
                 },
                 {

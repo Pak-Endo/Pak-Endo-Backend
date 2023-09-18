@@ -22,8 +22,8 @@ let AttendedController = exports.AttendedController = class AttendedController {
     constructor(attendService) {
         this.attendService = attendService;
     }
-    async getAttended(limit = 10, offset = 0) {
-        return await this.attendService.getAllAttended(offset, limit);
+    async getAttended(limit = 10, offset = 0, req) {
+        return await this.attendService.getAllAttended(offset, limit, req);
     }
     async getFavById(id, req) {
         return await this.attendService.getAttended(id, req);
@@ -37,8 +37,9 @@ __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
+    __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [Number, Number, Object]),
     __metadata("design:returntype", Promise)
 ], AttendedController.prototype, "getAttended", null);
 __decorate([
