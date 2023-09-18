@@ -4,7 +4,6 @@ export declare class FavoritesController {
     private readonly favService;
     constructor(favService: FavoritesService);
     getFavorites(limit: number, offset: number, req: any): Promise<{
-        totalFavouriteEvents: number;
         data: any[];
     }>;
     getFavById(id: string, req: any): Promise<any[]>;

@@ -14,7 +14,6 @@ export declare class FavoritesService {
     }>;
     getFavourite(id: string, req: any): Promise<any[]>;
     getAllFavorites(offset: any, limit: any, req: any): Promise<{
-        totalFavouriteEvents: number;
         data: any[];
     }>;
 }

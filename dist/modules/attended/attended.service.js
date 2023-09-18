@@ -82,9 +82,6 @@ let AttendedService = exports.AttendedService = class AttendedService {
         try {
             offset = parseInt(offset) < 0 ? 0 : offset;
             limit = parseInt(limit) < 1 ? 10 : limit;
-            const totalCount = await this.attendModel.countDocuments({
-                deletedCheck: false,
-            });
             const allFavourites = await this.attendModel
                 .aggregate([
                 {
@@ -94,22 +91,34 @@ let AttendedService = exports.AttendedService = class AttendedService {
                     },
                 },
                 {
+                    $lookup: {
+                        from: "events",
+                        localField: 'eventID',
+                        foreignField: '_id',
+                        as: 'events'
+                    }
+                },
+                {
                     $sort: {
                         createdAt: -1,
                     },
                 },
                 {
                     $project: {
-                        __v: 0,
-                        _id: 0
+                        events: 1
+                    }
+                },
+                {
+                    $addFields: {
+                        "events.isAttended": true,
                     },
                 },
             ])
                 .skip(parseInt(offset))
                 .limit(parseInt(limit));
+            const eventsArrays = [].concat(...allFavourites.map(item => item.events));
             return {
-                totalAttendedEvents: totalCount,
-                data: allFavourites,
+                data: eventsArrays,
             };
         }
         catch (err) {
