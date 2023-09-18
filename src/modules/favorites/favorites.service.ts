@@ -52,7 +52,7 @@ export class FavoritesService {
         deletedCheck: false,
       });
       if(checkIfExists) {
-        await this.favModel.updateOne({_id: checkIfExists.id, deletedCheck: true});
+        await this.favModel.deleteOne({_id: checkIfExists._id})
         return {message: 'Removed from favorites'}
       }
       else {
