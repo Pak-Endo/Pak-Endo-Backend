@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import config from 'src/config';
 import { FavoritesDto } from 'src/dto/favorites.dto';
 import { Event } from 'src/schemas/events.schema';
 import { Favorites } from 'src/schemas/favorites.schema';
@@ -130,6 +131,15 @@ export class FavoritesService {
         .limit(parseInt(limit));
 
       const eventsArrays = [].concat(...allFavourites.map(item => item.events));
+      eventsArrays.forEach(event => {
+        event.featuredImage = config.URL + event.featuredImage;
+  
+        if (event.gallery && event.gallery.mediaUrl) {
+          event.gallery.mediaUrl = event.gallery.mediaUrl.map(
+            media => config.URL + media
+          );
+        }
+      });
       return {
         totalCount: eventsArrays?.length,
         data: eventsArrays,
