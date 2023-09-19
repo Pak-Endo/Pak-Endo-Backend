@@ -140,6 +140,8 @@ export class EventsService {
           location: 1,
           organizer: 1,
           organizerContact: 1,
+          openForPublic: 1,
+          fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -271,6 +273,7 @@ export class EventsService {
           location: 1,
           organizer: 1,
           organizerContact: 1,
+          fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -309,7 +312,12 @@ export class EventsService {
       },
       {
         $replaceRoot: { newRoot: "$event" }
-      }
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
     ])
     .skip(Number(offset))
     .limit(Number(limit));
@@ -387,6 +395,7 @@ export class EventsService {
           location: 1,
           organizer: 1,
           organizerContact: 1,
+          fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -425,6 +434,11 @@ export class EventsService {
       },
       {
         $replaceRoot: { newRoot: "$event" }
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
       }
     ])
     .skip(Number(offset))
@@ -503,6 +517,7 @@ export class EventsService {
           location: 1,
           organizer: 1,
           organizerContact: 1,
+          fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -541,6 +556,11 @@ export class EventsService {
       },
       {
         $replaceRoot: { newRoot: "$event" }
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
       }
     ])
     .skip(Number(offset))
@@ -660,6 +680,8 @@ export class EventsService {
           type: 1,
           organizer: 1,
           organizerContact: 1,
+          openForPublic: 1,
+          fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -700,7 +722,7 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       },
       {
-        $sort: sort
+        $sort: sort || {createdAt: -1}
       }
     ])
     .skip(Number(offset))
@@ -817,7 +839,9 @@ export class EventsService {
           location: 1,
           organizer: 1,
           organizerContact: 1,
+          openForPublic: 1,
           type: 1,
+          fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -858,7 +882,7 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       },
       {
-        $sort: sort
+        $sort: sort || {createdAt: -1}
       }
     ])
     .skip(Number(offset))
@@ -976,6 +1000,8 @@ export class EventsService {
           agenda: 1,
           organizer: 1,
           organizerContact: 1,
+          openForPublic: 1,
+          fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -1016,7 +1042,7 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       },
       {
-        $sort: sort
+        $sort: sort || {createdAt: -1}
       }
     ])
     .skip(Number(offset))
