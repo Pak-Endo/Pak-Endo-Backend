@@ -57,10 +57,7 @@ let AuthService = exports.AuthService = class AuthService {
         newUser._id = new mongoose_2.Types.ObjectId().toString();
         newUser.role = 'member';
         newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
-        let emailNotif = await this.mailService.sendApprovalRequestToAdmin(newUser);
-        if (!emailNotif) {
-            throw new common_1.BadRequestException('Something went wrong. Please try again');
-        }
+        await this.mailService.sendApprovalRequestToAdmin(newUser);
         return await new this._userModel(newUser).save();
     }
     async loginUser(loginDto) {
@@ -161,7 +158,7 @@ let AuthService = exports.AuthService = class AuthService {
                 }
             }
             if (usersByMemberID?.length > 0) {
-                let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[0]?.memberIDCount) + 1}`;
+                let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[usersByMemberID?.length - 1]?.memberIDCount) + 1}`;
                 let memberIDGen = `PES/${userData?.type}/${newMemberID}`;
                 let emailNotif = await this.mailService.sendEmailToMember(user, memberIDGen, memberShipType);
                 if (!emailNotif) {
