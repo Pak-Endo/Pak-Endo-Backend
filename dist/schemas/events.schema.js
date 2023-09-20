@@ -76,6 +76,10 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Event.prototype, "openForPublic", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ default: false, required: false }),
+    __metadata("design:type", Number)
+], Event.prototype, "fees", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", Number)
 ], Event.prototype, "rating", void 0);

@@ -41,6 +41,7 @@ export declare class Event extends Document {
     organizer: string;
     organizerContact: string;
     openForPublic: boolean;
+    fees: number;
     rating: number;
     isFavorite: boolean;
     isAttended: boolean;
