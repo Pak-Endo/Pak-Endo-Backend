@@ -51,6 +51,9 @@ export class Event extends Document {
   @Prop({default: false, required: true})
   openForPublic: boolean;
 
+  @Prop({default: false, required: false})
+  fees: number;
+
   @Prop({default: '', required: false})
   rating: number;
 
