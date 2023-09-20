@@ -16,7 +16,7 @@ export class EventsService {
     @InjectModel('Agenda') private readonly agendaModel: Model<Agenda>
   ) {}
 
-  async getAllEvents(limit: number, offset: number, userID?: string, title?: string, location?: string, type?: string, startDate?: number, endDate?: number, speaker?: string): Promise<any> {
+  async getAllEvents(limit: number, offset: number, userID?: string, title?: string, location?: string, type?: string, startDate?: number, endDate?: number, speaker?: string, status?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
     offset = Number(offset) < 0 ? 0 : Number(offset);
     let filters = {},
@@ -49,6 +49,12 @@ export class EventsService {
       filters = {
         ...filters,
         "agenda.speaker": query
+      }
+    }
+    if (status) {
+      filters = {
+        ...filters,
+        eventStatus: status
       }
     }
     const countPipeline = [
