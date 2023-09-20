@@ -61,7 +61,6 @@ export class UserService {
     if(user) {
       throw new ForbiddenException('Email already exists');
     }
-    debugger
     let usersByMemberID = await this._userModel.aggregate([
       {
         $match: {
@@ -81,15 +80,14 @@ export class UserService {
         }
       }
     ])
-    debugger
     if(usersByMemberID?.length > 0) {
-      debugger
+
       let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[usersByMemberID?.length - 1]?.memberIDCount) + 1}`
       let memberIDGen = `PES/${newUser?.type}/${newMemberID}`;
       newUser.memberID = memberIDGen
     }
     else {
-      debugger
+
       let memberIDGen = `PES/${newUser?.type}/00`;
       newUser.memberID = memberIDGen
     }
@@ -97,7 +95,6 @@ export class UserService {
     newUser.role = 'member';
     newUser.fullName = newUser?.firstName + ' ' + newUser?.lastName;
     newUser.status = this.setStatus(newUser.status);
-    debugger
     await this.mailer.sendDefaultPasswordEmail(newUser)
     return await new this._userModel(newUser).save();
   }
