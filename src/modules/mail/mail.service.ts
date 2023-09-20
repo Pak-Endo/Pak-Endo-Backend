@@ -12,7 +12,7 @@ export class MailService {
       const url = `http://localhost:4200/auth/reset-password?id=${user.id}&token=${token}`;
       return await this.mailerService.sendMail({
         to: user.email,
-        from: 'noreply@event-manager.com',
+        from: 'noreply@admin.com',
         subject: 'RESET PASSWORD REQUEST',
         template: './confirmation',
         context: {
@@ -30,7 +30,7 @@ export class MailService {
     async sendApprovalRequestToAdmin(user: User | any) {
       return await this.mailerService.sendMail({
         to: 'admin@gmail.com',
-        from: 'noreply',
+        from: 'noreply@admin.com',
         subject: 'Request for Account Approval',
         template: './approval',
         context: {
@@ -47,7 +47,7 @@ export class MailService {
     async sendEmailToMember(user: User | any, memberId: string, type: string) {
       return await this.mailerService.sendMail({
         to: user?.email,
-        from: 'noreply',
+        from: 'noreply@admin.com',
         subject: 'Member ID assigned',
         template: './memberID',
         context: {
@@ -66,7 +66,7 @@ export class MailService {
     async sendDefaultPasswordEmail(user: User | any) {
       return await this.mailerService.sendMail({
         to: user?.email,
-        from: 'noreply',
+        from: 'noreply@admin.com',
         subject: 'New Member Created',
         template: './defaultPass',
         context: {
