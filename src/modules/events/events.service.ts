@@ -188,7 +188,7 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       },
       {
-        $sort: sort
+        $sort: Object.keys(sort).length > 0 ? sort : {createdAt: -1}
       }
     ])
     .skip(Number(offset))
@@ -728,7 +728,7 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       },
       {
-        $sort: sort || {createdAt: -1}
+        $sort: Object.keys(sort).length > 0 ? sort : {createdAt: -1}
       }
     ])
     .skip(Number(offset))
@@ -888,7 +888,7 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       },
       {
-        $sort: sort || {createdAt: -1}
+        $sort: Object.keys(sort).length > 0 ? sort : {createdAt: -1}
       }
     ])
     .skip(Number(offset))
@@ -1048,7 +1048,7 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       },
       {
-        $sort: sort || {createdAt: -1}
+        $sort: Object.keys(sort).length > 0 ? sort : {createdAt: -1}
       }
     ])
     .skip(Number(offset))
@@ -1085,11 +1085,8 @@ export class EventsService {
       await new this.galleryModel(eventDto?.gallery).save();
     }
     if(eventDto?.agenda && eventDto?.agenda?.length > 0) {
-
       for await (const agenda of eventDto.agenda) {
-  
         agenda._id = new Types.ObjectId().toString();
-        agenda.streamUrl = '';
         await new this.agendaModel(agenda).save();
       }
     }
@@ -1106,7 +1103,6 @@ export class EventsService {
       for await (const agenda of eventDto.agenda) {
         if(!agenda._id) {
           agenda._id = new Types.ObjectId().toString();
-          agenda.streamUrl = '';
           await new this.agendaModel(agenda).save();
         }
         else {
