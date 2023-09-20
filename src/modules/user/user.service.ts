@@ -43,7 +43,7 @@ export class UserService {
         }
       },
       {
-        $sort: sort
+        $sort: Object.keys(sort).length > 0 ? sort : {createdAt: -1}
       }
     ])
     .skip(Number(params.offset))
@@ -61,6 +61,7 @@ export class UserService {
     if(user) {
       throw new ForbiddenException('Email already exists');
     }
+    debugger
     let usersByMemberID = await this._userModel.aggregate([
       {
         $match: {
@@ -79,13 +80,16 @@ export class UserService {
           }
         }
       }
-    ]).sort({memberID: -1});
+    ])
+    debugger
     if(usersByMemberID?.length > 0) {
-      let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[0]?.memberIDCount) + 1}`
+      debugger
+      let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[usersByMemberID?.length - 1]?.memberIDCount) + 1}`
       let memberIDGen = `PES/${newUser?.type}/${newMemberID}`;
       newUser.memberID = memberIDGen
     }
     else {
+      debugger
       let memberIDGen = `PES/${newUser?.type}/00`;
       newUser.memberID = memberIDGen
     }
@@ -93,6 +97,7 @@ export class UserService {
     newUser.role = 'member';
     newUser.fullName = newUser?.firstName + ' ' + newUser?.lastName;
     newUser.status = this.setStatus(newUser.status);
+    debugger
     await this.mailer.sendDefaultPasswordEmail(newUser)
     return await new this._userModel(newUser).save();
   }
@@ -129,9 +134,9 @@ export class UserService {
             }
           }
         }
-      ]).sort({memberID: -1});
+      ])
       if(usersByMemberID?.length > 0) {
-        let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[0]?.memberIDCount) + 1}`
+        let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[usersByMemberID?.length - 1]?.memberIDCount) + 1}`
         let memberIDGen = `PES/${userDto?.type}/${newMemberID}`;
         userDto.memberID = memberIDGen
       }
