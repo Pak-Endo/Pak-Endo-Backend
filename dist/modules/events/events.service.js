@@ -196,7 +196,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: sort
+                $sort: Object.keys(sort).length > 0 ? sort : { createdAt: -1 }
             }
         ])
             .skip(Number(offset))
@@ -727,7 +727,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: sort || { createdAt: -1 }
+                $sort: Object.keys(sort).length > 0 ? sort : { createdAt: -1 }
             }
         ])
             .skip(Number(offset))
@@ -884,7 +884,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: sort || { createdAt: -1 }
+                $sort: Object.keys(sort).length > 0 ? sort : { createdAt: -1 }
             }
         ])
             .skip(Number(offset))
@@ -1041,7 +1041,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: sort || { createdAt: -1 }
+                $sort: Object.keys(sort).length > 0 ? sort : { createdAt: -1 }
             }
         ])
             .skip(Number(offset))
@@ -1076,7 +1076,6 @@ let EventsService = exports.EventsService = class EventsService {
         if (eventDto?.agenda && eventDto?.agenda?.length > 0) {
             for await (const agenda of eventDto.agenda) {
                 agenda._id = new mongoose_2.Types.ObjectId().toString();
-                agenda.streamUrl = '';
                 await new this.agendaModel(agenda).save();
             }
         }
@@ -1092,7 +1091,6 @@ let EventsService = exports.EventsService = class EventsService {
             for await (const agenda of eventDto.agenda) {
                 if (!agenda._id) {
                     agenda._id = new mongoose_2.Types.ObjectId().toString();
-                    agenda.streamUrl = '';
                     await new this.agendaModel(agenda).save();
                 }
                 else {
