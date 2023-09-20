@@ -25,7 +25,7 @@ let EventsService = exports.EventsService = class EventsService {
         this.galleryModel = galleryModel;
         this.agendaModel = agendaModel;
     }
-    async getAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker) {
+    async getAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker, status) {
         limit = Number(limit) < 1 ? 10 : Number(limit);
         offset = Number(offset) < 0 ? 0 : Number(offset);
         let filters = {}, sort = {};
@@ -57,6 +57,12 @@ let EventsService = exports.EventsService = class EventsService {
             filters = {
                 ...filters,
                 "agenda.speaker": query
+            };
+        }
+        if (status) {
+            filters = {
+                ...filters,
+                eventStatus: status
             };
         }
         const countPipeline = [

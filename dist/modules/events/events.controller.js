@@ -31,8 +31,8 @@ let EventsController = exports.EventsController = class EventsController {
     async deleteEventByID(eventID) {
         return await this.eventService.deleteEvent(eventID);
     }
-    async fetchAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker) {
-        return await this.eventService.getAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker);
+    async fetchAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker, status) {
+        return await this.eventService.getAllEvents(limit, offset, userID, title, location, type, startDate, endDate, speaker, status);
     }
     async fetchAllEventsByCategory(limit, offset, userID) {
         return await this.eventService.getAllEventsByCategory(limit, offset, userID);
@@ -92,6 +92,7 @@ __decorate([
     (0, swagger_1.ApiQuery)({ name: 'startDate', type: Number, required: false }),
     (0, swagger_1.ApiQuery)({ name: 'endDate', type: Number, required: false }),
     (0, swagger_1.ApiQuery)({ name: 'speaker', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'status', type: String, required: false }),
     __param(0, (0, common_1.Query)('limit')),
     __param(1, (0, common_1.Query)('offset')),
     __param(2, (0, common_1.Query)('userID')),
@@ -101,8 +102,9 @@ __decorate([
     __param(6, (0, common_1.Query)('startDate')),
     __param(7, (0, common_1.Query)('endDate')),
     __param(8, (0, common_1.Query)('speaker')),
+    __param(9, (0, common_1.Query)('status')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, String, String, String, String, Number, Number, String]),
+    __metadata("design:paramtypes", [Number, Number, String, String, String, String, Number, Number, String, String]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchAllEvents", null);
 __decorate([

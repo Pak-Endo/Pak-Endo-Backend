@@ -6,7 +6,7 @@ export declare class EventsController {
     postNewEvent(eventDto: EventDto): Promise<any>;
     updateEventData(eventDto: EventDto, eventID: string): Promise<any>;
     deleteEventByID(eventID: string): Promise<any>;
-    fetchAllEvents(limit: number, offset: number, userID?: string, title?: string, location?: string, type?: string, startDate?: number, endDate?: number, speaker?: string): Promise<any>;
+    fetchAllEvents(limit: number, offset: number, userID?: string, title?: string, location?: string, type?: string, startDate?: number, endDate?: number, speaker?: string, status?: string): Promise<any>;
     fetchAllEventsByCategory(limit: number, offset: number, userID?: string): Promise<any>;
     fetchUpcomingEvents(limit: number, offset: number, title?: string, userID?: string): Promise<any>;
     fetchOnGoingEvents(limit: number, offset: number, title?: string, userID?: string): Promise<any>;
