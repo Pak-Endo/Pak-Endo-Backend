@@ -16,6 +16,7 @@ exports.FavoritesService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const config_1 = require("../../config");
 let FavoritesService = exports.FavoritesService = class FavoritesService {
     constructor(favModel, eventModel) {
         this.favModel = favModel;
@@ -136,6 +137,12 @@ let FavoritesService = exports.FavoritesService = class FavoritesService {
                 .skip(parseInt(offset))
                 .limit(parseInt(limit));
             const eventsArrays = [].concat(...allFavourites.map(item => item.events));
+            eventsArrays.forEach(event => {
+                event.featuredImage = config_1.default.URL + event.featuredImage;
+                if (event.gallery && event.gallery.mediaUrl) {
+                    event.gallery.mediaUrl = event.gallery.mediaUrl.map(media => config_1.default.URL + media);
+                }
+            });
             return {
                 totalCount: eventsArrays?.length,
                 data: eventsArrays,
