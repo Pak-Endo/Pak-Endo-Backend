@@ -12,6 +12,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CronjobsModule } from './modules/cronjobs/cronjobs.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
 import { AttendedModule } from './modules/attended/attended.module';
+import { SpeakersModule } from './modules/speakers/speakers.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { AttendedModule } from './modules/attended/attended.module';
     FavoritesModule,
     AttendedModule,
     MediaUploadModule,
-    CronjobsModule
+    CronjobsModule,
+    SpeakersModule
   ],
   controllers: [AppController],
   providers: [AppService],
