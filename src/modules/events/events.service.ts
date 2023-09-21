@@ -159,15 +159,18 @@ export class EventsService {
         }
       },
       {
-        $unwind: "$gallery"
+        $unwind: {
+          path: "$gallery",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         $addFields: {
           "gallery.mediaUrl": {
-            $map: {
-              input: "$gallery.mediaUrl",
-              as: "url",
-              in: { $concat: [config.URL, "$$url"] }
+            $cond: {
+              if: { $isArray: "$gallery.mediaUrl" },
+              then: "$gallery.mediaUrl",
+              else: []
             }
           }
         }
@@ -291,15 +294,18 @@ export class EventsService {
         }
       },
       {
-        $unwind: "$gallery"
+        $unwind: {
+          path: "$gallery",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         $addFields: {
           "gallery.mediaUrl": {
-            $map: {
-              input: "$gallery.mediaUrl",
-              as: "url",
-              in: { $concat: [config.URL, "$$url"] }
+            $cond: {
+              if: { $isArray: "$gallery.mediaUrl" },
+              then: "$gallery.mediaUrl",
+              else: []
             }
           }
         }
@@ -413,15 +419,18 @@ export class EventsService {
         }
       },
       {
-        $unwind: "$gallery"
+        $unwind: {
+          path: "$gallery",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         $addFields: {
           "gallery.mediaUrl": {
-            $map: {
-              input: "$gallery.mediaUrl",
-              as: "url",
-              in: { $concat: [config.URL, "$$url"] }
+            $cond: {
+              if: { $isArray: "$gallery.mediaUrl" },
+              then: "$gallery.mediaUrl",
+              else: []
             }
           }
         }
@@ -535,15 +544,18 @@ export class EventsService {
         }
       },
       {
-        $unwind: "$gallery"
+        $unwind: {
+          path: "$gallery",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         $addFields: {
           "gallery.mediaUrl": {
-            $map: {
-              input: "$gallery.mediaUrl",
-              as: "url",
-              in: { $concat: [config.URL, "$$url"] }
+            $cond: {
+              if: { $isArray: "$gallery.mediaUrl" },
+              then: "$gallery.mediaUrl",
+              else: []
             }
           }
         }
@@ -699,15 +711,18 @@ export class EventsService {
         }
       },
       {
-        $unwind: "$gallery"
+        $unwind: {
+          path: "$gallery",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         $addFields: {
           "gallery.mediaUrl": {
-            $map: {
-              input: "$gallery.mediaUrl",
-              as: "url",
-              in: { $concat: [config.URL, "$$url"] }
+            $cond: {
+              if: { $isArray: "$gallery.mediaUrl" },
+              then: "$gallery.mediaUrl",
+              else: []
             }
           }
         }
@@ -859,15 +874,18 @@ export class EventsService {
         }
       },
       {
-        $unwind: "$gallery"
+        $unwind: {
+          path: "$gallery",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         $addFields: {
           "gallery.mediaUrl": {
-            $map: {
-              input: "$gallery.mediaUrl",
-              as: "url",
-              in: { $concat: [config.URL, "$$url"] }
+            $cond: {
+              if: { $isArray: "$gallery.mediaUrl" },
+              then: "$gallery.mediaUrl",
+              else: []
             }
           }
         }
@@ -1019,15 +1037,18 @@ export class EventsService {
         }
       },
       {
-        $unwind: "$gallery"
+        $unwind: {
+          path: "$gallery",
+          preserveNullAndEmptyArrays: true
+        }
       },
       {
         $addFields: {
           "gallery.mediaUrl": {
-            $map: {
-              input: "$gallery.mediaUrl",
-              as: "url",
-              in: { $concat: [config.URL, "$$url"] }
+            $cond: {
+              if: { $isArray: "$gallery.mediaUrl" },
+              then: "$gallery.mediaUrl",
+              else: []
             }
           }
         }
