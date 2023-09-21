@@ -1178,15 +1178,18 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
-                $unwind: "$gallery"
+                $unwind: {
+                    path: "$gallery",
+                    preserveNullAndEmptyArrays: true
+                }
             },
             {
                 $addFields: {
                     "gallery.mediaUrl": {
-                        $map: {
-                            input: "$gallery.mediaUrl",
-                            as: "url",
-                            in: { $concat: [config_1.default.URL, "$$url"] }
+                        $cond: {
+                            if: { $isArray: "$gallery.mediaUrl" },
+                            then: "$gallery.mediaUrl",
+                            else: []
                         }
                     }
                 }
