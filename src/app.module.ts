@@ -13,6 +13,7 @@ import { CronjobsModule } from './modules/cronjobs/cronjobs.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
 import { AttendedModule } from './modules/attended/attended.module';
 import { SpeakersModule } from './modules/speakers/speakers.module';
+import { SponsorsModule } from './modules/sponsors/sponsors.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { SpeakersModule } from './modules/speakers/speakers.module';
     AttendedModule,
     MediaUploadModule,
     CronjobsModule,
-    SpeakersModule
+    SpeakersModule,
+    SponsorsModule
   ],
   controllers: [AppController],
   providers: [AppService],
