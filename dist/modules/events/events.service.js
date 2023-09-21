@@ -36,7 +36,7 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, title: query };
         }
         else {
-            sort = { ...sort, _id: -1 };
+            sort = { ...sort, createdAt: -1 };
         }
         if (location) {
             const query = new RegExp(`${location}`, 'i');
@@ -167,15 +167,18 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
-                $unwind: "$gallery"
+                $unwind: {
+                    path: "$gallery",
+                    preserveNullAndEmptyArrays: true
+                }
             },
             {
                 $addFields: {
                     "gallery.mediaUrl": {
-                        $map: {
-                            input: "$gallery.mediaUrl",
-                            as: "url",
-                            in: { $concat: [config_1.default.URL, "$$url"] }
+                        $cond: {
+                            if: { $isArray: "$gallery.mediaUrl" },
+                            then: "$gallery.mediaUrl",
+                            else: []
                         }
                     }
                 }
@@ -196,7 +199,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: Object.keys(sort).length > 0 ? sort : { createdAt: -1 }
+                $sort: sort
             }
         ])
             .skip(Number(offset))
@@ -296,15 +299,18 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
-                $unwind: "$gallery"
+                $unwind: {
+                    path: "$gallery",
+                    preserveNullAndEmptyArrays: true
+                }
             },
             {
                 $addFields: {
                     "gallery.mediaUrl": {
-                        $map: {
-                            input: "$gallery.mediaUrl",
-                            as: "url",
-                            in: { $concat: [config_1.default.URL, "$$url"] }
+                        $cond: {
+                            if: { $isArray: "$gallery.mediaUrl" },
+                            then: "$gallery.mediaUrl",
+                            else: []
                         }
                     }
                 }
@@ -417,15 +423,18 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
-                $unwind: "$gallery"
+                $unwind: {
+                    path: "$gallery",
+                    preserveNullAndEmptyArrays: true
+                }
             },
             {
                 $addFields: {
                     "gallery.mediaUrl": {
-                        $map: {
-                            input: "$gallery.mediaUrl",
-                            as: "url",
-                            in: { $concat: [config_1.default.URL, "$$url"] }
+                        $cond: {
+                            if: { $isArray: "$gallery.mediaUrl" },
+                            then: "$gallery.mediaUrl",
+                            else: []
                         }
                     }
                 }
@@ -538,15 +547,18 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
-                $unwind: "$gallery"
+                $unwind: {
+                    path: "$gallery",
+                    preserveNullAndEmptyArrays: true
+                }
             },
             {
                 $addFields: {
                     "gallery.mediaUrl": {
-                        $map: {
-                            input: "$gallery.mediaUrl",
-                            as: "url",
-                            in: { $concat: [config_1.default.URL, "$$url"] }
+                        $cond: {
+                            if: { $isArray: "$gallery.mediaUrl" },
+                            then: "$gallery.mediaUrl",
+                            else: []
                         }
                     }
                 }
@@ -592,7 +604,7 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, title: query };
         }
         else {
-            sort = { ...sort, _id: -1 };
+            sort = { ...sort, createdAt: -1 };
         }
         const countPipeline = [
             {
@@ -698,15 +710,18 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
-                $unwind: "$gallery"
+                $unwind: {
+                    path: "$gallery",
+                    preserveNullAndEmptyArrays: true
+                }
             },
             {
                 $addFields: {
                     "gallery.mediaUrl": {
-                        $map: {
-                            input: "$gallery.mediaUrl",
-                            as: "url",
-                            in: { $concat: [config_1.default.URL, "$$url"] }
+                        $cond: {
+                            if: { $isArray: "$gallery.mediaUrl" },
+                            then: "$gallery.mediaUrl",
+                            else: []
                         }
                     }
                 }
@@ -727,7 +742,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: Object.keys(sort).length > 0 ? sort : { createdAt: -1 }
+                $sort: sort
             }
         ])
             .skip(Number(offset))
@@ -749,7 +764,7 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, title: query };
         }
         else {
-            sort = { ...sort, _id: -1 };
+            sort = { ...sort, createdAt: -1 };
         }
         const countPipeline = [
             {
@@ -855,15 +870,18 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
-                $unwind: "$gallery"
+                $unwind: {
+                    path: "$gallery",
+                    preserveNullAndEmptyArrays: true
+                }
             },
             {
                 $addFields: {
                     "gallery.mediaUrl": {
-                        $map: {
-                            input: "$gallery.mediaUrl",
-                            as: "url",
-                            in: { $concat: [config_1.default.URL, "$$url"] }
+                        $cond: {
+                            if: { $isArray: "$gallery.mediaUrl" },
+                            then: "$gallery.mediaUrl",
+                            else: []
                         }
                     }
                 }
@@ -884,7 +902,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: Object.keys(sort).length > 0 ? sort : { createdAt: -1 }
+                $sort: sort
             }
         ])
             .skip(Number(offset))
@@ -906,7 +924,7 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, title: query };
         }
         else {
-            sort = { ...sort, _id: -1 };
+            sort = { ...sort, createdAt: -1 };
         }
         const countPipeline = [
             {
@@ -1012,15 +1030,18 @@ let EventsService = exports.EventsService = class EventsService {
                 }
             },
             {
-                $unwind: "$gallery"
+                $unwind: {
+                    path: "$gallery",
+                    preserveNullAndEmptyArrays: true
+                }
             },
             {
                 $addFields: {
                     "gallery.mediaUrl": {
-                        $map: {
-                            input: "$gallery.mediaUrl",
-                            as: "url",
-                            in: { $concat: [config_1.default.URL, "$$url"] }
+                        $cond: {
+                            if: { $isArray: "$gallery.mediaUrl" },
+                            then: "$gallery.mediaUrl",
+                            else: []
                         }
                     }
                 }
@@ -1041,7 +1062,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: Object.keys(sort).length > 0 ? sort : { createdAt: -1 }
+                $sort: sort
             }
         ])
             .skip(Number(offset))
@@ -1053,10 +1074,6 @@ let EventsService = exports.EventsService = class EventsService {
         };
     }
     async createNewEvent(eventDto) {
-        const event = await this.eventModel.findOne({ title: eventDto.title, deletedCheck: false });
-        if (event) {
-            throw new common_1.ForbiddenException('An event by this title already exists');
-        }
         if (!eventDto.featuredImage?.includes(config_1.default.URL)) {
             throw new common_1.BadRequestException('Featured Image URL is not valid');
         }

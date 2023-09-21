@@ -21,6 +21,9 @@ const schedule_1 = require("@nestjs/schedule");
 const cronjobs_module_1 = require("./modules/cronjobs/cronjobs.module");
 const favorites_module_1 = require("./modules/favorites/favorites.module");
 const attended_module_1 = require("./modules/attended/attended.module");
+const speakers_module_1 = require("./modules/speakers/speakers.module");
+const sponsors_module_1 = require("./modules/sponsors/sponsors.module");
+const venues_module_1 = require("./modules/venues/venues.module");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
@@ -38,7 +41,10 @@ exports.AppModule = AppModule = __decorate([
             favorites_module_1.FavoritesModule,
             attended_module_1.AttendedModule,
             media_upload_module_1.MediaUploadModule,
-            cronjobs_module_1.CronjobsModule
+            cronjobs_module_1.CronjobsModule,
+            speakers_module_1.SpeakersModule,
+            sponsors_module_1.SponsorsModule,
+            venues_module_1.VenuesModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
