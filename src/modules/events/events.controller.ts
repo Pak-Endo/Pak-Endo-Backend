@@ -132,10 +132,12 @@ export class EventsController {
   }
 
   @Get('getEventByID/:eventID')
+  @ApiQuery({ name: 'speakerName', type: String, required: false })
   @UseGuards(JwtAuthGuard)
   async fetchEventByID(
-    @Param('eventID') eventID: string
+    @Param('eventID') eventID: string,
+    @Query('speakerName') speakerName: string,
   ) {
-    return await this.eventService.getEventByID(eventID)
+    return await this.eventService.getEventByID(eventID, speakerName)
   }
 }

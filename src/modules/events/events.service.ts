@@ -1158,11 +1158,12 @@ export class EventsService {
     }
   }
 
-  async getEventByID(eventID: string): Promise<any> {
+  async getEventByID(eventID: string, speakerName?: string): Promise<any> {
     const event = await this.eventModel.findOne({_id: eventID, deletedCheck: false});
     if(!event) {
       throw new NotFoundException('Event Does not exist')
     }
+    let query = new RegExp(`${speakerName}`, 'i')
     const finalEvent = await this.eventModel.aggregate([
       {
         $match: {
@@ -1227,6 +1228,14 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       }
     ]);
+    if(speakerName && speakerName?.trim()?.length > 0) {
+      let agendas = finalEvent[0]?.agenda?.filter(data => {
+        if(query.test(data?.speaker)) {
+          return data
+        }
+      })
+      finalEvent[0].agenda = agendas
+    }
     return finalEvent[0]
   }
 
