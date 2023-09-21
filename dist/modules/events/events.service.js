@@ -162,7 +162,7 @@ let EventsService = exports.EventsService = class EventsService {
             {
                 $addFields: {
                     gallery: {
-                        $ifNull: ["$gallery", [null]]
+                        $ifNull: ["$gallery", []]
                     }
                 }
             },
@@ -291,7 +291,7 @@ let EventsService = exports.EventsService = class EventsService {
             {
                 $addFields: {
                     gallery: {
-                        $ifNull: ["$gallery", [null]]
+                        $ifNull: ["$gallery", []]
                     }
                 }
             },
@@ -412,7 +412,7 @@ let EventsService = exports.EventsService = class EventsService {
             {
                 $addFields: {
                     gallery: {
-                        $ifNull: ["$gallery", [null]]
+                        $ifNull: ["$gallery", []]
                     }
                 }
             },
@@ -533,7 +533,7 @@ let EventsService = exports.EventsService = class EventsService {
             {
                 $addFields: {
                     gallery: {
-                        $ifNull: ["$gallery", [null]]
+                        $ifNull: ["$gallery", []]
                     }
                 }
             },
@@ -693,7 +693,7 @@ let EventsService = exports.EventsService = class EventsService {
             {
                 $addFields: {
                     gallery: {
-                        $ifNull: ["$gallery", [null]]
+                        $ifNull: ["$gallery", []]
                     }
                 }
             },
@@ -850,7 +850,7 @@ let EventsService = exports.EventsService = class EventsService {
             {
                 $addFields: {
                     gallery: {
-                        $ifNull: ["$gallery", [null]]
+                        $ifNull: ["$gallery", []]
                     }
                 }
             },
@@ -1007,7 +1007,7 @@ let EventsService = exports.EventsService = class EventsService {
             {
                 $addFields: {
                     gallery: {
-                        $ifNull: ["$gallery", [null]]
+                        $ifNull: ["$gallery", []]
                     }
                 }
             },
@@ -1156,7 +1156,7 @@ let EventsService = exports.EventsService = class EventsService {
             {
                 $addFields: {
                     gallery: {
-                        $ifNull: ["$gallery", [null]]
+                        $ifNull: ["$gallery", []]
                     }
                 }
             },
