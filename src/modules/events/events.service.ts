@@ -154,7 +154,7 @@ export class EventsService {
       {
         $addFields: {
           gallery: {
-            $ifNull: [ "$gallery", [] ]
+            $ifNull: [ "$gallery", {} ]
           }
         }
       },
@@ -286,7 +286,7 @@ export class EventsService {
       {
         $addFields: {
           gallery: {
-            $ifNull: [ "$gallery", [] ]
+            $ifNull: [ "$gallery", {} ]
           }
         }
       },
@@ -408,7 +408,7 @@ export class EventsService {
       {
         $addFields: {
           gallery: {
-            $ifNull: [ "$gallery", [] ]
+            $ifNull: [ "$gallery", {} ]
           }
         }
       },
@@ -530,7 +530,7 @@ export class EventsService {
       {
         $addFields: {
           gallery: {
-            $ifNull: [ "$gallery", [] ]
+            $ifNull: [ "$gallery", {} ]
           }
         }
       },
@@ -694,7 +694,7 @@ export class EventsService {
       {
         $addFields: {
           gallery: {
-            $ifNull: [ "$gallery", [] ]
+            $ifNull: [ "$gallery", {} ]
           }
         }
       },
@@ -854,7 +854,7 @@ export class EventsService {
       {
         $addFields: {
           gallery: {
-            $ifNull: [ "$gallery", [] ]
+            $ifNull: [ "$gallery", {} ]
           }
         }
       },
@@ -1014,7 +1014,7 @@ export class EventsService {
       {
         $addFields: {
           gallery: {
-            $ifNull: [ "$gallery", [] ]
+            $ifNull: [ "$gallery", {} ]
           }
         }
       },
@@ -1173,7 +1173,7 @@ export class EventsService {
       {
         $addFields: {
           gallery: {
-            $ifNull: [ "$gallery", [] ]
+            $ifNull: [ "$gallery", {} ]
           }
         }
       },
