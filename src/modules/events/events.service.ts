@@ -168,9 +168,22 @@ export class EventsService {
         $addFields: {
           "gallery.mediaUrl": {
             $cond: {
-              if: { $isArray: "$gallery.mediaUrl" },
-              then: "$gallery.mediaUrl",
-              else: []
+              if: {
+                $and: [
+                  { $isArray: "$gallery.mediaUrl" },
+                  { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                ]
+              },
+              then: {
+                $map: {
+                  input: '$gallery.mediaUrl',
+                  as: 'image',
+                  in: {
+                    $concat: [config.URL, '$$image']
+                  }
+                }
+              },
+              else: '$gallery.mediaUrl'
             }
           }
         }
@@ -196,14 +209,14 @@ export class EventsService {
     ])
     .skip(Number(offset))
     .limit(Number(limit));
-    
-
+  
     return {
       events: eventList,
       totalCount: totalCount,
       currentCount: eventList.length
     }
   }
+  
 
   async getAllEventsByCategory(limit: number, offset: number, userID?: string): Promise<any> {
     limit = Number(limit) < 1 ? 10 : Number(limit);
@@ -1091,7 +1104,6 @@ export class EventsService {
     eventDto.eventStatus = EventStatus.UPCOMING;
     eventDto.deletedCheck = false;
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
-
       eventDto.gallery._id = new Types.ObjectId().toString();
       eventDto.gallery.eventID = eventDto._id;
       eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
