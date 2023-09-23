@@ -78,7 +78,7 @@ export class VenueService {
   }
 
   async addNewVenue(venue: VenueDto): Promise<any> {
-    const venueExists = await this.venueModel.findOne({ uniqueID: venue.venueName, deletedCheck: false });
+    const venueExists = await this.venueModel.findOne({ venueName: venue.venueName, deletedCheck: false });
     if(venueExists) {
       throw new ForbiddenException('Venue already exists');
     }

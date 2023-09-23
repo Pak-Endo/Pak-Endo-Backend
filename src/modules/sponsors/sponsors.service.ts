@@ -78,7 +78,7 @@ export class SponsorService {
   }
 
   async addNewSponsor(sponsor: SponsorDto): Promise<any> {
-    const sponsorExists = await this.sponsorModel.findOne({ uniqueID: sponsor.uniqueID, deletedCheck: false });
+    const sponsorExists = await this.sponsorModel.findOne({ sponsorName: sponsor.sponsorName, deletedCheck: false });
     if(sponsorExists) {
       throw new ForbiddenException('Spomsor already exists');
     }
