@@ -144,8 +144,8 @@ export class EventsService {
           agenda: 1,
           type: 1,
           location: 1,
-          organizer: 1,
-          organizerContact: 1,
+          grandSponsor: 1,
+          grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
@@ -293,8 +293,8 @@ export class EventsService {
           agenda: 1,
           type: 1,
           location: 1,
-          organizer: 1,
-          organizerContact: 1,
+          grandSponsor: 1,
+          grandSponsorContact: 1,
           fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
@@ -418,8 +418,8 @@ export class EventsService {
           agenda: 1,
           type: 1,
           location: 1,
-          organizer: 1,
-          organizerContact: 1,
+          grandSponsor: 1,
+          grandSponsorContact: 1,
           fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
@@ -543,8 +543,8 @@ export class EventsService {
           agenda: 1,
           type: 1,
           location: 1,
-          organizer: 1,
-          organizerContact: 1,
+          grandSponsor: 1,
+          grandSponsorContact: 1,
           fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
@@ -709,8 +709,8 @@ export class EventsService {
           agenda: 1,
           location: 1,
           type: 1,
-          organizer: 1,
-          organizerContact: 1,
+          grandSponsor: 1,
+          grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
@@ -871,8 +871,8 @@ export class EventsService {
           startDate: 1,
           agenda: 1,
           location: 1,
-          organizer: 1,
-          organizerContact: 1,
+          grandSponsor: 1,
+          grandSponsorContact: 1,
           openForPublic: 1,
           type: 1,
           fees: 1,
@@ -1035,8 +1035,8 @@ export class EventsService {
           location: 1,
           type: 1,
           agenda: 1,
-          organizer: 1,
-          organizerContact: 1,
+          grandSponsor: 1,
+          grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
@@ -1195,8 +1195,8 @@ export class EventsService {
           agenda: 1,
           type: 1,
           location: 1,
-          organizer: 1,
-          organizerContact: 1,
+          grandSponsor: 1,
+          grandSponsorContact: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
