@@ -78,7 +78,8 @@ EventSchema.set('toJSON', {
 export enum EventStatus {
   ONGOING = 'ongoing',
   UPCOMING = 'upcoming',
-  FINSIHED = 'finished'
+  FINSIHED = 'finished',
+  DRAFT = 'draft'
 }
 
 export interface sponsorType {

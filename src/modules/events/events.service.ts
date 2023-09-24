@@ -1101,7 +1101,12 @@ export class EventsService {
     }
     eventDto._id = new Types.ObjectId().toString();
     eventDto.featuredImage = eventDto.featuredImage?.split(config.URL)[1];
-    eventDto.eventStatus = EventStatus.UPCOMING;
+    if(eventDto.agenda && eventDto.agenda.length > 0) {
+      eventDto.eventStatus = EventStatus.UPCOMING;
+    }
+    else {
+      eventDto.eventStatus = EventStatus.DRAFT;
+    }
     eventDto.deletedCheck = false;
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
       eventDto.gallery._id = new Types.ObjectId().toString();
@@ -1128,7 +1133,13 @@ export class EventsService {
     if(!event) {
       throw new NotFoundException('Event not found');
     }
-    if(eventDto.agenda) {
+    if(eventDto.agenda && eventDto.agenda.length > 0) {
+      eventDto.eventStatus = EventStatus.UPCOMING;
+    }
+    else {
+      eventDto.eventStatus = EventStatus.DRAFT;
+    }
+    if(eventDto.agenda && eventDto.agenda?.length > 0) {
       for await (const agenda of eventDto.agenda) {
         if(!agenda._id) {
           agenda._id = new Types.ObjectId().toString();
@@ -1140,9 +1151,7 @@ export class EventsService {
       }
     }
     if(eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
-
       if(event?.gallery?._id) {
-  
         eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
           value = value?.split(config.URL)[1];
           return value
@@ -1150,7 +1159,6 @@ export class EventsService {
         await this.galleryModel.updateOne({ _id: event?.gallery?._id }, eventDto.gallery);
       }
       else {
-  
         eventDto.gallery._id = new Types.ObjectId().toString();
         eventDto.gallery.eventID = eventDto._id || event?._id;
         eventDto.gallery.mediaUrl = eventDto?.gallery?.mediaUrl?.map(value => {
@@ -1159,7 +1167,6 @@ export class EventsService {
         })
         await new this.galleryModel(eventDto?.gallery).save();
       }
-
     }
     if(eventDto.featuredImage) {
       eventDto.featuredImage = eventDto.featuredImage?.split(config.URL)[1];
