@@ -59,11 +59,12 @@ export class EventDto {
     example: [
       {
         _id: '',
+        theme: '',
         from: '',
         day: 0,
         agendaTitle: '',
         to: '',
-        venue: '',
+        hall: '',
         streamUrl: '',
         speaker: '' 
       }

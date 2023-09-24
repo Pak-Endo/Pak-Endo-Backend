@@ -27,7 +27,7 @@ export class Agenda extends Document {
   to: string;
 
   @Prop({default: '', required: true})
-  venue: string;
+  hall: string;
 
   @Prop({default: '', required: false})
   speaker: string;
