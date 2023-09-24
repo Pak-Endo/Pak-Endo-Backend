@@ -14,7 +14,7 @@ export class Agenda extends Document {
   @Prop({default: '', required: true})
   theme: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   sponsor: string;
 
   @Prop({default: 0, required: true})
