@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { AgendaInterface, EventStatus } from "src/schemas/events.schema";
+import { AgendaInterface, EventStatus, sponsorType } from "src/schemas/events.schema";
 import { Gallery } from "src/schemas/gallery.schema";
 
 export class EventDto {
@@ -38,13 +38,13 @@ export class EventDto {
   streamUrl: string;
 
   @ApiProperty()
-  location: string;
+  location: sponsorType;
 
   @ApiProperty()
   type: string;
 
   @ApiProperty()
-  organizer: string;
+  grandSponsor: sponsorType;
 
   @ApiProperty()
   rating: number;
@@ -53,17 +53,18 @@ export class EventDto {
   openForPublic: boolean;
 
   @ApiProperty()
-  organizerContact: string;
+  grandSponsorContact: string;
 
   @ApiProperty({
     example: [
       {
         _id: '',
+        theme: '',
         from: '',
         day: 0,
         agendaTitle: '',
         to: '',
-        venue: '',
+        hall: '',
         streamUrl: '',
         speaker: '' 
       }

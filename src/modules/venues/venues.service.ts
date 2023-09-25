@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { SORT } from "../user/user.service";
@@ -78,9 +78,9 @@ export class VenueService {
   }
 
   async addNewVenue(venue: VenueDto): Promise<any> {
-    const venueExists = await this.venueModel.findOne({ uniqueID: venue.venueName, deletedCheck: false });
+    const venueExists = await this.venueModel.findOne({ venueName: venue.venueName, city: venue.city, deletedCheck: false });
     if(venueExists) {
-      throw new ForbiddenException('Venue already exists');
+      throw new BadRequestException('Venue already exists');
     }
     venue._id = new Types.ObjectId().toString();
     venue.deletedCheck = false;

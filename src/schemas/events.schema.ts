@@ -15,14 +15,14 @@ export class Event extends Document {
   @Prop({default: '', required: true})
   description: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: 0, required: true})
   startDate: number;
 
-  @Prop({default: '', required: true})
+  @Prop({default: 0, required: true})
   endDate: number;
 
-  @Prop({default: '', required: true})
-  location: string;
+  @Prop({type: 'object', default: {}, required: true})
+  location: sponsorType;
 
   @Prop({default: '', required: true})
   featuredImage: string;
@@ -42,11 +42,11 @@ export class Event extends Document {
   @Prop({default: '', required: true})
   type: string;
 
-  @Prop({default: '', required: false})
-  organizer: string;
+  @Prop({type: 'object', default: {}, required: false})
+  grandSponsor: sponsorType;
 
   @Prop({default: '', required: false})
-  organizerContact: string;
+  grandSponsorContact: string;
 
   @Prop({default: false, required: true})
   openForPublic: boolean;
@@ -78,7 +78,13 @@ EventSchema.set('toJSON', {
 export enum EventStatus {
   ONGOING = 'ongoing',
   UPCOMING = 'upcoming',
-  FINSIHED = 'finished'
+  FINSIHED = 'finished',
+  DRAFT = 'draft'
+}
+
+export interface sponsorType {
+  id: string,
+  name: string
 }
 
 export interface AgendaInterface {

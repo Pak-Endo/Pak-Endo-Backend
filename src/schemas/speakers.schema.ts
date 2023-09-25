@@ -18,6 +18,9 @@ export class Speaker extends Document {
   speakerImg: string;
 
   @Prop({default: '', required: true})
+  email: string;
+
+  @Prop({default: '', required: true})
   description: string;
 
   @Prop({default: false, required: false})

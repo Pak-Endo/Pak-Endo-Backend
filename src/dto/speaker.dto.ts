@@ -17,5 +17,8 @@ export class SpeakerDto {
   description: string;
 
   @ApiProperty()
+  email: string;
+
+  @ApiProperty()
   deletedCheck: boolean;
 }
