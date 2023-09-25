@@ -52,8 +52,8 @@ let EventsController = exports.EventsController = class EventsController {
     async fetchEventsForCalendar(limit, offset) {
         return await this.eventService.getUpcomingEventsForCalendar(limit, offset);
     }
-    async fetchEventByID(eventID) {
-        return await this.eventService.getEventByID(eventID);
+    async fetchEventByID(eventID, speakerName, hallName, startTime) {
+        return await this.eventService.getEventByID(eventID, speakerName, hallName, startTime);
     }
 };
 __decorate([
@@ -179,10 +179,16 @@ __decorate([
 ], EventsController.prototype, "fetchEventsForCalendar", null);
 __decorate([
     (0, common_1.Get)('getEventByID/:eventID'),
+    (0, swagger_1.ApiQuery)({ name: 'speakerName', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'hallName', type: String, required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'startTime', type: String, required: false }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Param)('eventID')),
+    __param(1, (0, common_1.Query)('speakerName')),
+    __param(2, (0, common_1.Query)('hallName')),
+    __param(3, (0, common_1.Query)('startTime')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchEventByID", null);
 exports.EventsController = EventsController = __decorate([

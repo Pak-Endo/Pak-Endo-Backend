@@ -36,6 +36,10 @@ __decorate([
 ], SpeakerDto.prototype, "description", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], SpeakerDto.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Boolean)
 ], SpeakerDto.prototype, "deletedCheck", void 0);
 //# sourceMappingURL=speaker.dto.js.map

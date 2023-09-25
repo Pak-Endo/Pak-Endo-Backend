@@ -33,6 +33,10 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: true }),
     __metadata("design:type", String)
+], Speaker.prototype, "email", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: true }),
+    __metadata("design:type", String)
 ], Speaker.prototype, "description", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: false, required: false }),

@@ -29,6 +29,7 @@ export declare class Speaker extends Document {
     speakerName: string;
     uniqueID: string;
     speakerImg: string;
+    email: string;
     description: string;
     deletedCheck: false;
 }

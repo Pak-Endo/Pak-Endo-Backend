@@ -152,8 +152,8 @@ let EventsService = exports.EventsService = class EventsService {
                     agenda: 1,
                     type: 1,
                     location: 1,
-                    organizer: 1,
-                    organizerContact: 1,
+                    grandSponsor: 1,
+                    grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
@@ -176,9 +176,22 @@ let EventsService = exports.EventsService = class EventsService {
                 $addFields: {
                     "gallery.mediaUrl": {
                         $cond: {
-                            if: { $isArray: "$gallery.mediaUrl" },
-                            then: "$gallery.mediaUrl",
-                            else: []
+                            if: {
+                                $and: [
+                                    { $isArray: "$gallery.mediaUrl" },
+                                    { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                                ]
+                            },
+                            then: {
+                                $map: {
+                                    input: '$gallery.mediaUrl',
+                                    as: 'image',
+                                    in: {
+                                        $concat: [config_1.default.URL, '$$image']
+                                    }
+                                }
+                            },
+                            else: '$gallery.mediaUrl'
                         }
                     }
                 }
@@ -285,8 +298,8 @@ let EventsService = exports.EventsService = class EventsService {
                     agenda: 1,
                     type: 1,
                     location: 1,
-                    organizer: 1,
-                    organizerContact: 1,
+                    grandSponsor: 1,
+                    grandSponsorContact: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -409,8 +422,8 @@ let EventsService = exports.EventsService = class EventsService {
                     agenda: 1,
                     type: 1,
                     location: 1,
-                    organizer: 1,
-                    organizerContact: 1,
+                    grandSponsor: 1,
+                    grandSponsorContact: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -533,8 +546,8 @@ let EventsService = exports.EventsService = class EventsService {
                     agenda: 1,
                     type: 1,
                     location: 1,
-                    organizer: 1,
-                    organizerContact: 1,
+                    grandSponsor: 1,
+                    grandSponsorContact: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -695,8 +708,8 @@ let EventsService = exports.EventsService = class EventsService {
                     agenda: 1,
                     location: 1,
                     type: 1,
-                    organizer: 1,
-                    organizerContact: 1,
+                    grandSponsor: 1,
+                    grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
@@ -854,8 +867,8 @@ let EventsService = exports.EventsService = class EventsService {
                     startDate: 1,
                     agenda: 1,
                     location: 1,
-                    organizer: 1,
-                    organizerContact: 1,
+                    grandSponsor: 1,
+                    grandSponsorContact: 1,
                     openForPublic: 1,
                     type: 1,
                     fees: 1,
@@ -1015,8 +1028,8 @@ let EventsService = exports.EventsService = class EventsService {
                     location: 1,
                     type: 1,
                     agenda: 1,
-                    organizer: 1,
-                    organizerContact: 1,
+                    grandSponsor: 1,
+                    grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
@@ -1079,7 +1092,12 @@ let EventsService = exports.EventsService = class EventsService {
         }
         eventDto._id = new mongoose_2.Types.ObjectId().toString();
         eventDto.featuredImage = eventDto.featuredImage?.split(config_1.default.URL)[1];
-        eventDto.eventStatus = events_schema_1.EventStatus.UPCOMING;
+        if (eventDto.agenda && eventDto.agenda.length > 0) {
+            eventDto.eventStatus = events_schema_1.EventStatus.UPCOMING;
+        }
+        else {
+            eventDto.eventStatus = events_schema_1.EventStatus.DRAFT;
+        }
         eventDto.deletedCheck = false;
         if (eventDto?.gallery && eventDto?.gallery?.mediaUrl?.length > 0) {
             eventDto.gallery._id = new mongoose_2.Types.ObjectId().toString();
@@ -1104,7 +1122,13 @@ let EventsService = exports.EventsService = class EventsService {
         if (!event) {
             throw new common_1.NotFoundException('Event not found');
         }
-        if (eventDto.agenda) {
+        if (eventDto.agenda && eventDto.agenda.length > 0) {
+            eventDto.eventStatus = events_schema_1.EventStatus.UPCOMING;
+        }
+        else {
+            eventDto.eventStatus = events_schema_1.EventStatus.DRAFT;
+        }
+        if (eventDto.agenda && eventDto.agenda?.length > 0) {
             for await (const agenda of eventDto.agenda) {
                 if (!agenda._id) {
                     agenda._id = new mongoose_2.Types.ObjectId().toString();
@@ -1141,11 +1165,12 @@ let EventsService = exports.EventsService = class EventsService {
             return await this.eventModel.findOne({ _id: eventID });
         }
     }
-    async getEventByID(eventID) {
+    async getEventByID(eventID, speakerName, hallName, startTime) {
         const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
         if (!event) {
             throw new common_1.NotFoundException('Event Does not exist');
         }
+        let query = new RegExp(`${speakerName || hallName || startTime}`, 'i');
         const finalEvent = await this.eventModel.aggregate([
             {
                 $match: {
@@ -1165,8 +1190,8 @@ let EventsService = exports.EventsService = class EventsService {
                     agenda: 1,
                     type: 1,
                     location: 1,
-                    organizer: 1,
-                    organizerContact: 1,
+                    grandSponsor: 1,
+                    grandSponsorContact: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -1210,6 +1235,30 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             }
         ]);
+        if (speakerName && speakerName?.trim()?.length > 0) {
+            let agendas = finalEvent[0]?.agenda?.filter(data => {
+                if (query.test(data?.speaker)) {
+                    return data;
+                }
+            });
+            finalEvent[0].agenda = agendas;
+        }
+        if (hallName && hallName?.trim()?.length > 0) {
+            let agendas = finalEvent[0]?.agenda?.filter(data => {
+                if (query.test(data?.hall)) {
+                    return data;
+                }
+            });
+            finalEvent[0].agenda = agendas;
+        }
+        if (startTime && startTime?.trim()?.length > 0) {
+            let agendas = finalEvent[0]?.agenda?.filter(data => {
+                if (query.test(data?.from)) {
+                    return data;
+                }
+            });
+            finalEvent[0].agenda = agendas;
+        }
         return finalEvent[0];
     }
     async deleteEvent(eventID) {

@@ -31,15 +31,15 @@ export declare class Event extends Document {
     description: string;
     startDate: number;
     endDate: number;
-    location: string;
+    location: sponsorType;
     featuredImage: string;
     gallery: Gallery;
     deletedCheck: boolean;
     eventStatus: EventStatus;
     agenda: AgendaInterface[];
     type: string;
-    organizer: string;
-    organizerContact: string;
+    grandSponsor: sponsorType;
+    grandSponsorContact: string;
     openForPublic: boolean;
     fees: number;
     rating: number;
@@ -54,7 +54,12 @@ export declare const EventSchema: import("mongoose").Schema<Event, import("mongo
 export declare enum EventStatus {
     ONGOING = "ongoing",
     UPCOMING = "upcoming",
-    FINSIHED = "finished"
+    FINSIHED = "finished",
+    DRAFT = "draft"
+}
+export interface sponsorType {
+    id: string;
+    name: string;
 }
 export interface AgendaInterface {
     _id: string;

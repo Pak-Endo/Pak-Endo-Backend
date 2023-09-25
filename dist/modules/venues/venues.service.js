@@ -84,9 +84,9 @@ let VenueService = exports.VenueService = class VenueService {
         return venue;
     }
     async addNewVenue(venue) {
-        const venueExists = await this.venueModel.findOne({ uniqueID: venue.venueName, deletedCheck: false });
+        const venueExists = await this.venueModel.findOne({ venueName: venue.venueName, city: venue.city, deletedCheck: false });
         if (venueExists) {
-            throw new common_1.ForbiddenException('Venue already exists');
+            throw new common_1.BadRequestException('Venue already exists');
         }
         venue._id = new mongoose_2.Types.ObjectId().toString();
         venue.deletedCheck = false;

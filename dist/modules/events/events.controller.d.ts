@@ -13,5 +13,5 @@ export declare class EventsController {
     fetchFinishedEvents(limit: number, offset: number, title?: string, userID?: string): Promise<any>;
     fetchEventStats(): Promise<any>;
     fetchEventsForCalendar(limit: number, offset: number): Promise<any>;
-    fetchEventByID(eventID: string): Promise<any>;
+    fetchEventByID(eventID: string, speakerName: string, hallName: string, startTime: string): Promise<any>;
 }

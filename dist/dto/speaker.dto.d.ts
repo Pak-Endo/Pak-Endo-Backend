@@ -4,5 +4,6 @@ export declare class SpeakerDto {
     speakerImg: string;
     uniqueID: string;
     description: string;
+    email: string;
     deletedCheck: boolean;
 }

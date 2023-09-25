@@ -23,6 +23,14 @@ __decorate([
     __metadata("design:type", String)
 ], Agenda.prototype, "agendaTitle", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ default: '', required: true }),
+    __metadata("design:type", String)
+], Agenda.prototype, "theme", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: false }),
+    __metadata("design:type", String)
+], Agenda.prototype, "sponsor", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ default: 0, required: true }),
     __metadata("design:type", Number)
 ], Agenda.prototype, "day", void 0);
@@ -37,7 +45,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: true }),
     __metadata("design:type", String)
-], Agenda.prototype, "venue", void 0);
+], Agenda.prototype, "hall", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", String)

@@ -15,7 +15,7 @@ export declare class EventsService {
     getFinishedEvents(limit: number, offset: number, title?: string, userID?: string): Promise<any>;
     createNewEvent(eventDto: EventDto): Promise<any>;
     updateEvent(eventDto: EventDto, eventID: string): Promise<any>;
-    getEventByID(eventID: string): Promise<any>;
+    getEventByID(eventID: string, speakerName?: string, hallName?: string, startTime?: string): Promise<any>;
     deleteEvent(eventID: string): Promise<any>;
     getEventStats(): Promise<any>;
     getUpcomingEventsForCalendar(limit: number, offset: number): Promise<any>;

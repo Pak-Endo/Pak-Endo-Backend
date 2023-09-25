@@ -28,16 +28,16 @@ __decorate([
     __metadata("design:type", String)
 ], Event.prototype, "description", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
+    (0, mongoose_1.Prop)({ default: 0, required: true }),
     __metadata("design:type", Number)
 ], Event.prototype, "startDate", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
+    (0, mongoose_1.Prop)({ default: 0, required: true }),
     __metadata("design:type", Number)
 ], Event.prototype, "endDate", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
-    __metadata("design:type", String)
+    (0, mongoose_1.Prop)({ type: 'object', default: {}, required: true }),
+    __metadata("design:type", Object)
 ], Event.prototype, "location", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: true }),
@@ -64,13 +64,13 @@ __decorate([
     __metadata("design:type", String)
 ], Event.prototype, "type", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: false }),
-    __metadata("design:type", String)
-], Event.prototype, "organizer", void 0);
+    (0, mongoose_1.Prop)({ type: 'object', default: {}, required: false }),
+    __metadata("design:type", Object)
+], Event.prototype, "grandSponsor", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", String)
-], Event.prototype, "organizerContact", void 0);
+], Event.prototype, "grandSponsorContact", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: false, required: true }),
     __metadata("design:type", Boolean)
@@ -108,5 +108,6 @@ var EventStatus;
     EventStatus["ONGOING"] = "ongoing";
     EventStatus["UPCOMING"] = "upcoming";
     EventStatus["FINSIHED"] = "finished";
+    EventStatus["DRAFT"] = "draft";
 })(EventStatus || (exports.EventStatus = EventStatus = {}));
 //# sourceMappingURL=events.schema.js.map

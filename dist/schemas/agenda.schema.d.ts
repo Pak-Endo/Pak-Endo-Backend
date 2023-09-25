@@ -27,10 +27,12 @@ export type AgendaSchema = HydratedDocument<Event>;
 export declare class Agenda extends Document {
     _id: string;
     agendaTitle: string;
+    theme: string;
+    sponsor: string;
     day: number;
     from: string;
     to: string;
-    venue: string;
+    hall: string;
     speaker: string;
     streamUrl: string;
     deletedCheck: boolean;

@@ -62,7 +62,7 @@ __decorate([
 ], EventDto.prototype, "streamUrl", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], EventDto.prototype, "location", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
@@ -70,8 +70,8 @@ __decorate([
 ], EventDto.prototype, "type", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", String)
-], EventDto.prototype, "organizer", void 0);
+    __metadata("design:type", Object)
+], EventDto.prototype, "grandSponsor", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Number)
@@ -83,17 +83,18 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
-], EventDto.prototype, "organizerContact", void 0);
+], EventDto.prototype, "grandSponsorContact", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: [
             {
                 _id: '',
+                theme: '',
                 from: '',
                 day: 0,
                 agendaTitle: '',
                 to: '',
-                venue: '',
+                hall: '',
                 streamUrl: '',
                 speaker: ''
             }
