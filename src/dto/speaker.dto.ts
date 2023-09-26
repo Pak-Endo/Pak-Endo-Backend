@@ -8,6 +8,9 @@ export class SpeakerDto {
   speakerName: string;
 
   @ApiProperty()
+  speakerTeam: any[];
+
+  @ApiProperty()
   speakerImg: string;
 
   @ApiProperty()
