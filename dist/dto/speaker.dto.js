@@ -24,6 +24,10 @@ __decorate([
 ], SpeakerDto.prototype, "speakerName", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Array)
+], SpeakerDto.prototype, "speakerTeam", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], SpeakerDto.prototype, "speakerImg", void 0);
 __decorate([

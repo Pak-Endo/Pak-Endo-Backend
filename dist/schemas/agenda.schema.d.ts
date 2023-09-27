@@ -34,6 +34,7 @@ export declare class Agenda extends Document {
     to: string;
     hall: string;
     speaker: string;
+    speakerTeam: any[];
     streamUrl: string;
     deletedCheck: boolean;
     speakerImg: string;

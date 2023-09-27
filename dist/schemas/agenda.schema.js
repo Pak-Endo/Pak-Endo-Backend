@@ -51,6 +51,10 @@ __decorate([
     __metadata("design:type", String)
 ], Agenda.prototype, "speaker", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ default: [], required: false }),
+    __metadata("design:type", Array)
+], Agenda.prototype, "speakerTeam", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", String)
 ], Agenda.prototype, "streamUrl", void 0);

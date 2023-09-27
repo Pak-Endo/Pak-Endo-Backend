@@ -286,8 +286,8 @@ let EventsService = exports.EventsService = class EventsService {
             },
             {
                 $project: {
-                    isFavorite: 1,
                     isAttended: 1,
+                    isFavorite: 1,
                     description: 1,
                     title: 1,
                     eventStatus: 1,
@@ -300,6 +300,7 @@ let EventsService = exports.EventsService = class EventsService {
                     location: 1,
                     grandSponsor: 1,
                     grandSponsorContact: 1,
+                    openForPublic: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -321,9 +322,22 @@ let EventsService = exports.EventsService = class EventsService {
                 $addFields: {
                     "gallery.mediaUrl": {
                         $cond: {
-                            if: { $isArray: "$gallery.mediaUrl" },
-                            then: "$gallery.mediaUrl",
-                            else: []
+                            if: {
+                                $and: [
+                                    { $isArray: "$gallery.mediaUrl" },
+                                    { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                                ]
+                            },
+                            then: {
+                                $map: {
+                                    input: '$gallery.mediaUrl',
+                                    as: 'image',
+                                    in: {
+                                        $concat: [config_1.default.URL, '$$image']
+                                    }
+                                }
+                            },
+                            else: '$gallery.mediaUrl'
                         }
                     }
                 }
@@ -410,8 +424,8 @@ let EventsService = exports.EventsService = class EventsService {
             },
             {
                 $project: {
-                    isFavorite: 1,
                     isAttended: 1,
+                    isFavorite: 1,
                     description: 1,
                     title: 1,
                     eventStatus: 1,
@@ -424,6 +438,7 @@ let EventsService = exports.EventsService = class EventsService {
                     location: 1,
                     grandSponsor: 1,
                     grandSponsorContact: 1,
+                    openForPublic: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -445,9 +460,22 @@ let EventsService = exports.EventsService = class EventsService {
                 $addFields: {
                     "gallery.mediaUrl": {
                         $cond: {
-                            if: { $isArray: "$gallery.mediaUrl" },
-                            then: "$gallery.mediaUrl",
-                            else: []
+                            if: {
+                                $and: [
+                                    { $isArray: "$gallery.mediaUrl" },
+                                    { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                                ]
+                            },
+                            then: {
+                                $map: {
+                                    input: '$gallery.mediaUrl',
+                                    as: 'image',
+                                    in: {
+                                        $concat: [config_1.default.URL, '$$image']
+                                    }
+                                }
+                            },
+                            else: '$gallery.mediaUrl'
                         }
                     }
                 }
@@ -534,8 +562,8 @@ let EventsService = exports.EventsService = class EventsService {
             },
             {
                 $project: {
-                    isFavorite: 1,
                     isAttended: 1,
+                    isFavorite: 1,
                     description: 1,
                     title: 1,
                     eventStatus: 1,
@@ -548,6 +576,7 @@ let EventsService = exports.EventsService = class EventsService {
                     location: 1,
                     grandSponsor: 1,
                     grandSponsorContact: 1,
+                    openForPublic: 1,
                     fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -569,9 +598,22 @@ let EventsService = exports.EventsService = class EventsService {
                 $addFields: {
                     "gallery.mediaUrl": {
                         $cond: {
-                            if: { $isArray: "$gallery.mediaUrl" },
-                            then: "$gallery.mediaUrl",
-                            else: []
+                            if: {
+                                $and: [
+                                    { $isArray: "$gallery.mediaUrl" },
+                                    { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                                ]
+                            },
+                            then: {
+                                $map: {
+                                    input: '$gallery.mediaUrl',
+                                    as: 'image',
+                                    in: {
+                                        $concat: [config_1.default.URL, '$$image']
+                                    }
+                                }
+                            },
+                            else: '$gallery.mediaUrl'
                         }
                     }
                 }
