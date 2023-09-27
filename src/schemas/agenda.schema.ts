@@ -32,6 +32,9 @@ export class Agenda extends Document {
   @Prop({default: '', required: false})
   speaker: string;
 
+  @Prop({default: [], required: false})
+  speakerTeam: any[];
+
   @Prop({default: '', required: false})
   streamUrl: string;
 
