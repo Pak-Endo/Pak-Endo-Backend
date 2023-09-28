@@ -1163,10 +1163,7 @@ let EventsService = exports.EventsService = class EventsService {
         if (!event) {
             throw new common_1.NotFoundException('Event not found');
         }
-        if (event.agenda && event.agenda.length > 0) {
-            eventDto.eventStatus = events_schema_1.EventStatus.UPCOMING;
-        }
-        else {
+        if (!event.agenda || !eventDto.agenda) {
             eventDto.eventStatus = events_schema_1.EventStatus.DRAFT;
         }
         if (eventDto.agenda && eventDto.agenda?.length > 0) {
