@@ -1163,10 +1163,11 @@ let EventsService = exports.EventsService = class EventsService {
         if (!event) {
             throw new common_1.NotFoundException('Event not found');
         }
-        if (!event.agenda || !eventDto.agenda) {
+        if (event.agenda?.length == 0) {
             eventDto.eventStatus = events_schema_1.EventStatus.DRAFT;
         }
         if (eventDto.agenda && eventDto.agenda?.length > 0) {
+            eventDto.eventStatus = events_schema_1.EventStatus.UPCOMING;
             for await (const agenda of eventDto.agenda) {
                 if (!agenda._id) {
                     agenda._id = new mongoose_2.Types.ObjectId().toString();
