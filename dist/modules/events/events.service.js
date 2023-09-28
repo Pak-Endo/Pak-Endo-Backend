@@ -36,7 +36,7 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, title: query };
         }
         else {
-            sort = { updatedAt: -1 };
+            sort = { createdAt: -1 };
         }
         if (location) {
             const query = new RegExp(`${location}`, 'i');
@@ -359,7 +359,7 @@ let EventsService = exports.EventsService = class EventsService {
             },
             {
                 $sort: {
-                    updatedAt: -1,
+                    createdAt: -1,
                 },
             },
         ])
@@ -497,7 +497,7 @@ let EventsService = exports.EventsService = class EventsService {
             },
             {
                 $sort: {
-                    updatedAt: -1,
+                    createdAt: -1,
                 },
             }
         ])
@@ -635,7 +635,7 @@ let EventsService = exports.EventsService = class EventsService {
             },
             {
                 $sort: {
-                    updatedAt: -1,
+                    createdAt: -1,
                 },
             }
         ])
@@ -659,7 +659,7 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, title: query };
         }
         else {
-            sort = { updatedAt: -1 };
+            sort = { createdAt: -1 };
         }
         const countPipeline = [
             {
@@ -819,7 +819,7 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, title: query };
         }
         else {
-            sort = { updatedAt: -1 };
+            sort = { createdAt: -1 };
         }
         const countPipeline = [
             {
@@ -979,7 +979,7 @@ let EventsService = exports.EventsService = class EventsService {
             filters = { ...filters, title: query };
         }
         else {
-            sort = { updatedAt: -1 };
+            sort = { createdAt: -1 };
         }
         const countPipeline = [
             {
@@ -1164,7 +1164,7 @@ let EventsService = exports.EventsService = class EventsService {
         if (!event) {
             throw new common_1.NotFoundException('Event not found');
         }
-        if (eventDto.agenda && eventDto.agenda.length > 0) {
+        if (event.agenda && event.agenda.length > 0) {
             eventDto.eventStatus = events_schema_1.EventStatus.UPCOMING;
         }
         else {
