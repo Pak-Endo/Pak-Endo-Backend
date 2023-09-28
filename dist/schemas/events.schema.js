@@ -64,20 +64,16 @@ __decorate([
     __metadata("design:type", String)
 ], Event.prototype, "type", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: 'object', default: {}, required: false }),
-    __metadata("design:type", Object)
+    (0, mongoose_1.Prop)({ type: [], default: {}, required: false }),
+    __metadata("design:type", Array)
 ], Event.prototype, "grandSponsor", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ default: '', required: false }),
-    __metadata("design:type", String)
-], Event.prototype, "grandSponsorContact", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: false, required: true }),
     __metadata("design:type", Boolean)
 ], Event.prototype, "openForPublic", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: false, required: false }),
-    __metadata("design:type", Number)
+    (0, mongoose_1.Prop)({ default: [], required: false }),
+    __metadata("design:type", Array)
 ], Event.prototype, "fees", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: false }),

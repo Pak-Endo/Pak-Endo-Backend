@@ -38,10 +38,9 @@ export declare class Event extends Document {
     eventStatus: EventStatus;
     agenda: AgendaInterface[];
     type: string;
-    grandSponsor: sponsorType;
-    grandSponsorContact: string;
+    grandSponsor: any[];
     openForPublic: boolean;
-    fees: number;
+    fees: any[];
     rating: number;
     isFavorite: boolean;
     isAttended: boolean;
