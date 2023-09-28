@@ -30,13 +30,8 @@ let EventsService = exports.EventsService = class EventsService {
         offset = Number(offset) < 0 ? 0 : Number(offset);
         let filters = {}, sort = {};
         if (title && title.trim().length) {
-            let nameSort = user_service_1.SORT.ASC ? 1 : -1;
-            sort = { ...sort, title: nameSort };
             const query = new RegExp(`${title}`, 'i');
             filters = { ...filters, title: query };
-        }
-        else {
-            sort = { createdAt: -1 };
         }
         if (location) {
             const query = new RegExp(`${location}`, 'i');
@@ -156,6 +151,7 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -212,7 +208,7 @@ let EventsService = exports.EventsService = class EventsService {
                 $replaceRoot: { newRoot: "$event" }
             },
             {
-                $sort: sort
+                $sort: { createdAt: -1 }
             }
         ])
             .skip(Number(offset))
@@ -302,6 +298,7 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -440,6 +437,7 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -578,6 +576,7 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
