@@ -1174,10 +1174,7 @@ export class EventsService {
     if(!event) {
       throw new NotFoundException('Event not found');
     }
-    if(event.agenda && event.agenda.length > 0) {
-      eventDto.eventStatus = EventStatus.UPCOMING;
-    }
-    else {
+    if(!event.agenda || !eventDto.agenda) {
       eventDto.eventStatus = EventStatus.DRAFT;
     }
     if(eventDto.agenda && eventDto.agenda?.length > 0) {
