@@ -1226,11 +1226,13 @@ let EventsService = exports.EventsService = class EventsService {
                     gallery: 1,
                     endDate: 1,
                     startDate: 1,
-                    agenda: 1,
-                    type: 1,
                     location: 1,
+                    type: 1,
+                    agenda: 1,
                     grandSponsor: 1,
                     grandSponsorContact: 1,
+                    openForPublic: 1,
+                    fees: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
