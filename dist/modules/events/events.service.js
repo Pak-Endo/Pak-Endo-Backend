@@ -773,9 +773,22 @@ let EventsService = exports.EventsService = class EventsService {
                 $addFields: {
                     "gallery.mediaUrl": {
                         $cond: {
-                            if: { $isArray: "$gallery.mediaUrl" },
-                            then: "$gallery.mediaUrl",
-                            else: []
+                            if: {
+                                $and: [
+                                    { $isArray: "$gallery.mediaUrl" },
+                                    { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                                ]
+                            },
+                            then: {
+                                $map: {
+                                    input: '$gallery.mediaUrl',
+                                    as: 'image',
+                                    in: {
+                                        $concat: [config_1.default.URL, '$$image']
+                                    }
+                                }
+                            },
+                            else: '$gallery.mediaUrl'
                         }
                     }
                 }
@@ -933,9 +946,22 @@ let EventsService = exports.EventsService = class EventsService {
                 $addFields: {
                     "gallery.mediaUrl": {
                         $cond: {
-                            if: { $isArray: "$gallery.mediaUrl" },
-                            then: "$gallery.mediaUrl",
-                            else: []
+                            if: {
+                                $and: [
+                                    { $isArray: "$gallery.mediaUrl" },
+                                    { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                                ]
+                            },
+                            then: {
+                                $map: {
+                                    input: '$gallery.mediaUrl',
+                                    as: 'image',
+                                    in: {
+                                        $concat: [config_1.default.URL, '$$image']
+                                    }
+                                }
+                            },
+                            else: '$gallery.mediaUrl'
                         }
                     }
                 }
@@ -1093,9 +1119,22 @@ let EventsService = exports.EventsService = class EventsService {
                 $addFields: {
                     "gallery.mediaUrl": {
                         $cond: {
-                            if: { $isArray: "$gallery.mediaUrl" },
-                            then: "$gallery.mediaUrl",
-                            else: []
+                            if: {
+                                $and: [
+                                    { $isArray: "$gallery.mediaUrl" },
+                                    { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                                ]
+                            },
+                            then: {
+                                $map: {
+                                    input: '$gallery.mediaUrl',
+                                    as: 'image',
+                                    in: {
+                                        $concat: [config_1.default.URL, '$$image']
+                                    }
+                                }
+                            },
+                            else: '$gallery.mediaUrl'
                         }
                     }
                 }
@@ -1253,9 +1292,22 @@ let EventsService = exports.EventsService = class EventsService {
                 $addFields: {
                     "gallery.mediaUrl": {
                         $cond: {
-                            if: { $isArray: "$gallery.mediaUrl" },
-                            then: "$gallery.mediaUrl",
-                            else: []
+                            if: {
+                                $and: [
+                                    { $isArray: "$gallery.mediaUrl" },
+                                    { $ne: [{ $size: "$gallery.mediaUrl" }, 0] }
+                                ]
+                            },
+                            then: {
+                                $map: {
+                                    input: '$gallery.mediaUrl',
+                                    as: 'image',
+                                    in: {
+                                        $concat: [config_1.default.URL, '$$image']
+                                    }
+                                }
+                            },
+                            else: '$gallery.mediaUrl'
                         }
                     }
                 }
