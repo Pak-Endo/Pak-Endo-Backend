@@ -42,17 +42,14 @@ export class Event extends Document {
   @Prop({default: '', required: true})
   type: string;
 
-  @Prop({type: 'object', default: {}, required: false})
-  grandSponsor: sponsorType;
-
-  @Prop({default: '', required: false})
-  grandSponsorContact: string;
+  @Prop({type: [], default: {}, required: false})
+  grandSponsor: any[];
 
   @Prop({default: false, required: true})
   openForPublic: boolean;
 
-  @Prop({default: false, required: false})
-  fees: number;
+  @Prop({default: [], required: false})
+  fees: any[];
 
   @Prop({default: '', required: false})
   rating: number;
