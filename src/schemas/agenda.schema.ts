@@ -11,7 +11,7 @@ export class Agenda extends Document {
   @Prop({default: '', required: true})
   agendaTitle: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   theme: string;
 
   @Prop({default: '', required: false})
