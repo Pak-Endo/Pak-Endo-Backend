@@ -143,6 +143,7 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -292,6 +293,7 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -431,6 +433,7 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -570,6 +573,7 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
