@@ -28,7 +28,7 @@ export class EventsService {
       filters = {...filters, title: query}
     }
     else {
-      sort = { updatedAt: -1 }
+      sort = { createdAt: -1 }
     }
     if(location) {
       const query = new RegExp(`${location}`, 'i');
@@ -354,7 +354,7 @@ export class EventsService {
       },
       {
         $sort: {
-          updatedAt: -1,
+          createdAt: -1,
         },
       },
     ])
@@ -493,7 +493,7 @@ export class EventsService {
       },
       {
         $sort: {
-          updatedAt: -1,
+          createdAt: -1,
         },
       }
     ])
@@ -632,7 +632,7 @@ export class EventsService {
       },
       {
         $sort: {
-          updatedAt: -1,
+          createdAt: -1,
         },
       }
     ])
@@ -660,7 +660,7 @@ export class EventsService {
       filters = {...filters, title: query}
     }
     else {
-      sort = { updatedAt: -1 }
+      sort = { createdAt: -1 }
     }
     const countPipeline = [
       {
@@ -823,7 +823,7 @@ export class EventsService {
       filters = {...filters, title: query}
     }
     else {
-      sort = { updatedAt: -1 }
+      sort = { createdAt: -1 }
     }
     const countPipeline = [
       {
@@ -986,7 +986,7 @@ export class EventsService {
       filters = {...filters, title: query}
     }
     else {
-      sort = { updatedAt: -1 }
+      sort = { createdAt: -1 }
     }
     const countPipeline = [
       {
@@ -1175,7 +1175,7 @@ export class EventsService {
     if(!event) {
       throw new NotFoundException('Event not found');
     }
-    if(eventDto.agenda && eventDto.agenda.length > 0) {
+    if(event.agenda && event.agenda.length > 0) {
       eventDto.eventStatus = EventStatus.UPCOMING;
     }
     else {
