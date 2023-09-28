@@ -23,7 +23,7 @@ __decorate([
     __metadata("design:type", String)
 ], Agenda.prototype, "agendaTitle", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: true }),
+    (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", String)
 ], Agenda.prototype, "theme", void 0);
 __decorate([
