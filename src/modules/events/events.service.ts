@@ -22,13 +22,8 @@ export class EventsService {
     let filters = {},
         sort = {};
     if(title && title.trim().length) {
-      let nameSort = SORT.ASC ? 1 : -1;
-      sort = {...sort, title: nameSort }
       const query = new RegExp(`${title}`, 'i');
       filters = {...filters, title: query}
-    }
-    else {
-      sort = { createdAt: -1 }
     }
     if(location) {
       const query = new RegExp(`${location}`, 'i');
@@ -148,6 +143,7 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -204,7 +200,7 @@ export class EventsService {
         $replaceRoot: { newRoot: "$event" }
       },
       {
-        $sort: sort
+        $sort: {createdAt: -1}
       }
     ])
     .skip(Number(offset))
@@ -297,6 +293,7 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -436,6 +433,7 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -575,6 +573,7 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
