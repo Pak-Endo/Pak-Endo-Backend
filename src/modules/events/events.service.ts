@@ -28,7 +28,7 @@ export class EventsService {
       filters = {...filters, title: query}
     }
     else {
-      sort = {...sort, createdAt: -1 }
+      sort = { createdAt: -1 }
     }
     if(location) {
       const query = new RegExp(`${location}`, 'i');
@@ -660,7 +660,7 @@ export class EventsService {
       filters = {...filters, title: query}
     }
     else {
-      sort = {...sort, createdAt: -1 }
+      sort = { createdAt: -1 }
     }
     const countPipeline = [
       {
@@ -823,7 +823,7 @@ export class EventsService {
       filters = {...filters, title: query}
     }
     else {
-      sort = {...sort, createdAt: -1 }
+      sort = { createdAt: -1 }
     }
     const countPipeline = [
       {
@@ -986,7 +986,7 @@ export class EventsService {
       filters = {...filters, title: query}
     }
     else {
-      sort = {...sort, createdAt: -1 }
+      sort = { createdAt: -1 }
     }
     const countPipeline = [
       {
