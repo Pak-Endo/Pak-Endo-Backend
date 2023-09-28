@@ -1171,13 +1171,15 @@ export class EventsService {
   async updateEvent(eventDto: EventDto, eventID: string): Promise<any> {
     let updatedGal;
     const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
+
     if(!event) {
       throw new NotFoundException('Event not found');
     }
-    if(!event.agenda || !eventDto.agenda) {
+    if(event.agenda?.length == 0) {
       eventDto.eventStatus = EventStatus.DRAFT;
     }
     if(eventDto.agenda && eventDto.agenda?.length > 0) {
+      eventDto.eventStatus = EventStatus.UPCOMING;
       for await (const agenda of eventDto.agenda) {
         if(!agenda._id) {
           agenda._id = new Types.ObjectId().toString();
