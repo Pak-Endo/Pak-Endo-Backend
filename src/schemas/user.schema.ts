@@ -40,6 +40,9 @@ export class User extends Document {
   @Prop({default: '', required: true})
   city: string;
 
+  @Prop({default: '', required: true})
+  qualifications: string;
+
   @Prop({default: '', required: false})
   type: Type;
 

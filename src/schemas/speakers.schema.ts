@@ -12,6 +12,15 @@ export class Speaker extends Document {
   speakerName: string;
 
   @Prop({default: '', required: true})
+  speakerContact: string;
+
+  @Prop({default: '', required: true})
+  country: string;
+
+  @Prop({default: '', required: true})
+  city: string;
+
+  @Prop({default: '', required: true})
   uniqueID: string;
 
   @Prop({default: '', required: false})

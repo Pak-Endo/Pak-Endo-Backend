@@ -12,6 +12,15 @@ export class Sponsor extends Document {
   sponsorName: string;
 
   @Prop({default: '', required: true})
+  sponsorCategory: string;
+
+  @Prop({default: '', required: true})
+  sponsorEmail: string;
+
+  @Prop({default: '', required: true})
+  contactPerson: string;
+
+  @Prop({default: '', required: true})
   uniqueID: string;
 
   @Prop({default: '', required: false})
