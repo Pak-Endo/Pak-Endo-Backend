@@ -144,4 +144,10 @@ export class EventsController {
   ) {
     return await this.eventService.getEventByID(eventID, speakerName, hallName, startTime)
   }
+
+  @Delete('deleteAllEvents')
+    @UseGuards(JwtAuthGuard)
+    async deleteAllEvents() {
+      return await this.eventService.deleteAllEvents()
+    }
 }

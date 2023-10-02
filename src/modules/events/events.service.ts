@@ -144,6 +144,8 @@ export class EventsService {
           openForPublic: 1,
           fees: 1,
           createdAt: 1,
+          contactNumber: 1,
+          contactPerson: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -293,6 +295,8 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          contactNumber: 1,
+          contactPerson: 1,
           createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
@@ -433,6 +437,8 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          contactNumber: 1,
+          contactPerson: 1,
           createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
@@ -573,6 +579,8 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          contactNumber: 1,
+          contactPerson: 1,
           createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
@@ -754,6 +762,9 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          contactNumber: 1,
+          contactPerson: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -930,6 +941,9 @@ export class EventsService {
           openForPublic: 1,
           type: 1,
           fees: 1,
+          contactNumber: 1,
+          contactPerson: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -1106,6 +1120,9 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          contactNumber: 1,
+          contactPerson: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -1285,6 +1302,9 @@ export class EventsService {
           grandSponsorContact: 1,
           openForPublic: 1,
           fees: 1,
+          contactNumber: 1,
+          contactPerson: 1,
+          createdAt: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -1415,5 +1435,9 @@ export class EventsService {
       events: eventList,
       totalCount: totalCount
     }
+  }
+
+  async deleteAllEvents() {
+    return await this.eventModel.deleteMany({});
   }
 }

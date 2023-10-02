@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FavoritesService } from './favorites.service';
@@ -42,5 +42,11 @@ export class FavoritesController {
         @Req() req,
     ) {
       return this.favService.removeFromFavourites(eventID, req)
+    }
+
+    @Delete('deleteAllFavs')
+    @UseGuards(JwtAuthGuard)
+    async deleteAllFavs() {
+      return await this.favService.deleteAllFavorites()
     }
 }
