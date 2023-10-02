@@ -54,6 +54,12 @@ export class Event extends Document {
   @Prop({default: '', required: false})
   rating: number;
 
+  @Prop({default: '', required: false})
+  contactNumber: number;
+  
+  @Prop({default: '', required: false})
+  contactPerson: string;
+
   @Prop({default: false, required: false})
   isFavorite: boolean;
 

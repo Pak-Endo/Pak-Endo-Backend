@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AttendedService } from './attended.service';
@@ -33,5 +33,11 @@ export class AttendedController {
     @UseGuards(JwtAuthGuard)
     async addToAttendedEvents(@Body() AttendedDto: AttendedDto, @Req() req) {
       return await this.attendService.addToAttended(AttendedDto, req)
+    }
+
+    @Delete('deleteAllAttended')
+    @UseGuards(JwtAuthGuard)
+    async deleteAllAttendedEvents() {
+      return await this.attendService.deleteAllAttended()
     }
 }

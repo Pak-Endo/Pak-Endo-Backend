@@ -78,40 +78,40 @@ export class AttendedService {
       limit = parseInt(limit) < 1 ? 10 : limit;
 
       const allFavourites = await this.attendModel
-      .aggregate([
-        {
-          $match: {
-            deletedCheck: false,
-            userID: req.user.id
+        .aggregate([
+          {
+            $match: {
+              deletedCheck: false,
+              userID: req.user.id
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "events",
-            localField: 'eventID',
-            foreignField: '_id',
-            as: 'events'
-          }
-        },
-        {
-          $sort: {
-            createdAt: -1,
+          {
+            $lookup: {
+              from: "events",
+              localField: 'eventID',
+              foreignField: '_id',
+              as: 'events'
+            }
           },
-        },
-        {
-          $project: {
-            events: 1
-          }
-        },
-        {
-          $addFields: {
-            "events.isAttended": true,
+          {
+            $sort: {
+              createdAt: -1,
+            },
           },
-        },
-      ])
+          {
+            $project: {
+              events: 1
+            }
+          },
+          {
+            $addFields: {
+              "events.isAttended": true,
+            },
+          },
+        ])
         .skip(parseInt(offset))
         .limit(parseInt(limit));
-      
+
       const eventsArrays = [].concat(...allFavourites.map(item => item.events));
       eventsArrays.forEach(event => {
         event.featuredImage = config.URL + event.featuredImage;
@@ -129,5 +129,9 @@ export class AttendedService {
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async deleteAllAttended() {
+    return await this.attendModel.deleteMany({});
   }
 }

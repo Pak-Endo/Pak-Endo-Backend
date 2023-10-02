@@ -148,4 +148,8 @@ export class FavoritesService {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
+
+  async deleteAllFavorites() {
+    return await this.favModel.deleteMany({});
+  }
 }
