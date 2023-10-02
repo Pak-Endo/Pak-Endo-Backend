@@ -152,6 +152,8 @@ let EventsService = exports.EventsService = class EventsService {
                     openForPublic: 1,
                     fees: 1,
                     createdAt: 1,
+                    contactNumber: 1,
+                    contactPerson: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -298,6 +300,8 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    contactNumber: 1,
+                    contactPerson: 1,
                     createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -437,6 +441,8 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    contactNumber: 1,
+                    contactPerson: 1,
                     createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -576,6 +582,8 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    contactNumber: 1,
+                    contactPerson: 1,
                     createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
@@ -753,6 +761,9 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    contactNumber: 1,
+                    contactPerson: 1,
+                    createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -926,6 +937,9 @@ let EventsService = exports.EventsService = class EventsService {
                     openForPublic: 1,
                     type: 1,
                     fees: 1,
+                    contactNumber: 1,
+                    contactPerson: 1,
+                    createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -1099,6 +1113,9 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    contactNumber: 1,
+                    contactPerson: 1,
+                    createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -1272,6 +1289,9 @@ let EventsService = exports.EventsService = class EventsService {
                     grandSponsorContact: 1,
                     openForPublic: 1,
                     fees: 1,
+                    contactNumber: 1,
+                    contactPerson: 1,
+                    createdAt: 1,
                     featuredImage: { $concat: [config_1.default.URL, '$featuredImage'] }
                 }
             },
@@ -1398,6 +1418,9 @@ let EventsService = exports.EventsService = class EventsService {
             events: eventList,
             totalCount: totalCount
         };
+    }
+    async deleteAllEvents() {
+        return await this.eventModel.deleteMany({});
     }
 };
 exports.EventsService = EventsService = __decorate([

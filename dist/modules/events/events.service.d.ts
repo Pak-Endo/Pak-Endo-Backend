@@ -19,4 +19,5 @@ export declare class EventsService {
     deleteEvent(eventID: string): Promise<any>;
     getEventStats(): Promise<any>;
     getUpcomingEventsForCalendar(limit: number, offset: number): Promise<any>;
+    deleteAllEvents(): Promise<import("mongodb").DeleteResult>;
 }

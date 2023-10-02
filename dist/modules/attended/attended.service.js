@@ -133,6 +133,9 @@ let AttendedService = exports.AttendedService = class AttendedService {
             throw new common_1.HttpException(err, common_1.HttpStatus.BAD_REQUEST);
         }
     }
+    async deleteAllAttended() {
+        return await this.attendModel.deleteMany({});
+    }
 };
 exports.AttendedService = AttendedService = __decorate([
     (0, common_1.Injectable)(),

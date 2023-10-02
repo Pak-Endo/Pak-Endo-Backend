@@ -14,4 +14,5 @@ export declare class AttendedService {
         totalCount: number;
         data: any[];
     }>;
+    deleteAllAttended(): Promise<import("mongodb").DeleteResult>;
 }

@@ -34,6 +34,9 @@ let FavoritesController = exports.FavoritesController = class FavoritesControlle
     removeFromFavourites(eventID, req) {
         return this.favService.removeFromFavourites(eventID, req);
     }
+    async deleteAllFavs() {
+        return await this.favService.deleteAllFavorites();
+    }
 };
 __decorate([
     (0, common_1.Get)('getAllFavorites'),
@@ -72,6 +75,13 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], FavoritesController.prototype, "removeFromFavourites", null);
+__decorate([
+    (0, common_1.Delete)('deleteAllFavs'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], FavoritesController.prototype, "deleteAllFavs", null);
 exports.FavoritesController = FavoritesController = __decorate([
     (0, swagger_1.ApiTags)('Favorites'),
     (0, swagger_1.ApiBearerAuth)(),

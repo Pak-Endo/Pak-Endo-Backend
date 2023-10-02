@@ -152,6 +152,9 @@ let FavoritesService = exports.FavoritesService = class FavoritesService {
             throw new common_1.HttpException(err, common_1.HttpStatus.BAD_REQUEST);
         }
     }
+    async deleteAllFavorites() {
+        return await this.favModel.deleteMany({});
+    }
 };
 exports.FavoritesService = FavoritesService = __decorate([
     (0, common_1.Injectable)(),

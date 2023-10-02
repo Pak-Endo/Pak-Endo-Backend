@@ -14,4 +14,5 @@ export declare class EventsController {
     fetchEventStats(): Promise<any>;
     fetchEventsForCalendar(limit: number, offset: number): Promise<any>;
     fetchEventByID(eventID: string, speakerName: string, hallName: string, startTime: string): Promise<any>;
+    deleteAllEvents(): Promise<import("mongodb").DeleteResult>;
 }

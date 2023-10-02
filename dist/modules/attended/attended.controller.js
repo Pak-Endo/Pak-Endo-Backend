@@ -31,6 +31,9 @@ let AttendedController = exports.AttendedController = class AttendedController {
     async addToAttendedEvents(AttendedDto, req) {
         return await this.attendService.addToAttended(AttendedDto, req);
     }
+    async deleteAllAttendedEvents() {
+        return await this.attendService.deleteAllAttended();
+    }
 };
 __decorate([
     (0, common_1.Get)('getAllAttended'),
@@ -60,6 +63,13 @@ __decorate([
     __metadata("design:paramtypes", [attended_dto_1.AttendedDto, Object]),
     __metadata("design:returntype", Promise)
 ], AttendedController.prototype, "addToAttendedEvents", null);
+__decorate([
+    (0, common_1.Delete)('deleteAllAttended'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AttendedController.prototype, "deleteAllAttendedEvents", null);
 exports.AttendedController = AttendedController = __decorate([
     (0, swagger_1.ApiTags)('Attended'),
     (0, swagger_1.ApiBearerAuth)(),

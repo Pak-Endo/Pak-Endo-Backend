@@ -80,6 +80,14 @@ __decorate([
     __metadata("design:type", Number)
 ], Event.prototype, "rating", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ default: '', required: false }),
+    __metadata("design:type", Number)
+], Event.prototype, "contactNumber", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: false }),
+    __metadata("design:type", String)
+], Event.prototype, "contactPerson", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ default: false, required: false }),
     __metadata("design:type", Boolean)
 ], Event.prototype, "isFavorite", void 0);

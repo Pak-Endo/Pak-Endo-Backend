@@ -55,6 +55,9 @@ let EventsController = exports.EventsController = class EventsController {
     async fetchEventByID(eventID, speakerName, hallName, startTime) {
         return await this.eventService.getEventByID(eventID, speakerName, hallName, startTime);
     }
+    async deleteAllEvents() {
+        return await this.eventService.deleteAllEvents();
+    }
 };
 __decorate([
     (0, common_1.Post)('createNewEvent'),
@@ -191,6 +194,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], EventsController.prototype, "fetchEventByID", null);
+__decorate([
+    (0, common_1.Delete)('deleteAllEvents'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], EventsController.prototype, "deleteAllEvents", null);
 exports.EventsController = EventsController = __decorate([
     (0, swagger_1.ApiTags)('Events'),
     (0, swagger_1.ApiBearerAuth)(),

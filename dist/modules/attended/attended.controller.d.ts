@@ -11,4 +11,5 @@ export declare class AttendedController {
     addToAttendedEvents(AttendedDto: AttendedDto, req: any): Promise<{
         message: string;
     }>;
+    deleteAllAttendedEvents(): Promise<import("mongodb").DeleteResult>;
 }

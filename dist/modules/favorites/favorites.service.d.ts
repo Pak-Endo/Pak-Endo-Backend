@@ -17,4 +17,5 @@ export declare class FavoritesService {
         totalCount: number;
         data: any[];
     }>;
+    deleteAllFavorites(): Promise<import("mongodb").DeleteResult>;
 }

@@ -14,4 +14,5 @@ export declare class FavoritesController {
     removeFromFavourites(eventID: string, req: any): Promise<{
         message: string;
     }>;
+    deleteAllFavs(): Promise<import("mongodb").DeleteResult>;
 }
