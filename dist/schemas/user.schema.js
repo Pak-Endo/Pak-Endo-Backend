@@ -60,7 +60,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "city", void 0);
 __decorate([
-    (0, mongoose_2.Prop)({ default: '', required: true }),
+    (0, mongoose_2.Prop)({ default: '', required: false }),
     __metadata("design:type", String)
 ], User.prototype, "qualifications", void 0);
 __decorate([
