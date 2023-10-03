@@ -22,7 +22,7 @@ export class AuthController {
   }
 
   @Post('signupAdmin')
-  async signupAdmin(@Body() signupDto: UserDto | any) {
+  async signupAdmin(@Body() signupDto: UserDto) {
     return await this.authService.registerAdmin(signupDto);
   }
 
@@ -56,7 +56,6 @@ export class AuthController {
   }
 
   @Delete('deleteAllUsers')
-    @UseGuards(JwtAuthGuard)
     async deleteAllUsers() {
       return await this.authService.deleteAllUsers()
     }
