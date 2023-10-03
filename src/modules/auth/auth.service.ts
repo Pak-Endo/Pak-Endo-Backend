@@ -59,15 +59,16 @@ export class AuthService {
     if(user) {
       throw new ForbiddenException('Email already exists');
     }
-    let adminExists = await this._userModel.findOne({role: UserRole.ADMIN});
-    if(adminExists) {
-      throw new ForbiddenException('Admin user already exists');
-    }
+    // let adminExists = await this._userModel.findOne({role: UserRole.ADMIN});
+    // if(adminExists) {
+    //   throw new ForbiddenException('Admin user already exists');
+    // }
     newUser.status = Status.APPROVED;
     newUser._id = new Types.ObjectId().toString();
     newUser.role = 'admin';
     newUser.memberID = 'PES/SA/00';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+    debugger
     return await new this._userModel(newUser).save();
   }
 
