@@ -19,7 +19,6 @@ const auth_service_1 = require("./auth.service");
 const user_dto_1 = require("../../dto/user.dto");
 const login_dto_1 = require("../../dto/login.dto");
 const admin_login_dto_1 = require("../../dto/admin-login.dto");
-const jwt_auth_guard_1 = require("./jwt-auth.guard");
 let AuthController = exports.AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -70,7 +69,7 @@ __decorate([
     (0, common_1.Post)('signupAdmin'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [user_dto_1.UserDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signupAdmin", null);
 __decorate([
@@ -111,7 +110,6 @@ __decorate([
 ], AuthController.prototype, "approveUser", null);
 __decorate([
     (0, common_1.Delete)('deleteAllUsers'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
