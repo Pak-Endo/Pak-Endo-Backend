@@ -7,7 +7,7 @@ import { LoginDto } from 'src/dto/login.dto';
 import { Status, Type, User, UserRole } from 'src/schemas/user.schema';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { MailService } from '../mail/mail.service';
-import { PasswordDto, approveDto } from 'src/dto/user.dto';
+import { AdminDto, PasswordDto, UserDto, approveDto } from 'src/dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -54,7 +54,7 @@ export class AuthService {
     return await new this._userModel(newUser).save();
   }
 
-  async registerAdmin(newUser: User | any): Promise<any> {
+  async registerAdmin(newUser: AdminDto): Promise<any> {
     const user = await this._userModel.findOne({ email: newUser.email });
     if(user) {
       throw new ForbiddenException('Email already exists');

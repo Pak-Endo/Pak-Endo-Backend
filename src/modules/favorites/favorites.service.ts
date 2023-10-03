@@ -123,7 +123,7 @@ export class FavoritesService {
           },
           {
             $addFields: {
-              "events.isFavorite": true,
+              "events.isFavorite": true
             },
           },
         ])
@@ -138,6 +138,7 @@ export class FavoritesService {
           event.gallery.mediaUrl = event.gallery.mediaUrl.map(
             media => config.URL + media
           );
+          event.gallery = [event.gallery]
         }
       });
       return {

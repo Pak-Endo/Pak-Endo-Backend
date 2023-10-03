@@ -38,7 +38,10 @@ export class AdminDto {
   _id: string
 
   @ApiProperty()
-  fullName: string;
+  firstName: string
+
+  @ApiProperty()
+  lastName: string;
 
   @ApiProperty()
   email: string;
@@ -47,7 +50,28 @@ export class AdminDto {
   password: string;
 
   @ApiProperty()
+  prefix: string
+
+  @ApiProperty()
+  phoneNumber: string
+
+  @ApiProperty()
+  gender: string;
+
+  @ApiProperty()
+  city: string;
+
+  @ApiProperty()
   role: string
+
+  @ApiProperty()
+  status: any
+  
+  @ApiProperty()
+  memberID: any
+
+  @ApiProperty()
+  fullName: any
 }
 export class MemberCheckDto {
   @ApiProperty()

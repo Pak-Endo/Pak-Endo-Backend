@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { MemberCheckDto, PasswordDto, UserDto, approveDto } from 'src/dto/user.dto';
+import { AdminDto, MemberCheckDto, PasswordDto, UserDto, approveDto } from 'src/dto/user.dto';
 import { LoginDto } from 'src/dto/login.dto';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -22,10 +22,9 @@ export class AuthController {
   }
 
   @Post('signupAdmin')
-  async signupAdmin(@Body() signupDto: UserDto) {
+  async signupAdmin(@Body() signupDto: AdminDto) {
     return await this.authService.registerAdmin(signupDto);
   }
-
 
   @Post('checkIfMemberExistsWithPassword')
   async checkMember(@Body() memberDto: MemberCheckDto) {
