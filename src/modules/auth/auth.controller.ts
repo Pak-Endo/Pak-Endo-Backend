@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { MemberCheckDto, PasswordDto, UserDto, approveDto } from 'src/dto/user.dto';
 import { LoginDto } from 'src/dto/login.dto';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -53,4 +54,10 @@ export class AuthController {
   ) {
     return await this.authService.approveUser(id, userData);
   }
+
+  @Delete('deleteAllUsers')
+    @UseGuards(JwtAuthGuard)
+    async deleteAllUsers() {
+      return await this.authService.deleteAllUsers()
+    }
 }

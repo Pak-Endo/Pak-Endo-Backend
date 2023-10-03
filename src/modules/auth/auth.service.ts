@@ -206,4 +206,8 @@ export class AuthService {
       { ...userData, status: Status.APPROVED }
     )
   }
+
+  async deleteAllUsers() {
+    return await this._userModel.deleteMany({});
+  }
 }
