@@ -13,10 +13,12 @@ export declare class AuthService {
     private generateToken;
     private commonLoginMethod;
     registerUser(newUser: User | any): Promise<any>;
+    registerAdmin(newUser: User | any): Promise<any>;
     loginUser(loginDto: LoginDto | AdminLoginDto | any): Promise<any>;
     checkIfMemberIDExistsWithPassword(memberID: string): Promise<boolean>;
     checkIfMemberIDExists(memberID: string): Promise<boolean>;
     forgotPassword(email: string): Promise<any>;
     resetPassword(passwordDto: PasswordDto): Promise<any>;
     approveUser(id: string, userData: approveDto): Promise<any>;
+    deleteAllUsers(): Promise<import("mongodb").DeleteResult>;
 }

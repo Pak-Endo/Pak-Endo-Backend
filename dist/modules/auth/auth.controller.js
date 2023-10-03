@@ -19,6 +19,7 @@ const auth_service_1 = require("./auth.service");
 const user_dto_1 = require("../../dto/user.dto");
 const login_dto_1 = require("../../dto/login.dto");
 const admin_login_dto_1 = require("../../dto/admin-login.dto");
+const jwt_auth_guard_1 = require("./jwt-auth.guard");
 let AuthController = exports.AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -28,6 +29,9 @@ let AuthController = exports.AuthController = class AuthController {
     }
     async signup(signupDto) {
         return await this.authService.registerUser(signupDto);
+    }
+    async signupAdmin(signupDto) {
+        return await this.authService.registerAdmin(signupDto);
     }
     async checkMember(memberDto) {
         return await this.authService.checkIfMemberIDExistsWithPassword(memberDto?.memberID);
@@ -44,6 +48,9 @@ let AuthController = exports.AuthController = class AuthController {
     async approveUser(userData, id) {
         return await this.authService.approveUser(id, userData);
     }
+    async deleteAllUsers() {
+        return await this.authService.deleteAllUsers();
+    }
 };
 __decorate([
     (0, common_1.Post)('login'),
@@ -59,6 +66,13 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.UserDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signup", null);
+__decorate([
+    (0, common_1.Post)('signupAdmin'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "signupAdmin", null);
 __decorate([
     (0, common_1.Post)('checkIfMemberExistsWithPassword'),
     __param(0, (0, common_1.Body)()),
@@ -95,6 +109,13 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.approveDto, String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "approveUser", null);
+__decorate([
+    (0, common_1.Delete)('deleteAllUsers'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "deleteAllUsers", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiTags)('Auth'),
     (0, common_1.Controller)('auth'),

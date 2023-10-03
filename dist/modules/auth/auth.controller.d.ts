@@ -7,9 +7,11 @@ export declare class AuthController {
     constructor(authService: AuthService);
     login(loginDto: LoginDto): Promise<any>;
     signup(signupDto: UserDto): Promise<any>;
+    signupAdmin(signupDto: UserDto | any): Promise<any>;
     checkMember(memberDto: MemberCheckDto): Promise<boolean>;
     loginAdmin(loginDto: AdminLoginDto): Promise<any>;
     sendForgotPassEmail(email: string): Promise<any>;
     resetUserPassword(passDto: PasswordDto): Promise<any>;
     approveUser(userData: approveDto, id: string): Promise<any>;
+    deleteAllUsers(): Promise<import("mongodb").DeleteResult>;
 }

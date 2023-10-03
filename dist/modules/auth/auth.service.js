@@ -60,6 +60,22 @@ let AuthService = exports.AuthService = class AuthService {
         await this.mailService.sendApprovalRequestToAdmin(newUser);
         return await new this._userModel(newUser).save();
     }
+    async registerAdmin(newUser) {
+        const user = await this._userModel.findOne({ email: newUser.email });
+        if (user) {
+            throw new common_1.ForbiddenException('Email already exists');
+        }
+        let adminExists = this._userModel.findOne({ role: user_schema_1.UserRole.ADMIN });
+        if (adminExists) {
+            throw new common_1.ForbiddenException('Admin user already exists');
+        }
+        newUser.status = user_schema_1.Status.APPROVED;
+        newUser._id = new mongoose_2.Types.ObjectId().toString();
+        newUser.role = 'admin';
+        newUser.memberID = 'PES/SA/00';
+        newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+        return await new this._userModel(newUser).save();
+    }
     async loginUser(loginDto) {
         if (loginDto?.memberID) {
             let user = await this._userModel.findOne({ $or: [
@@ -176,6 +192,9 @@ let AuthService = exports.AuthService = class AuthService {
             }
         }
         return await this._userModel.updateOne({ _id: id, deletedCheck: false }, { ...userData, status: user_schema_1.Status.APPROVED });
+    }
+    async deleteAllUsers() {
+        return await this._userModel.deleteMany({});
     }
 };
 exports.AuthService = AuthService = __decorate([
