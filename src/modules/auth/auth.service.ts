@@ -59,7 +59,7 @@ export class AuthService {
     if(user) {
       throw new ForbiddenException('Email already exists');
     }
-    let adminExists = this._userModel.findOne({role: UserRole.ADMIN});
+    let adminExists = await this._userModel.findOne({role: UserRole.ADMIN});
     if(adminExists) {
       throw new ForbiddenException('Admin user already exists');
     }
