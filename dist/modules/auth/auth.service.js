@@ -65,12 +65,15 @@ let AuthService = exports.AuthService = class AuthService {
         if (user) {
             throw new common_1.ForbiddenException('Email already exists');
         }
+        let adminExists = await this._userModel.findOne({ role: user_schema_1.UserRole.ADMIN });
+        if (adminExists) {
+            throw new common_1.ForbiddenException('Admin user already exists');
+        }
         newUser.status = user_schema_1.Status.APPROVED;
         newUser._id = new mongoose_2.Types.ObjectId().toString();
         newUser.role = 'admin';
         newUser.memberID = 'PES/SA/00';
         newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
-        debugger;
         return await new this._userModel(newUser).save();
     }
     async loginUser(loginDto) {
