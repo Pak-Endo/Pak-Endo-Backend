@@ -68,7 +68,6 @@ export class AuthService {
     newUser.role = 'admin';
     newUser.memberID = 'PES/SA/00';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
-    debugger
     return await new this._userModel(newUser).save();
   }
 
