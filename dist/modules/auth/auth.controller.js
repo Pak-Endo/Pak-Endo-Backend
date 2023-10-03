@@ -69,7 +69,7 @@ __decorate([
     (0, common_1.Post)('signupAdmin'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_dto_1.UserDto]),
+    __metadata("design:paramtypes", [user_dto_1.AdminDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signupAdmin", null);
 __decorate([

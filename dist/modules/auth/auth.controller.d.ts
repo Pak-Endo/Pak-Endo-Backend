@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { MemberCheckDto, PasswordDto, UserDto, approveDto } from 'src/dto/user.dto';
+import { AdminDto, MemberCheckDto, PasswordDto, UserDto, approveDto } from 'src/dto/user.dto';
 import { LoginDto } from 'src/dto/login.dto';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 export declare class AuthController {
@@ -7,7 +7,7 @@ export declare class AuthController {
     constructor(authService: AuthService);
     login(loginDto: LoginDto): Promise<any>;
     signup(signupDto: UserDto): Promise<any>;
-    signupAdmin(signupDto: UserDto): Promise<any>;
+    signupAdmin(signupDto: AdminDto): Promise<any>;
     checkMember(memberDto: MemberCheckDto): Promise<boolean>;
     loginAdmin(loginDto: AdminLoginDto): Promise<any>;
     sendForgotPassEmail(email: string): Promise<any>;

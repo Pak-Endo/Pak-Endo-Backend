@@ -4,7 +4,7 @@ import { LoginDto } from 'src/dto/login.dto';
 import { User } from 'src/schemas/user.schema';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { MailService } from '../mail/mail.service';
-import { PasswordDto, approveDto } from 'src/dto/user.dto';
+import { AdminDto, PasswordDto, approveDto } from 'src/dto/user.dto';
 export declare class AuthService {
     private readonly _userModel;
     private jwtService;
@@ -13,7 +13,7 @@ export declare class AuthService {
     private generateToken;
     private commonLoginMethod;
     registerUser(newUser: User | any): Promise<any>;
-    registerAdmin(newUser: User | any): Promise<any>;
+    registerAdmin(newUser: AdminDto): Promise<any>;
     loginUser(loginDto: LoginDto | AdminLoginDto | any): Promise<any>;
     checkIfMemberIDExistsWithPassword(memberID: string): Promise<boolean>;
     checkIfMemberIDExists(memberID: string): Promise<boolean>;

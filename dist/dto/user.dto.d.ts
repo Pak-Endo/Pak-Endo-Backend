@@ -11,10 +11,18 @@ export declare class UserDto {
 }
 export declare class AdminDto {
     _id: string;
-    fullName: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
+    prefix: string;
+    phoneNumber: string;
+    gender: string;
+    city: string;
     role: string;
+    status: any;
+    memberID: any;
+    fullName: any;
 }
 export declare class MemberCheckDto {
     memberID: string;

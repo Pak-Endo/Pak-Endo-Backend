@@ -122,6 +122,7 @@ let AttendedService = exports.AttendedService = class AttendedService {
                 event.featuredImage = config_1.default.URL + event.featuredImage;
                 if (event.gallery && event.gallery.mediaUrl) {
                     event.gallery.mediaUrl = event.gallery.mediaUrl.map(media => config_1.default.URL + media);
+                    event.gallery = [event.gallery];
                 }
             });
             return {
