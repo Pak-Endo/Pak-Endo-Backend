@@ -8,13 +8,13 @@ export class Venue extends Document {
   @Prop({default: ''})
   _id: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   city: string
 
   @Prop({default: '', required: true})
   venueName: string;
 
-  @Prop({default: [], required: true})
+  @Prop({default: [], required: false})
   halls: string[]
 
   @Prop({default: false, required: false})

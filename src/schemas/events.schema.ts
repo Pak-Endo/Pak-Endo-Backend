@@ -24,7 +24,7 @@ export class Event extends Document {
   @Prop({type: 'object', default: {}, required: true})
   location: sponsorType;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   featuredImage: string;
 
   @Prop({ default: {}, required: false })

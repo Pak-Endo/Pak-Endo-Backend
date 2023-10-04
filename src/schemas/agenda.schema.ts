@@ -26,7 +26,7 @@ export class Agenda extends Document {
   @Prop({default: '', required: true})
   to: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   hall: string;
 
   @Prop({default: '', required: false})

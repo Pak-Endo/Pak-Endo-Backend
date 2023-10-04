@@ -11,28 +11,28 @@ export class Sponsor extends Document {
   @Prop({default: '', required: true})
   sponsorName: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   sponsorCategory: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   sponsorEmail: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   contactPerson: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   uniqueID: string;
 
   @Prop({default: '', required: false})
   sponsorLogo: string;
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   description: string;
 
   @Prop({default: false, required: false})
   deletedCheck: false
 
-  @Prop({default: '', required: true})
+  @Prop({default: '', required: false})
   contact: string
 }
 
