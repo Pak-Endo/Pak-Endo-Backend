@@ -112,7 +112,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
-    if(user.type !== userDto.type) {
+    if(user.type !== userDto.type && user.role != UserRole.ADMIN) {
       let usersByMemberID = await this._userModel.aggregate([
         {
           $match: {
@@ -145,7 +145,6 @@ export class UserService {
     if(typeof userDto.status == 'string') {
       userDto.status = this.setStatus(userDto.status)
     }
-    userDto.fullName = userDto?.firstName + ' ' + userDto?.lastName;
     let updatedUser = await this._userModel.updateOne({ _id: userId }, userDto);
     if(updatedUser) {
       return await this._userModel.findOne({ _id: userId });

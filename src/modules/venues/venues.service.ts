@@ -106,4 +106,8 @@ export class VenueService {
     }
     return await this.venueModel.updateOne({_id: venueID}, {deletedCheck: true})
   }
+
+  async deleteAllVenues() {
+    return await this.venueModel.deleteMany({});
+  }
 }

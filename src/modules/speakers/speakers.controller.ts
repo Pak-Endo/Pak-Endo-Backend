@@ -54,4 +54,10 @@ export class SpeakerController {
   ) {
     return await this.speakerService.getSpeakerById(speakerID)
   }
+
+  @Delete('deleteAllSpeakers')
+    @UseGuards(JwtAuthGuard)
+    async deleteAllSpeakers() {
+      return await this.speakerService.deleteAllSpeakers()
+    }
 }

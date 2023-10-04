@@ -54,4 +54,10 @@ export class SponsorController {
   ) {
     return await this.sponsorService.getSponsorById(sponsorID)
   }
+
+  @Delete('deleteAllSponsors')
+    @UseGuards(JwtAuthGuard)
+    async deleteAllSponsors() {
+      return await this.sponsorService.deleteAllSponsors()
+    }
 }

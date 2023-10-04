@@ -54,4 +54,10 @@ export class VenueController {
   ) {
     return await this.venueService.getVenueById(sponsorID)
   }
+
+  @Delete('deleteAllVenues')
+    @UseGuards(JwtAuthGuard)
+    async deleteAllVenues() {
+      return await this.venueService.deleteAllVenues()
+    }
 }

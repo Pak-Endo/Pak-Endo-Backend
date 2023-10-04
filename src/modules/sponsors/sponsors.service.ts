@@ -106,4 +106,8 @@ export class SponsorService {
     }
     return await this.sponsorModel.updateOne({_id: sponsorID}, {deletedCheck: true})
   }
+
+  async deleteAllSponsors() {
+    return await this.sponsorModel.deleteMany({});
+  }
 }

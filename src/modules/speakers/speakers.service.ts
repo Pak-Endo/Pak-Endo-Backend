@@ -106,4 +106,8 @@ export class SpeakerService {
     }
     return await this.speakerModel.updateOne({_id: speakerID}, {deletedCheck: true})
   }
+
+  async deleteAllSpeakers() {
+    return await this.speakerModel.deleteMany({});
+  }
 }
