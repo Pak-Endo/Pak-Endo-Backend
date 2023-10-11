@@ -65,6 +65,9 @@ export class Event extends Document {
 
   @Prop({default: false, required: false})
   isAttended: boolean;
+
+  @Prop({default: '', required: false})
+  eventPdf: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
