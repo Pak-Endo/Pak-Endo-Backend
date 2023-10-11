@@ -46,6 +46,7 @@ export declare class Event extends Document {
     contactPerson: string;
     isFavorite: boolean;
     isAttended: boolean;
+    eventPdf: string;
 }
 export declare const EventSchema: import("mongoose").Schema<Event, import("mongoose").Model<Event, any, any, any, Document<unknown, any, Event> & Event & Required<{
     _id: string;
