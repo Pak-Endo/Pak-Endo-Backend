@@ -51,10 +51,6 @@ __decorate([
     __metadata("design:type", String)
 ], Agenda.prototype, "speaker", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: false }),
-    __metadata("design:type", String)
-], Agenda.prototype, "speakerDesignation", void 0);
-__decorate([
     (0, mongoose_1.Prop)({ default: [], required: false }),
     __metadata("design:type", Array)
 ], Agenda.prototype, "speakerTeam", void 0);
@@ -67,13 +63,13 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Agenda.prototype, "deletedCheck", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '', required: false }),
-    __metadata("design:type", String)
-], Agenda.prototype, "speakerImg", void 0);
-__decorate([
     (0, mongoose_1.Prop)({ default: [], required: false }),
     __metadata("design:type", Array)
 ], Agenda.prototype, "attachments", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: false }),
+    __metadata("design:type", String)
+], Agenda.prototype, "moderator", void 0);
 exports.Agenda = Agenda = __decorate([
     (0, mongoose_1.Schema)()
 ], Agenda);

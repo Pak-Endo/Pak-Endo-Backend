@@ -34,12 +34,11 @@ export declare class Agenda extends Document {
     to: string;
     hall: string;
     speaker: string;
-    speakerDesignation: string;
     speakerTeam: any[];
     streamUrl: string;
     deletedCheck: boolean;
-    speakerImg: string;
     attachments: any[];
+    moderator: string;
 }
 export declare const AgendaSchema: import("mongoose").Schema<Agenda, import("mongoose").Model<Agenda, any, any, any, Document<unknown, any, Agenda> & Agenda & Required<{
     _id: string;
