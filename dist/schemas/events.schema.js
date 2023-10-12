@@ -81,7 +81,7 @@ __decorate([
 ], Event.prototype, "rating", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: false }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Event.prototype, "contactNumber", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: '', required: false }),

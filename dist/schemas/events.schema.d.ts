@@ -42,7 +42,7 @@ export declare class Event extends Document {
     openForPublic: boolean;
     fees: any[];
     rating: number;
-    contactNumber: number;
+    contactNumber: string;
     contactPerson: string;
     isFavorite: boolean;
     isAttended: boolean;
