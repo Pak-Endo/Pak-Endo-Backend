@@ -12,7 +12,7 @@ export declare class FavoritesService {
     removeFromFavourites(eventID: any, req: any): Promise<{
         message: string;
     }>;
-    getFavourite(id: string, req: any): Promise<any[]>;
+    getFavourite(id: string, req: any): Promise<any>;
     getAllFavorites(offset: any, limit: any, req: any): Promise<{
         totalCount: number;
         data: any[];

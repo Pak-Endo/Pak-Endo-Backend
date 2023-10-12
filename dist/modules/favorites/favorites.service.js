@@ -83,16 +83,26 @@ let FavoritesService = exports.FavoritesService = class FavoritesService {
                     }
                 },
                 {
-                    $project: {
-                        __v: 0,
-                        _id: 0
+                    $lookup: {
+                        from: "events",
+                        localField: 'eventID',
+                        foreignField: '_id',
+                        as: 'event'
                     }
-                }
+                },
+                {
+                    $unwind: "$event"
+                },
+                {
+                    $addFields: {
+                        "event.isFavorite": true
+                    },
+                },
             ]);
-            if (!checkIfExists) {
+            if (checkIfExists.length === 0) {
                 throw new common_1.HttpException('Event does not exist in favorites', common_1.HttpStatus.NOT_FOUND);
             }
-            return checkIfExists;
+            return checkIfExists[0].event;
         }
         catch (err) {
             throw new common_1.HttpException(err, common_1.HttpStatus.BAD_REQUEST);

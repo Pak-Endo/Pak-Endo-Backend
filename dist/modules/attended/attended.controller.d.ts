@@ -7,7 +7,7 @@ export declare class AttendedController {
         totalCount: number;
         data: any[];
     }>;
-    getFavById(id: string, req: any): Promise<any[]>;
+    getFavById(id: string, req: any): Promise<any>;
     addToAttendedEvents(AttendedDto: AttendedDto, req: any): Promise<{
         message: string;
     }>;

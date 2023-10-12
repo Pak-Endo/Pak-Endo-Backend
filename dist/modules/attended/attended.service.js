@@ -64,16 +64,26 @@ let AttendedService = exports.AttendedService = class AttendedService {
                     }
                 },
                 {
-                    $project: {
-                        __v: 0,
-                        _id: 0
+                    $lookup: {
+                        from: "events",
+                        localField: 'eventID',
+                        foreignField: '_id',
+                        as: 'event'
                     }
-                }
+                },
+                {
+                    $unwind: "$event"
+                },
+                {
+                    $addFields: {
+                        "event.isAttended": true
+                    },
+                },
             ]);
-            if (!checkIfExists) {
-                throw new common_1.HttpException('Event does not exist in Attended', common_1.HttpStatus.NOT_FOUND);
+            if (checkIfExists.length === 0) {
+                throw new common_1.HttpException('Event does not exist in attended events', common_1.HttpStatus.NOT_FOUND);
             }
-            return checkIfExists;
+            return checkIfExists[0].event;
         }
         catch (err) {
             throw new common_1.HttpException(err, common_1.HttpStatus.BAD_REQUEST);

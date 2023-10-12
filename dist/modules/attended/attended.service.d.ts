@@ -9,7 +9,7 @@ export declare class AttendedService {
     addToAttended(AttendedDto: AttendedDto, req: any): Promise<{
         message: string;
     }>;
-    getAttended(id: string, req: any): Promise<any[]>;
+    getAttended(id: string, req: any): Promise<any>;
     getAllAttended(offset: any, limit: any, req: any): Promise<{
         totalCount: number;
         data: any[];

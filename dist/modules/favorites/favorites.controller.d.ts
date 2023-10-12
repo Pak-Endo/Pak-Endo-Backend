@@ -7,7 +7,7 @@ export declare class FavoritesController {
         totalCount: number;
         data: any[];
     }>;
-    getFavById(id: string, req: any): Promise<any[]>;
+    getFavById(id: string, req: any): Promise<any>;
     addToFavs(favoritesDto: FavoritesDto, req: any): Promise<{
         message: string;
     }>;
