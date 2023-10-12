@@ -55,7 +55,7 @@ export class Event extends Document {
   rating: number;
 
   @Prop({default: '', required: false})
-  contactNumber: number;
+  contactNumber: string;
   
   @Prop({default: '', required: false})
   contactPerson: string;
