@@ -45,7 +45,13 @@ export class Agenda extends Document {
   attachments: any[];
 
   @Prop({default: '', required: false})
-  moderator: string
+  moderator: string;
+
+  @Prop({default: false, required: false})
+  isWorkshop: boolean;
+
+  @Prop({default: '', required: false})
+  workshopVenue: string;
 }
 
 export const AgendaSchema = SchemaFactory.createForClass(Agenda);
