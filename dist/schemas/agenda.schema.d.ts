@@ -39,6 +39,8 @@ export declare class Agenda extends Document {
     deletedCheck: boolean;
     attachments: any[];
     moderator: string;
+    isWorkshop: boolean;
+    workshopVenue: string;
 }
 export declare const AgendaSchema: import("mongoose").Schema<Agenda, import("mongoose").Model<Agenda, any, any, any, Document<unknown, any, Agenda> & Agenda & Required<{
     _id: string;

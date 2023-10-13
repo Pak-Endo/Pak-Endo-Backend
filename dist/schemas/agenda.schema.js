@@ -70,6 +70,14 @@ __decorate([
     (0, mongoose_1.Prop)({ default: '', required: false }),
     __metadata("design:type", String)
 ], Agenda.prototype, "moderator", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false, required: false }),
+    __metadata("design:type", Boolean)
+], Agenda.prototype, "isWorkshop", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: '', required: false }),
+    __metadata("design:type", String)
+], Agenda.prototype, "workshopVenue", void 0);
 exports.Agenda = Agenda = __decorate([
     (0, mongoose_1.Schema)()
 ], Agenda);
