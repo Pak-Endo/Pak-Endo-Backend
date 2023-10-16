@@ -31,6 +31,12 @@ export class UserDto {
 
   @ApiProperty()
   city: string;
+
+  @ApiProperty()
+  deviceId: string
+
+  @ApiProperty()
+  deviceToken: string;
 }
 
 export class AdminDto {
@@ -100,4 +106,18 @@ export class QueryParams {
 export class approveDto {
   @ApiProperty()
   type: string;
+}
+
+export class DeviceDto {
+  @ApiProperty()
+  email: string
+
+  @ApiProperty()
+  deviceId: string
+
+  @ApiProperty()
+  deviceToken: string;
+
+  @ApiProperty()
+  isAndroid: boolean;
 }

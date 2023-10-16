@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { AdminDto, MemberCheckDto, PasswordDto, UserDto, approveDto } from 'src/dto/user.dto';
+import { AdminDto, MemberCheckDto, PasswordDto, UserDto, approveDto, DeviceDto } from 'src/dto/user.dto';
 import { LoginDto } from 'src/dto/login.dto';
 import { AdminLoginDto } from 'src/dto/admin-login.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -57,5 +57,10 @@ export class AuthController {
   @Delete('deleteAllUsers')
     async deleteAllUsers() {
       return await this.authService.deleteAllUsers()
+    }
+
+  @Post('addDevice')
+    async adddevice(@Body() deviceDto: DeviceDto) {
+      return await this.authService.addDeviceToken(deviceDto);
     }
 }

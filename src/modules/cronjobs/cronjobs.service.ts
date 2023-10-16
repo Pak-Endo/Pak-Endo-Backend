@@ -13,9 +13,8 @@ export class CronjobsService {
 
   @Cron( CronExpression.EVERY_30_SECONDS )
   async startCronJobForEventStatus() {
-
     const url = 'https://fcm.googleapis.com/fcm/send';
-    const serverKey = 'AAAAnCuyvMs:APA91bGegxaa6vyqaRpR7Ei4FIXjVGMZPHWkKEf6R6TIMZMwOApFR1J8wawFhiVsx1uQQQ_Hyi00fUHG_0D5Dl_9WtEmrOMOXzcTYKPmpwgImH60gL94CwV_imJN9hOTbpOS4FLPaBQv';
+    const serverKey = 'AAAAiB9Sdls:APA91bFtTcWBJnXe8XOztk_QR2_FJm5LyaR90on76PGdiK32_3HVnNvMAhAmSPwp8SONQYXpkKui3L8rIVjVSIqoemdpoIOkuCfeLizlEJS8Si7N3jrQgFD8wrYxzRhZUB8kmoIjh8Gw';
 
     const headers = {
       'Authorization': 'key=' + serverKey,
@@ -31,7 +30,7 @@ export class CronjobsService {
         deviceToken.push(user.deviceToken); //make array
     }
     
-    let currentDateTime = new Date()
+    let currentDateTime = new Date();
     const eventsToUpdate = await this.eventModel.find({
       startDate: { $lte: currentDateTime },
       eventStatus: EventStatus.UPCOMING,
@@ -69,7 +68,7 @@ export class CronjobsService {
   async endCronJobForEventStatus()  {
 
     const url = 'https://fcm.googleapis.com/fcm/send';
-    const serverKey = 'AAAAnCuyvMs:APA91bGegxaa6vyqaRpR7Ei4FIXjVGMZPHWkKEf6R6TIMZMwOApFR1J8wawFhiVsx1uQQQ_Hyi00fUHG_0D5Dl_9WtEmrOMOXzcTYKPmpwgImH60gL94CwV_imJN9hOTbpOS4FLPaBQv';
+    const serverKey = 'AAAAiB9Sdls:APA91bFtTcWBJnXe8XOztk_QR2_FJm5LyaR90on76PGdiK32_3HVnNvMAhAmSPwp8SONQYXpkKui3L8rIVjVSIqoemdpoIOkuCfeLizlEJS8Si7N3jrQgFD8wrYxzRhZUB8kmoIjh8Gw';
 
     const headers = {
       'Authorization': 'key=' + serverKey,
@@ -120,15 +119,21 @@ export class CronjobsService {
 
   @Cron( CronExpression.EVERY_30_SECONDS )
   async startCronJobToNotifyUpcomingEvent() {
-    let currentDateTime = new Date()
-    let oneHourBefore= (currentDateTime.getHours()-1)
+    let currentDateTime = new Date();
+    console.log('currentDateTime', currentDateTime);
+    let oneHourBefore= currentDateTime;
+    oneHourBefore.setHours(currentDateTime.getHours() + 1)
+    console.log('oneHourBefore ',oneHourBefore.toISOString());
     const eventsUpcoming = await this.eventModel.find({
       startDate: { $lte: oneHourBefore },
       eventStatus: EventStatus.UPCOMING,
     });
+    // const eventsUpcoming = await this.eventModel.find({
+    //   title: { $lte: 'EOM Nov' },
+    // });
 
     const url = 'https://fcm.googleapis.com/fcm/send';
-    const serverKey = 'AAAAnCuyvMs:APA91bGegxaa6vyqaRpR7Ei4FIXjVGMZPHWkKEf6R6TIMZMwOApFR1J8wawFhiVsx1uQQQ_Hyi00fUHG_0D5Dl_9WtEmrOMOXzcTYKPmpwgImH60gL94CwV_imJN9hOTbpOS4FLPaBQv';
+    const serverKey = 'AAAAiB9Sdls:APA91bFtTcWBJnXe8XOztk_QR2_FJm5LyaR90on76PGdiK32_3HVnNvMAhAmSPwp8SONQYXpkKui3L8rIVjVSIqoemdpoIOkuCfeLizlEJS8Si7N3jrQgFD8wrYxzRhZUB8kmoIjh8Gw';
 
     const headers = {
       'Authorization': 'key=' + serverKey,
@@ -156,7 +161,6 @@ export class CronjobsService {
           body: description,
         },
       };
-
       axios.post(url, data, { headers })
       .then(response => {
         console.log('Response:', response.data);
