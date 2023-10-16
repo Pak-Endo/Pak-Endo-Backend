@@ -211,4 +211,16 @@ export class AuthService {
   async deleteAllUsers() {
     return await this._userModel.deleteMany({});
   }
+
+  async addDeviceToken(newUser: User | any): Promise<any> {
+    const user = await this._userModel.findOne({ email: newUser.email });
+    if(user) {
+      user.deviceId = newUser?.deviceId;
+      user.deviceToken = newUser?.deviceToken;
+      user.isAndroid = newUser?.isAndroid;
+    }else{
+      throw new NotFoundException('User does not exist');
+    }
+    return await user.save();
+  }
 }
