@@ -50,6 +50,7 @@ export class AuthService {
     newUser._id = new Types.ObjectId().toString();
     newUser.role = 'member';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+    newUser.deviceToken = newUser?.deviceToken;
     await this.mailService.sendApprovalRequestToAdmin(newUser);
     return await new this._userModel(newUser).save();
   }
@@ -209,5 +210,17 @@ export class AuthService {
 
   async deleteAllUsers() {
     return await this._userModel.deleteMany({});
+  }
+
+  async addDeviceToken(newUser: User | any): Promise<any> {
+    const user = await this._userModel.findOne({ email: newUser.email });
+    if(user) {
+      user.deviceId = newUser?.deviceId;
+      user.deviceToken = newUser?.deviceToken;
+      user.isAndroid = newUser?.isAndroid;
+    }else{
+      throw new NotFoundException('User does not exist');
+    }
+    return await user.save();
   }
 }
