@@ -60,6 +60,9 @@ export class User extends Document {
 
   @Prop({default: [], required: false})
   interested: InterestedInterface[];
+
+  @Prop({default: '', required: false})
+  deviceToken: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
