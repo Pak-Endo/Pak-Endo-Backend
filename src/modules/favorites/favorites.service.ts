@@ -75,16 +75,28 @@ export class FavoritesService {
           }
         },
         {
-          $project: {
-            __v: 0,
-            _id: 0
+          $lookup: {
+            from: "events",
+            localField: 'eventID',
+            foreignField: '_id',
+            as: 'event'
           }
-        }
+        },
+        {
+          $unwind: "$event" // Unwind the result to get a single event
+        },
+        {
+          $addFields: {
+            "event.isFavorite": true
+          },
+        },
       ]);
-      if(!checkIfExists) {
-        throw new HttpException('Event does not exist in favorites', HttpStatus.NOT_FOUND)
+  
+      if (checkIfExists.length === 0) {
+        throw new HttpException('Event does not exist in favorites', HttpStatus.NOT_FOUND);
       }
-      return checkIfExists;
+  
+      return checkIfExists[0].event; // Return the first matched event
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }

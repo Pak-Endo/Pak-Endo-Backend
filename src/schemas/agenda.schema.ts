@@ -32,9 +32,6 @@ export class Agenda extends Document {
   @Prop({default: '', required: false})
   speaker: string;
 
-  @Prop({default: '', required: false})
-  speakerDesignation: string;
-
   @Prop({default: [], required: false})
   speakerTeam: any[];
 
@@ -44,11 +41,17 @@ export class Agenda extends Document {
   @Prop({default: false, required: false})
   deletedCheck: boolean;
 
-  @Prop({default: '', required: false})
-  speakerImg: string;
-
   @Prop({default: [], required: false})
   attachments: any[];
+
+  @Prop({default: '', required: false})
+  moderator: string;
+
+  @Prop({default: false, required: false})
+  isWorkshop: boolean;
+
+  @Prop({default: '', required: false})
+  workshopVenue: string;
 }
 
 export const AgendaSchema = SchemaFactory.createForClass(Agenda);

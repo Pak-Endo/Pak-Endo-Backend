@@ -55,7 +55,7 @@ export class Event extends Document {
   rating: number;
 
   @Prop({default: '', required: false})
-  contactNumber: number;
+  contactNumber: string;
   
   @Prop({default: '', required: false})
   contactPerson: string;
@@ -65,6 +65,9 @@ export class Event extends Document {
 
   @Prop({default: false, required: false})
   isAttended: boolean;
+
+  @Prop({default: '', required: false})
+  eventPdf: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
