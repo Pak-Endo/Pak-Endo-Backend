@@ -87,6 +87,18 @@ __decorate([
     (0, mongoose_2.Prop)({ default: [], required: false }),
     __metadata("design:type", Array)
 ], User.prototype, "interested", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ default: '', required: false }),
+    __metadata("design:type", String)
+], User.prototype, "deviceToken", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ default: '', required: false }),
+    __metadata("design:type", String)
+], User.prototype, "deviceId", void 0);
+__decorate([
+    (0, mongoose_2.Prop)({ default: false, required: false }),
+    __metadata("design:type", Boolean)
+], User.prototype, "isAndroid", void 0);
 exports.User = User = __decorate([
     (0, mongoose_2.Schema)()
 ], User);

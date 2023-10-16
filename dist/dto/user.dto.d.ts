@@ -8,6 +8,8 @@ export declare class UserDto {
     phoneNumber: string;
     gender: string;
     city: string;
+    deviceId: string;
+    deviceToken: string;
 }
 export declare class AdminDto {
     _id: string;
@@ -38,4 +40,10 @@ export declare class QueryParams {
 }
 export declare class approveDto {
     type: string;
+}
+export declare class DeviceDto {
+    email: string;
+    deviceId: string;
+    deviceToken: string;
+    isAndroid: boolean;
 }

@@ -11,13 +11,15 @@ const common_1 = require("@nestjs/common");
 const cronjobs_service_1 = require("./cronjobs.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const events_schema_1 = require("../../schemas/events.schema");
+const user_schema_1 = require("../../schemas/user.schema");
 let CronjobsModule = exports.CronjobsModule = class CronjobsModule {
 };
 exports.CronjobsModule = CronjobsModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: 'Events', schema: events_schema_1.EventSchema }
+                { name: 'Events', schema: events_schema_1.EventSchema },
+                { name: 'User', schema: user_schema_1.UserSchema }
             ])
         ],
         providers: [cronjobs_service_1.CronjobsService]

@@ -50,6 +50,9 @@ let AuthController = exports.AuthController = class AuthController {
     async deleteAllUsers() {
         return await this.authService.deleteAllUsers();
     }
+    async adddevice(deviceDto) {
+        return await this.authService.addDeviceToken(deviceDto);
+    }
 };
 __decorate([
     (0, common_1.Post)('login'),
@@ -114,6 +117,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "deleteAllUsers", null);
+__decorate([
+    (0, common_1.Post)('addDevice'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.DeviceDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "adddevice", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiTags)('Auth'),
     (0, common_1.Controller)('auth'),

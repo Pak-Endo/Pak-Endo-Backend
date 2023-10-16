@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.approveDto = exports.QueryParams = exports.PasswordDto = exports.MemberCheckDto = exports.AdminDto = exports.UserDto = void 0;
+exports.DeviceDto = exports.approveDto = exports.QueryParams = exports.PasswordDto = exports.MemberCheckDto = exports.AdminDto = exports.UserDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class UserDto {
 }
@@ -50,6 +50,14 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], UserDto.prototype, "city", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], UserDto.prototype, "deviceId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], UserDto.prototype, "deviceToken", void 0);
 class AdminDto {
 }
 exports.AdminDto = AdminDto;
@@ -145,4 +153,23 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], approveDto.prototype, "type", void 0);
+class DeviceDto {
+}
+exports.DeviceDto = DeviceDto;
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], DeviceDto.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], DeviceDto.prototype, "deviceId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], DeviceDto.prototype, "deviceToken", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Boolean)
+], DeviceDto.prototype, "isAndroid", void 0);
 //# sourceMappingURL=user.dto.js.map

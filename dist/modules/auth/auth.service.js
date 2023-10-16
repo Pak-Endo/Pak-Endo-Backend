@@ -57,6 +57,7 @@ let AuthService = exports.AuthService = class AuthService {
         newUser._id = new mongoose_2.Types.ObjectId().toString();
         newUser.role = 'member';
         newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+        newUser.deviceToken = newUser?.deviceToken;
         await this.mailService.sendApprovalRequestToAdmin(newUser);
         return await new this._userModel(newUser).save();
     }
@@ -195,6 +196,18 @@ let AuthService = exports.AuthService = class AuthService {
     }
     async deleteAllUsers() {
         return await this._userModel.deleteMany({});
+    }
+    async addDeviceToken(newUser) {
+        const user = await this._userModel.findOne({ email: newUser.email });
+        if (user) {
+            user.deviceId = newUser?.deviceId;
+            user.deviceToken = newUser?.deviceToken;
+            user.isAndroid = newUser?.isAndroid;
+        }
+        else {
+            throw new common_1.NotFoundException('User does not exist');
+        }
+        return await user.save();
     }
 };
 exports.AuthService = AuthService = __decorate([

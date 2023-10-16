@@ -21,4 +21,5 @@ export declare class AuthService {
     resetPassword(passwordDto: PasswordDto): Promise<any>;
     approveUser(id: string, userData: approveDto): Promise<any>;
     deleteAllUsers(): Promise<import("mongodb").DeleteResult>;
+    addDeviceToken(newUser: User | any): Promise<any>;
 }
