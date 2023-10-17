@@ -9,7 +9,7 @@ export class MailService {
     constructor(private mailerService: MailerService) {}
 
     async sendUserConfirmation(user: User | any, token: string) {
-      const url = `http://localhost:4200/auth/reset-password?id=${user.id}&token=${token}`;
+      const url = `https://pak-endo-admin.vercel.app/auth/reset-password?id=${user.id}&token=${token}`;
       return await this.mailerService.sendMail({
         to: user.email,
         from: 'noreply@admin.com',
@@ -28,6 +28,7 @@ export class MailService {
     }
 
     async sendApprovalRequestToAdmin(user: User | any) {
+      debugger
       return await this.mailerService.sendMail({
         to: 'admin@gmail.com',
         from: 'noreply@admin.com',
@@ -37,9 +38,11 @@ export class MailService {
           name: user?.fullName
         },
       }).then((response: any) => {
+        debugger
         return response
       })
       .catch((err: any) => {
+        debugger
         throw new BadRequestException('Something went wrong. Please try again')
       });
     }
