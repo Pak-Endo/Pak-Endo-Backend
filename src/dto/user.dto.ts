@@ -37,6 +37,9 @@ export class UserDto {
 
   @ApiProperty()
   deviceToken: string;
+
+  @ApiProperty()
+  isAndroid: boolean;
 }
 
 export class AdminDto {
