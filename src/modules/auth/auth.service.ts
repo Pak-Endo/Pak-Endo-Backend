@@ -51,6 +51,8 @@ export class AuthService {
     newUser.role = 'member';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
     newUser.deviceToken = newUser?.deviceToken;
+    newUser.deviceId = newUser?.deviceId;
+    newUser.isAndroid = newUser?.isAndroid;
     await this.mailService.sendApprovalRequestToAdmin(newUser);
     return await new this._userModel(newUser).save();
   }
