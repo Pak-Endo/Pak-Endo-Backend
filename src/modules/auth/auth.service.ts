@@ -25,19 +25,24 @@ export class AuthService {
 
   private async commonLoginMethod(user: User | any, password: string) {
     if(!user) {
+      
       throw new UnauthorizedException('Incorrect Credentials')
     }
     if(user?.status !== Status.APPROVED)  {
+      
       throw new UnauthorizedException('Your account is still pending for approval');
     }
     const isValidCredentials = await bcrypt.compare(password, user.password);
     if(!isValidCredentials) {
+      
       throw new UnauthorizedException('Incorrect Credentials')
     }
+    
     !user.fullName ? user.fullName = user?.prefix + ' ' + user?.firstName + ' ' + user?.lastName : user.fullName;
     user = JSON.parse(JSON.stringify(user));
     delete user.password;
     const token = this.generateToken(user);
+    
     return { user, token: token.access_token};
   }
 
@@ -86,16 +91,22 @@ export class AuthService {
           status: Status.APPROVED
         },
       );
+      if(!user) {
+        throw new UnauthorizedException('This user has not been approved yet')
+      }
       user.deviceToken=loginDto.deviceToken;
-      await user.save();
+      await this._userModel.updateOne({email: loginDto.email}, {deviceToken: loginDto.deviceToken})
       return this.commonLoginMethod(user, loginDto?.password)
     }
+    
     let user = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false, status: Status.APPROVED });
+    
     if(user?.role !== UserRole.ADMIN) {
+      
       throw new UnauthorizedException('Incorrect Credentials')
     }
     user.deviceToken=loginDto.deviceToken;
-    await user.save();
+    await this._userModel.updateOne({email: loginDto.email}, {deviceToken: loginDto.deviceToken})
     return this.commonLoginMethod(user, loginDto?.password)
   }
 
