@@ -55,11 +55,11 @@ export class AuthService {
     newUser._id = new Types.ObjectId().toString();
     newUser.role = 'member';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
-    debugger
+    
     newUser.deviceToken = newUser?.deviceToken;
     newUser.deviceId = newUser?.deviceId;
     newUser.isAndroid = newUser?.isAndroid;
-    debugger
+    
     await this.mailService.sendApprovalRequestToAdmin(newUser);
     return await new this._userModel(newUser).save();
   }

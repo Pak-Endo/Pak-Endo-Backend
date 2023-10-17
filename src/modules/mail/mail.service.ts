@@ -28,7 +28,7 @@ export class MailService {
     }
 
     async sendApprovalRequestToAdmin(user: User | any) {
-      debugger
+      
       return await this.mailerService.sendMail({
         to: 'admin@gmail.com',
         from: 'noreply@admin.com',
@@ -38,11 +38,11 @@ export class MailService {
           name: user?.fullName
         },
       }).then((response: any) => {
-        debugger
+        
         return response
       })
       .catch((err: any) => {
-        debugger
+        
         throw new BadRequestException('Something went wrong. Please try again')
       });
     }
