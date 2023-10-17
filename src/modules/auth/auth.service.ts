@@ -51,6 +51,8 @@ export class AuthService {
     newUser.role = 'member';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
     newUser.deviceToken = newUser?.deviceToken;
+    newUser.deviceId = newUser?.deviceId;
+    newUser.isAndroid = newUser?.isAndroid;
     await this.mailService.sendApprovalRequestToAdmin(newUser);
     return await new this._userModel(newUser).save();
   }
@@ -84,12 +86,16 @@ export class AuthService {
           status: Status.APPROVED
         },
       );
+      user.deviceToken=loginDto.deviceToken;
+      await user.save();
       return this.commonLoginMethod(user, loginDto?.password)
     }
     let user = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false, status: Status.APPROVED });
     if(user?.role !== UserRole.ADMIN) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
+    user.deviceToken=loginDto.deviceToken;
+    await user.save();
     return this.commonLoginMethod(user, loginDto?.password)
   }
 

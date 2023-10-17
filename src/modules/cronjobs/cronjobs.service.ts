@@ -48,7 +48,7 @@ export class CronjobsService {
       const data = {
        registration_ids: deviceToken,
        notification: {
-         title: title,
+         title: 'The Event ' + title + 'has been started',
          body: description,
        },
      };
@@ -100,7 +100,7 @@ export class CronjobsService {
        const data = {
         registration_ids: deviceToken,
         notification: {
-          title: title,
+          title: 'The Event ' + title + ' has been completed',
           body: description,
         },
       };
@@ -117,7 +117,7 @@ export class CronjobsService {
     }
   }
 
-  @Cron( CronExpression.EVERY_30_SECONDS )
+  @Cron( CronExpression.EVERY_30_MINUTES )
   async startCronJobToNotifyUpcomingEvent() {
     let currentDateTime = new Date();
     console.log('currentDateTime', currentDateTime);
@@ -157,7 +157,7 @@ export class CronjobsService {
        const data = {
         registration_ids: deviceToken,
         notification: {
-          title: title,
+          title: 'The Event '+ title + ' is about to start in an hour',
           body: description,
         },
       };

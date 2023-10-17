@@ -26,5 +26,8 @@ export class LoginDto{
     @MaxLength(1024)
     password: string;
 
+    
+    @ApiProperty()
+    deviceToken: string;
 
 }
