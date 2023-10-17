@@ -84,12 +84,16 @@ export class AuthService {
           status: Status.APPROVED
         },
       );
+      user.deviceToken=loginDto.deviceToken;
+      await user.save();
       return this.commonLoginMethod(user, loginDto?.password)
     }
     let user = await this._userModel.findOne({ email: loginDto.email, deletedCheck: false, status: Status.APPROVED });
     if(user?.role !== UserRole.ADMIN) {
       throw new UnauthorizedException('Incorrect Credentials')
     }
+    user.deviceToken=loginDto.deviceToken;
+    await user.save();
     return this.commonLoginMethod(user, loginDto?.password)
   }
 
