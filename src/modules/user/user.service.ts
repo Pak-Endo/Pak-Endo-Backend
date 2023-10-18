@@ -195,9 +195,8 @@ export class UserService {
 
     await this._userModel.updateMany({},
       [
-          { $set: { "firstName": "$middle_name" } },
-          { $set: { "lastName": "$last_name" } },
-          { $unset: ["middle_name", "last_name"] }
+          { $set: { "fullName": "$name" } },
+          { $unset: ["$name"] }
       ]
     );
     return;
