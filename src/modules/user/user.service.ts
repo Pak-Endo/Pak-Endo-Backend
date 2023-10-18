@@ -177,34 +177,37 @@ export class UserService {
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
     const users = await this._userModel.find({});
     const bulkOps = [];
-  
+
     users.forEach(user => {
-      const { fullName } = user;
-      const splitName = fullName.split(' ');
-      const lastName = splitName.pop();
-      const firstName = splitName.join(' ');
-  
-      const updateOperation = {
-        $set: {
-          firstName: firstName,
-          lastName: lastName
-        }
-      };
-  
-      bulkOps.push({
-        updateOne: {
-          filter: { newID: user.newID },
-          update: updateOperation,
-          upsert: true
-        }
-      });
+        const { fullName } = user;
+        const splitName = fullName.split(' ');
+        const lastName = splitName.pop();
+        const firstName = splitName.join(' ');
+
+        const updateOperation = [
+            {
+                $set: {
+                    firstName: firstName,
+                    lastName: lastName
+                }
+            }
+        ];
+
+        bulkOps.push({
+            updateOne: {
+                filter: { newID: user.newID },
+                update: updateOperation,
+                upsert: true
+            }
+        });
     });
-  
+
     if (bulkOps.length > 0) {
-      return await this._userModel.bulkWrite(bulkOps);
+      return await this._userModel.updateMany({}, bulkOps, options);
     } else {
-      return 'No users found.';
+        return 'No users found.';
     }
-  }
+}
+
   
 }
