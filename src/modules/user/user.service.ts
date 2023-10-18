@@ -109,7 +109,7 @@ export class UserService {
   }
 
   async updateUser(userDto: User | any, userId: string): Promise<any> {
-    const user = await this._userModel.findOne({ _id: userId });
+    const user = await this._userModel.findOne({ newID: userId });
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -146,9 +146,9 @@ export class UserService {
     if(typeof userDto.status == 'string') {
       userDto.status = this.setStatus(userDto.status)
     }
-    let updatedUser = await this._userModel.updateOne({ _id: userId }, userDto);
+    let updatedUser = await this._userModel.updateOne({ newID: userId }, userDto);
     if(updatedUser) {
-      return await this._userModel.findOne({ _id: userId });
+      return await this._userModel.findOne({ newID: userId });
     }
   }
 
@@ -157,7 +157,7 @@ export class UserService {
     if(!event) {
       throw new NotFoundException('User not found');
     }
-    return await this._userModel.updateOne({_id: userID}, {deletedCheck: true})
+    return await this._userModel.updateOne({newID: userID}, {deletedCheck: true})
   }
 
   setStatus(value: string) {
