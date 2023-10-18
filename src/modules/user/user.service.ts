@@ -183,7 +183,7 @@ export class UserService {
   
       return {
         updateOne: {
-          filter: { _id: user._id },
+          filter: { newID: user.newID },
           update: { $set: { firstName: firstName, lastName: lastName } },
           upsert: true
         }
