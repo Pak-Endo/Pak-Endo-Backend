@@ -92,6 +92,7 @@ export class UserService {
       newUser.memberID = memberIDGen
     }
     newUser._id = new Types.ObjectId().toString();
+    newUser.newID = new Types.ObjectId().toString();
     newUser.role = 'member';
     newUser.fullName = newUser?.firstName + ' ' + newUser?.lastName;
     newUser.status = this.setStatus(newUser.status);
@@ -100,7 +101,7 @@ export class UserService {
   }
 
   async getUserById(id: string): Promise<any> {
-    let user =  await this._userModel.findById({_id: id, deletedCheck: false});
+    let user =  await this._userModel.findById({newID: id, deletedCheck: false});
     if(!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -152,7 +153,7 @@ export class UserService {
   }
 
   async deleteUser(userID: string): Promise<any> {
-    const event = await this._userModel.findOne({ _id: userID, deletedCheck: false });
+    const event = await this._userModel.findOne({ newID: userID, deletedCheck: false });
     if(!event) {
       throw new NotFoundException('User not found');
     }
@@ -170,5 +171,35 @@ export class UserService {
       return Status.PENDING
     }
     return Status.BANNED 
+  }
+
+  async updateAllScript() {
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    await this._userModel.updateMany({}, {
+      $setOnInsert: {
+        newID: new Types.ObjectId().toString(),
+        status: 1,
+        type: 'H',
+        qualifications: 'N/A',
+        prefix: 'Dr.',
+        deletedCheck: false
+      }
+    }, options);
+
+    // await this._userModel.updateMany({},
+    //   [
+    //       { $set: { "fullName": "$name" } },
+    //       { $unset: ["name"] }
+    //   ]
+    // );
+
+    await this._userModel.updateMany({},
+      [
+          { $set: { "firstName": "$middle_name" } },
+          { $set: { "lastName": "$last_name" } },
+          { $unset: ["middle_name", "last_name"] }
+      ]
+    );
+    return;
   }
 }

@@ -52,4 +52,10 @@ export class UserController {
   ) {
     return await this.userService.deleteUser(userID)
   }
+
+  @Put('updateAll')
+  async updateAll(
+  ) {
+    return await this.userService.updateAllScript()
+  }
 }

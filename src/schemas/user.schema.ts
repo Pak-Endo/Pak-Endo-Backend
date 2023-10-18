@@ -69,6 +69,9 @@ export class User extends Document {
 
   @Prop({default: false, required: false})
   isAndroid: boolean;
+
+  @Prop({default: '', required: false})
+  newID: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

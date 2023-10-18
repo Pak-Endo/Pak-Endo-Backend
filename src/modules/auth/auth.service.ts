@@ -53,6 +53,7 @@ export class AuthService {
     }
     newUser.status = Status.PENDING;
     newUser._id = new Types.ObjectId().toString();
+    newUser.newID = new Types.ObjectId().toString();
     newUser.role = 'member';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
     
@@ -143,7 +144,7 @@ export class AuthService {
   }
 
   async resetPassword(passwordDto: PasswordDto): Promise<any> {
-    let user = await this._userModel.findOne({ _id: passwordDto?.userID, deletedCheck: false });
+    let user = await this._userModel.findOne({ newID: passwordDto?.userID, deletedCheck: false });
     if(!user) {
       throw new NotFoundException('User does not exist')
     }
@@ -155,14 +156,14 @@ export class AuthService {
     if(!password) {
       throw new BadRequestException('Failed to generate password. Please try again')
     }
-    let updatedUser = await this._userModel.updateOne({ _id: passwordDto?.userID }, { password: password });
+    let updatedUser = await this._userModel.updateOne({ newID: passwordDto?.userID }, { password: password });
     if(updatedUser) {
       return { message: 'Password saved. User updated successfully'}
     }
   }
 
   async approveUser(id: string, userData: approveDto): Promise<any> {
-    let user =  await this._userModel.findById({_id: id, deletedCheck: false});
+    let user =  await this._userModel.findById({newID: id, deletedCheck: false});
     if(!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -205,7 +206,7 @@ export class AuthService {
           throw new BadRequestException('Something went wrong. Please try again')
         }
         return await this._userModel.updateOne(
-          {_id: id, deletedCheck: false},
+          {newID: id, deletedCheck: false},
           { ...userData, status: Status.APPROVED, memberID: memberIDGen }
         )
       }
@@ -216,13 +217,13 @@ export class AuthService {
           throw new BadRequestException('Something went wrong. Please try again')
         }
         return await this._userModel.updateOne(
-          {_id: id, deletedCheck: false},
+          {newID: id, deletedCheck: false},
           { ...userData, status: Status.APPROVED, memberID: memberIDGen }
         )
       }
     }
     return await this._userModel.updateOne(
-      {_id: id, deletedCheck: false},
+      {newID: id, deletedCheck: false},
       { ...userData, status: Status.APPROVED }
     )
   }
