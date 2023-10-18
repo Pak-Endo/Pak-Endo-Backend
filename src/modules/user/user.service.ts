@@ -175,30 +175,36 @@ export class UserService {
 
   async updateAllScript() {
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
-    await this._userModel.updateMany({}, {
-      $setOnInsert: {
-        newID: new Types.ObjectId().toString(),
-        status: 1,
-        type: 'H',
-        qualifications: 'N/A',
-        prefix: 'Dr.',
-        deletedCheck: false
-      }
-    }, options);
-
-    await this._userModel.updateMany({},
-      [
-          { $set: { "fullName": "$name" } },
-          { $unset: ["name"] }
-      ]
-    );
-
-    // await this._userModel.updateMany({},
-    //   [
-    //       { $set: { "fullName": "$name" } },
-    //       { $unset: ["$name"] }
-    //   ]
-    // );
-    return;
+    const users = await this._userModel.find({});
+    const bulkOps = [];
+  
+    users.forEach(user => {
+      const { fullName } = user;
+      const splitName = fullName.split(' ');
+      const lastName = splitName.pop();
+      const firstName = splitName.join(' ');
+  
+      const updateOperation = {
+        $set: {
+          firstName: firstName,
+          lastName: lastName
+        }
+      };
+  
+      bulkOps.push({
+        updateOne: {
+          filter: { newID: user.newID },
+          update: updateOperation,
+          upsert: true
+        }
+      });
+    });
+  
+    if (bulkOps.length > 0) {
+      return await this._userModel.bulkWrite(bulkOps);
+    } else {
+      return 'No users found.';
+    }
   }
+  
 }
