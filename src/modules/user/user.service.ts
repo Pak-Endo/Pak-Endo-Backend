@@ -178,7 +178,12 @@ export class UserService {
     await this._userModel.updateMany({}, {
       $set: {
         firstName: '',
-        lastName: ''
+        lastName: '',
+        isAndroid: false,
+        deviceId: '',
+        deviceToken: '',
+        favorites: [],
+        interested: []
       }
     }, options);
   }
