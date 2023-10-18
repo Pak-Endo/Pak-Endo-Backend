@@ -186,19 +186,19 @@ export class UserService {
       }
     }, options);
 
-    // await this._userModel.updateMany({},
-    //   [
-    //       { $set: { "fullName": "$name" } },
-    //       { $unset: ["name"] }
-    //   ]
-    // );
-
     await this._userModel.updateMany({},
       [
           { $set: { "fullName": "$name" } },
-          { $unset: ["$name"] }
+          { $unset: ["name"] }
       ]
     );
+
+    // await this._userModel.updateMany({},
+    //   [
+    //       { $set: { "fullName": "$name" } },
+    //       { $unset: ["$name"] }
+    //   ]
+    // );
     return;
   }
 }
