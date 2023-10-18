@@ -92,7 +92,7 @@ export class UserService {
       newUser.memberID = memberIDGen
     }
     newUser._id = new Types.ObjectId().toString();
-    newUser.newID = new Types.ObjectId().toString();
+    newUser._id = new Types.ObjectId().toString();
     newUser.role = 'member';
     newUser.fullName = newUser?.firstName + ' ' + newUser?.lastName;
     newUser.status = this.setStatus(newUser.status);
@@ -101,7 +101,7 @@ export class UserService {
   }
 
   async getUserById(id: string): Promise<any> {
-    let user =  await this._userModel.findById({newID: id, deletedCheck: false});
+    let user =  await this._userModel.findById({_id: id, deletedCheck: false});
     if(!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -109,7 +109,7 @@ export class UserService {
   }
 
   async updateUser(userDto: User | any, userId: string): Promise<any> {
-    const user = await this._userModel.findOne({ newID: userId });
+    const user = await this._userModel.findOne({ _id: userId });
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -146,18 +146,18 @@ export class UserService {
     if(typeof userDto.status == 'string') {
       userDto.status = this.setStatus(userDto.status)
     }
-    let updatedUser = await this._userModel.updateOne({ newID: userId }, userDto);
+    let updatedUser = await this._userModel.updateOne({ _id: userId }, userDto);
     if(updatedUser) {
-      return await this._userModel.findOne({ newID: userId });
+      return await this._userModel.findOne({ _id: userId });
     }
   }
 
   async deleteUser(userID: string): Promise<any> {
-    const event = await this._userModel.findOne({ newID: userID, deletedCheck: false });
+    const event = await this._userModel.findOne({ _id: userID, deletedCheck: false });
     if(!event) {
       throw new NotFoundException('User not found');
     }
-    return await this._userModel.updateOne({newID: userID}, {deletedCheck: true})
+    return await this._userModel.updateOne({_id: userID}, {deletedCheck: true})
   }
 
   setStatus(value: string) {
