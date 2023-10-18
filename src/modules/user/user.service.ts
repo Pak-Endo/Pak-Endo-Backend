@@ -174,29 +174,27 @@ export class UserService {
   }
 
   async updateAllScript() {
-    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
     const users = await this._userModel.find({}); // Assuming this fetches all documents
   
-    for (const user of users) {
+    const bulkOps = users.map(user => {
       const fullName = user.fullName;
       const [firstName, ...lastNameArray] = fullName.split(' ').filter(Boolean);
       const lastName = lastNameArray.join(' ');
   
-      await this._userModel.updateOne(
-        { newID: user.newID },
-        {
-          $set: {
-            firstName: firstName,
-            lastName: lastName
-          }
-        },
-        options
-      );
-    }
+      return {
+        updateOne: {
+          filter: { _id: user._id },
+          update: { $set: { firstName: firstName, lastName: lastName } },
+          upsert: true
+        }
+      };
+    });
+  
+    await this._userModel.bulkWrite(bulkOps);
   
     // Return a summary of the update operation if necessary
     return { message: 'Update completed for all documents.' };
-  }
+  }  
   
 
   
