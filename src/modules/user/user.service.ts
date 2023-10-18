@@ -178,8 +178,8 @@ export class UserService {
   
     const bulkOps = users.map(user => {
       const fullName = user.fullName;
-      const [firstName, ...lastNameArray] = fullName.split(' ').filter(Boolean);
-      const lastName = lastNameArray.join(' ');
+      const firstName = fullName.split('Dr. ')?.map(val => val)[0];
+      const lastName = fullName.split('Dr.')?.map(val => val)[1];
   
       return {
         updateOne: {
