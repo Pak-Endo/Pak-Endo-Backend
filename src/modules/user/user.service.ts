@@ -176,7 +176,7 @@ export class UserService {
   async updateAllScript() {
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
     await this._userModel.updateMany({}, {
-      $$setOnInsert: {
+      $setOnInsert: {
         newID: new Types.ObjectId().toString(),
         status: 1,
         type: 'H',
