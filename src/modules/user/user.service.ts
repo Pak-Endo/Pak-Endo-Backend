@@ -160,6 +160,37 @@ export class UserService {
     return await this._userModel.updateOne({_id: userID}, {deletedCheck: true})
   }
 
+  async importDataFromCsv(data: any) {
+    let res = data.map(val => {
+      const newData = {
+        _id: new Types.ObjectId().toString(),
+        firstName: val?.middle_name || ' ',
+        lastName: val?.last_name || ' ',
+        prefix: 'Dr.',
+        email: val?.email || ' ',
+        phoneNumber: val?.cell_phone || '',
+        gender: val?.gender ? val?.gender?.toUpperCase() : 'Male',
+        password: '$2a$12$KVM7EbCDCp.vLDFShWARmO6hl6QyBxFU81eXv3WUOt0IEkBqLX7eu',
+        qualifications: 'N/A',
+        fullName: val?.name || '',
+        memberID: null,
+        city: val?.city || ' ',
+        type: null,
+        status: Status.PENDING,
+        deletedCheck: false,
+        interested: [],
+        favorites: [],
+        deviceToken: '',
+        deviceId: '',
+        isAndroid: false,
+        role: UserRole.MEMBER
+      }
+      return newData
+    })
+    await this._userModel.insertMany(res)
+    return 'Data import process started.';
+  }
+
   setStatus(value: string) {
     if(value === 'Approved') {
       return Status.APPROVED
@@ -171,20 +202,5 @@ export class UserService {
       return Status.PENDING
     }
     return Status.BANNED 
-  }
-
-  async updateAllScript() {
-    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
-    await this._userModel.updateMany({}, {
-      $set: {
-        firstName: '',
-        lastName: '',
-        isAndroid: false,
-        deviceId: '',
-        deviceToken: '',
-        favorites: [],
-        interested: []
-      }
-    }, options);
   }
 }
