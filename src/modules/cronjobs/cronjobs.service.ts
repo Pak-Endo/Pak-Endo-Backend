@@ -32,7 +32,7 @@ export class CronjobsService {
     
     let currentDateTime = new Date();
     const eventsToUpdate = await this.eventModel.find({
-      startDate: { $lte: currentDateTime },
+      startDate: { $gte: currentDateTime },
       eventStatus: EventStatus.UPCOMING,
     });
 
