@@ -98,7 +98,7 @@ export class AuthService {
         throw new UnauthorizedException('This user has not been approved yet')
       }
       user.deviceToken=loginDto.deviceToken;
-      await this._userModel.updateOne({email: loginDto.email}, {deviceToken: loginDto.deviceToken})
+      await this._userModel.updateOne({email: loginDto.memberID}, {deviceToken: loginDto.deviceToken})
       return this.commonLoginMethod(user, loginDto?.password)
     }
     
@@ -109,7 +109,7 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect Credentials')
     }
     user.deviceToken=loginDto.deviceToken;
-    await this._userModel.updateOne({email: loginDto.email}, {deviceToken: loginDto.deviceToken})
+    await this._userModel.updateOne({email: loginDto.memberID}, {deviceToken: loginDto.deviceToken})
     return this.commonLoginMethod(user, loginDto?.password)
   }
 
