@@ -199,7 +199,16 @@ export class AuthService {
         }
       }
       if(usersByMemberID?.length > 0) {
-        let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[usersByMemberID?.length - 1]?.memberIDCount) + 1}`
+        usersByMemberID = usersByMemberID.sort((a, b) => {
+          if (a.memberID > b.memberID) {
+              return 1;
+          } else if (a.memberID < b.memberID) {
+              return -1;
+          } else {
+              return 0;
+          }
+        });
+        let newMemberID = Number(usersByMemberID[usersByMemberID?.length - 1]?.memberID?.match(/\d/)[0]) + 1;
         let memberIDGen = `PES/${userData?.type}/${newMemberID}`;
         let emailNotif = await this.mailService.sendEmailToMember(user, memberIDGen, memberShipType);
         if(!emailNotif) {
