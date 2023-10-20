@@ -43,7 +43,7 @@ export class UserService {
         }
       },
       {
-        $sort: Object.keys(sort).length > 0 ? sort : {createdAt: -1}
+        $sort: {createdAt: -1}
       }
     ])
     .skip(Number(params.offset))
