@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   async registerUser(newUser: User | any): Promise<any> {
-    const user = await this._userModel.findOne({ email: newUser.email });
+    const user = await this._userModel.findOne({ email: newUser.email, deletedCheck: false });
     if(user) {
       throw new ForbiddenException('Email already exists');
     }
