@@ -53,11 +53,14 @@ export class AuthService {
     }
     newUser.status = Status.PENDING;
     newUser._id = new Types.ObjectId().toString();
+    newUser._id = new Types.ObjectId().toString();
     newUser.role = 'member';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
+    
     newUser.deviceToken = newUser?.deviceToken;
     newUser.deviceId = newUser?.deviceId;
     newUser.isAndroid = newUser?.isAndroid;
+    
     await this.mailService.sendApprovalRequestToAdmin(newUser);
     return await new this._userModel(newUser).save();
   }
@@ -95,7 +98,7 @@ export class AuthService {
         throw new UnauthorizedException('This user has not been approved yet')
       }
       user.deviceToken=loginDto.deviceToken;
-      await this._userModel.updateOne({email: loginDto.email}, {deviceToken: loginDto.deviceToken})
+      await this._userModel.updateOne({email: loginDto.memberID}, {deviceToken: loginDto.deviceToken})
       return this.commonLoginMethod(user, loginDto?.password)
     }
     
@@ -106,7 +109,7 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect Credentials')
     }
     user.deviceToken=loginDto.deviceToken;
-    await this._userModel.updateOne({email: loginDto.email}, {deviceToken: loginDto.deviceToken})
+    await this._userModel.updateOne({email: loginDto.memberID}, {deviceToken: loginDto.deviceToken})
     return this.commonLoginMethod(user, loginDto?.password)
   }
 
@@ -196,7 +199,16 @@ export class AuthService {
         }
       }
       if(usersByMemberID?.length > 0) {
-        let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[usersByMemberID?.length - 1]?.memberIDCount) + 1}`
+        usersByMemberID = usersByMemberID.sort((a, b) => {
+          if (a.memberID > b.memberID) {
+              return 1;
+          } else if (a.memberID < b.memberID) {
+              return -1;
+          } else {
+              return 0;
+          }
+        });
+        let newMemberID = Number(usersByMemberID[usersByMemberID?.length - 1]?.memberID?.match(/\d/)[0]) + 1;
         let memberIDGen = `PES/${userData?.type}/${newMemberID}`;
         let emailNotif = await this.mailService.sendEmailToMember(user, memberIDGen, memberShipType);
         if(!emailNotif) {

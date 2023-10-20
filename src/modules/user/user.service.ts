@@ -43,7 +43,7 @@ export class UserService {
         }
       },
       {
-        $sort: Object.keys(sort).length > 0 ? sort : {createdAt: -1}
+        $sort: {createdAt: -1}
       }
     ])
     .skip(Number(params.offset))
@@ -92,6 +92,7 @@ export class UserService {
       newUser.memberID = memberIDGen
     }
     newUser._id = new Types.ObjectId().toString();
+    newUser._id = new Types.ObjectId().toString();
     newUser.role = 'member';
     newUser.fullName = newUser?.firstName + ' ' + newUser?.lastName;
     newUser.status = this.setStatus(newUser.status);
@@ -133,7 +134,16 @@ export class UserService {
         }
       ])
       if(usersByMemberID?.length > 0) {
-        let newMemberID = usersByMemberID[0]?.memberIDCount?.slice(0, -1) + `0${Number(usersByMemberID[usersByMemberID?.length - 1]?.memberIDCount) + 1}`
+        usersByMemberID = usersByMemberID.sort((a, b) => {
+          if (a.memberID > b.memberID) {
+              return 1;
+          } else if (a.memberID < b.memberID) {
+              return -1;
+          } else {
+              return 0;
+          }
+        });
+        let newMemberID = Number(usersByMemberID[usersByMemberID?.length - 1]?.memberID?.match(/\d/)[0]) + 1;
         let memberIDGen = `PES/${userDto?.type}/${newMemberID}`;
         userDto.memberID = memberIDGen
       }
@@ -157,6 +167,37 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
     return await this._userModel.updateOne({_id: userID}, {deletedCheck: true})
+  }
+
+  async importDataFromCsv(data: any) {
+    let res = data.map(val => {
+      const newData = {
+        _id: new Types.ObjectId().toString(),
+        firstName: val?.middle_name || ' ',
+        lastName: val?.last_name || ' ',
+        prefix: 'Dr.',
+        email: val?.email || ' ',
+        phoneNumber: val?.cell_phone || '',
+        gender: val?.gender ? val?.gender?.toUpperCase() : 'Male',
+        password: '$2a$12$KVM7EbCDCp.vLDFShWARmO6hl6QyBxFU81eXv3WUOt0IEkBqLX7eu',
+        qualifications: 'N/A',
+        fullName: val?.name || '',
+        memberID: null,
+        city: val?.city || ' ',
+        type: null,
+        status: Status.PENDING,
+        deletedCheck: false,
+        interested: [],
+        favorites: [],
+        deviceToken: '',
+        deviceId: '',
+        isAndroid: false,
+        role: UserRole.MEMBER
+      }
+      return newData
+    })
+    await this._userModel.insertMany(res)
+    return 'Data import process started.';
   }
 
   setStatus(value: string) {
