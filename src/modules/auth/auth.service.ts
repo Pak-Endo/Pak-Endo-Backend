@@ -77,7 +77,7 @@ export class AuthService {
     newUser.status = Status.APPROVED;
     newUser._id = new Types.ObjectId().toString();
     newUser.role = 'admin';
-    newUser.memberID = 'PES/SA/00';
+    newUser.memberID = 'PES/SA/0';
     newUser.fullName = newUser?.prefix + ' ' + newUser?.firstName + ' ' + newUser?.lastName;
     return await new this._userModel(newUser).save();
   }
@@ -220,7 +220,7 @@ export class AuthService {
         )
       }
       else {
-        let memberIDGen = `PES/${userData?.type}/00`;
+        let memberIDGen = `PES/${userData?.type}/0`;
         let emailNotif = await this.mailService.sendEmailToMember(user, memberIDGen, memberShipType);
         if(!emailNotif) {
           throw new BadRequestException('Something went wrong. Please try again')

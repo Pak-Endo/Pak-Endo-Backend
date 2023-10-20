@@ -88,7 +88,7 @@ export class UserService {
     }
     else {
 
-      let memberIDGen = `PES/${newUser?.type}/00`;
+      let memberIDGen = `PES/${newUser?.type}/0`;
       newUser.memberID = memberIDGen
     }
     newUser._id = new Types.ObjectId().toString();
@@ -148,7 +148,7 @@ export class UserService {
         userDto.memberID = memberIDGen
       }
       else {
-        let memberIDGen = `PES/${userDto?.type}/00`;
+        let memberIDGen = `PES/${userDto?.type}/0`;
         userDto.memberID = memberIDGen
       }
     }
