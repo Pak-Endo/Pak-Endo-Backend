@@ -30,7 +30,7 @@ export class MailService {
     async sendApprovalRequestToAdmin(user: User | any) {
       
       return await this.mailerService.sendMail({
-        to: 'admin@gmail.com',
+        to: 'muhammadmohid141@gmail.com',
         from: 'noreply@admin.com',
         subject: 'Request for Account Approval',
         template: './approval',
