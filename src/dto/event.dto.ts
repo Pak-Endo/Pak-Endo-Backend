@@ -56,6 +56,12 @@ export class EventDto {
   grandSponsorContact: string;
 
   @ApiProperty({
+    example:
+    {food: '', venue: '', speaker: '', overall: '', comments: ''}
+  })
+  eventFeedback: string;
+
+  @ApiProperty({
     example: [
       {
         _id: '',

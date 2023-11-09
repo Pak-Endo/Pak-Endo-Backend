@@ -68,6 +68,9 @@ export class Event extends Document {
 
   @Prop({default: '', required: false})
   eventPdf: string;
+
+  @Prop({type: Object, default: {food: '', venue: '', speaker: '', overall: '', comments: ''}, required: false})
+  eventFeedback: Feedback
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
@@ -91,6 +94,14 @@ export enum EventStatus {
 export interface sponsorType {
   id: string,
   name: string
+}
+
+export interface Feedback {
+  food: string | number,
+  venue: string | number,
+  speaker: string | number,
+  overall: string | number,
+  comments: string
 }
 
 export interface AgendaInterface {

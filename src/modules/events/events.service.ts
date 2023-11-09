@@ -147,6 +147,7 @@ export class EventsService {
           createdAt: 1,
           contactNumber: 1,
           contactPerson: 1,
+          eventFeedback: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -300,6 +301,7 @@ export class EventsService {
           contactNumber: 1,
           contactPerson: 1,
           createdAt: 1,
+          eventFeedback: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -443,6 +445,7 @@ export class EventsService {
           contactNumber: 1,
           contactPerson: 1,
           createdAt: 1,
+          eventFeedback: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -586,6 +589,7 @@ export class EventsService {
           contactNumber: 1,
           contactPerson: 1,
           createdAt: 1,
+          eventFeedback: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -770,6 +774,7 @@ export class EventsService {
           contactNumber: 1,
           contactPerson: 1,
           createdAt: 1,
+          eventFeedback: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -950,6 +955,7 @@ export class EventsService {
           contactNumber: 1,
           contactPerson: 1,
           createdAt: 1,
+          eventFeedback: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -1130,6 +1136,7 @@ export class EventsService {
           contactNumber: 1,
           contactPerson: 1,
           createdAt: 1,
+          eventFeedback: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
@@ -1234,7 +1241,6 @@ export class EventsService {
   async updateEvent(eventDto: EventDto, eventID: string): Promise<any> {
     let updatedGal;
     const event = await this.eventModel.findOne({ _id: eventID, deletedCheck: false });
-
     if(!event) {
       throw new NotFoundException('Event not found');
     }
@@ -1313,6 +1319,7 @@ export class EventsService {
           contactNumber: 1,
           contactPerson: 1,
           createdAt: 1,
+          eventFeedback: 1,
           featuredImage: { $concat: [config.URL, '$featuredImage'] }
         }
       },
