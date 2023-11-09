@@ -124,26 +124,24 @@ export class UserService {
         {
           $project: {
             _id: 0,
-            memberID: 1,
-            memberIDCount: {
-              $substrBytes: [
-                "$memberID", 7, 1
-              ]
-            }
+            memberID: 1
           }
         }
       ])
       if(usersByMemberID?.length > 0) {
         usersByMemberID = usersByMemberID.sort((a, b) => {
-          if (a.memberID > b.memberID) {
-              return 1;
-          } else if (a.memberID < b.memberID) {
-              return -1;
-          } else {
-              return 0;
-          }
+          const numA = parseInt(a.memberID.split('/')[2]);
+          const numB = parseInt(b.memberID.split('/')[2]);
+          return numA - numB;
         });
-        let newMemberID = Number(usersByMemberID[usersByMemberID?.length - 1]?.memberID?.match(/\d/)[0]) + 1;
+        let newMemberID = 0;
+        const lastMemberID = usersByMemberID[usersByMemberID.length - 1]?.memberID;
+        if (lastMemberID) {
+            const matchResult = lastMemberID.match(/\d+/);
+            if (matchResult) {
+                newMemberID = parseInt(matchResult[0], 10) + 1;
+            }
+        }
         let memberIDGen = `PES/${userDto?.type}/${newMemberID}`;
         userDto.memberID = memberIDGen
       }
